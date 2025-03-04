@@ -1,10 +1,12 @@
 package com.codecool.backend.dao;
 
 import com.codecool.backend.dao.model.User;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@Repository
 public class MemoryUserDao implements UserDao {
     private static int counter = 0;
     private Set<User> users;
@@ -45,5 +47,12 @@ public class MemoryUserDao implements UserDao {
             result = true;
         }
         return result;
+    }
+
+    @Override
+    public User getUserByEmailAndPassword(String email, String password) {
+        return users.stream()
+                .filter(user -> user.getEmail().equals(email) && user.getPassword().equals(password))
+                .findFirst().orElse(null);
     }
 }
