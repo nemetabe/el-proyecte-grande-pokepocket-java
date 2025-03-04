@@ -23,11 +23,11 @@ public class TransactionService {
   }
 
   public int getSumOfTransactionByCategoryId(int categoryId) {
-    return 0;
+    return transactionDao.getSumOfTransactionByCategoryId(categoryId);
   }
 
   public int getAvrgSpendingByCategoryId(int categoryId) {
-    return 0;
+    return transactionDao.getAvrgSpendingByCategoryId(categoryId);
   }
 
 }
