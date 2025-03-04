@@ -2,6 +2,7 @@ package com.codecool.backend.service;
 
 import com.codecool.backend.controller.dto.NewTransactionDto;
 import com.codecool.backend.dao.TransactionDao;
+import com.codecool.backend.dao.model.Transaction;
 
 public class TransactionService {
   private final TransactionDao transactionDao;
@@ -10,12 +11,12 @@ public class TransactionService {
     this.transactionDao = transactionDao;
   }
 
-  public int createTransaction(NewTransactionDto newTransactionDto) {
-      return transactionDao.addTransaction(newTransactionDto);
+  public int createTransaction(Transaction transaction) {
+      return transactionDao.addTransaction(transaction);
   }
 
-  public boolean updateTransaction(int id) {
-      return transactionDao.updateTransaction(id);
+  public boolean updateTransaction(Transaction transaction) {
+      return transactionDao.updateTransaction(transaction);
   }
 
   public boolean deleteTransaction(int id) {
