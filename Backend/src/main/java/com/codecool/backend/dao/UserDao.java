@@ -1,5 +1,6 @@
 package com.codecool.backend.dao;
 
+import com.codecool.backend.controller.dto.UserCredentialsDto;
 import com.codecool.backend.dao.model.User;
 
 public interface UserDao {
@@ -11,4 +12,6 @@ public interface UserDao {
     boolean deleteUserById(int id);
 
     boolean updateUserById(User user);
+
+    User getUserByEmailAndPassword(String email, String Password);
 }
