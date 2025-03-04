@@ -6,8 +6,13 @@ import com.codecool.backend.controller.dto.UserRegistrationDto;
 public class User {
     private int id;
     private String name;
+
     private String email;
     private String password;
+  
+    public User(String name){
+        this.name = name;
+    }
 
     public User(UserRegistrationDto userRegistrationDto) {
         name = userRegistrationDto.name();
@@ -31,5 +36,9 @@ public class User {
 
     public String getEmail() {
         return email;
+      
+      
+    public void setId(int id) {
+        this.id = id;
     }
 }
