@@ -25,28 +25,31 @@ public class MemoryUserDao implements UserDao {
 
     @Override
     public User getUserById(int id) {
-        return users.stream().filter(user -> user.getId() == id).findFirst().orElse(null);
+        return users.stream()
+                .filter(user -> user.getId() == id)
+                .findFirst()
+                .orElse(null);
     }
 
     @Override
     public boolean deleteUserById(int id) {
-        try {
-            return users.remove(getUserById(id));
-        } catch (Exception e) {
+        User user = getUserById(id);
+        if (user == null) {
             return false;
         }
+        users.remove(user);
+        return true;
     }
 
     @Override
     public boolean updateUserById(User user) {
-        User existingUser = getUserById(user.getId());
-        boolean result = false;
-        if (existingUser != null) {
-            users.remove(existingUser);
-            users.add(user);
-            result = true;
+        User oldUser = getUserById(user.getId());
+        if (oldUser == null) {
+            return false;
         }
-        return result;
+        users.remove(oldUser);
+        users.add(user);
+        return true;
     }
 
     @Override
