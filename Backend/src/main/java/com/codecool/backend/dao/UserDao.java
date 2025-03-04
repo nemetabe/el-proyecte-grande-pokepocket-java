@@ -1,14 +1,17 @@
 package com.codecool.backend.dao;
 
+import com.codecool.backend.controller.dto.UserCredentialsDto;
 import com.codecool.backend.dao.model.User;
 
 public interface UserDao {
 
-    User createUser();
+    int createUser(User user);
 
-    int getUserById();
+    User getUserById(int id);
 
-    int deleteUserById();
+    boolean deleteUserById(int id);
 
-    User updateUserById();
+    boolean updateUserById(User user);
+
+    User getUserByEmailAndPassword(String email, String Password);
 }
