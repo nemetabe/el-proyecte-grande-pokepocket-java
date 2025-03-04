@@ -23,11 +23,11 @@ public class TransactionService {
   }
 
   public int getSumOfTransactionByCategoryId(int categoryId) {
-
+    return 0;
   }
 
   public int getAvrgSpendingByCategoryId(int categoryId) {
-
+    return 0;
   }
 
 
