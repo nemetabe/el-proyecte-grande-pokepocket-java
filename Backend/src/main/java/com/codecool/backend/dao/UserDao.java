@@ -4,11 +4,11 @@ import com.codecool.backend.dao.model.User;
 
 public interface UserDao {
 
-    User createUser();
+    int createUser(User user);
 
-    int getUserById();
+    User getUserById(int id);
 
-    int deleteUserById();
+    boolean deleteUserById(int id);
 
-    User updateUserById();
+    boolean updateUserById(User user);
 }
