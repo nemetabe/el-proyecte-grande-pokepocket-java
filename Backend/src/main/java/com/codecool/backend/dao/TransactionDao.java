@@ -1,11 +1,13 @@
 package com.codecool.backend.dao;
 
-import com.codecool.backend.controller.dto.NewTransactionDto;
+import com.codecool.backend.dao.model.Transaction;
 
 public interface TransactionDao {
-    int addTransaction(NewTransactionDto newTransactionDto);
+    int addTransaction(Transaction transaction);
 
-    boolean updateTransaction(int id);
+    Transaction getTransactionById(int id);
+
+    boolean updateTransaction(Transaction transaction);
 
     boolean deleteTransaction(int id);
 

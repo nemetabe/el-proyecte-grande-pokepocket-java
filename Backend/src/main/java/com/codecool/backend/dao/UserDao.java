@@ -13,5 +13,5 @@ public interface UserDao {
 
     boolean updateUserById(User user);
 
-    User getUserByEmailAndPassword(String email, String Password);
+    User getUserByEmailAndPassword(String email, String password);
 }

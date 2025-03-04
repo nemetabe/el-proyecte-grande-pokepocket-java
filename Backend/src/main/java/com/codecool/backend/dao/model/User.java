@@ -40,5 +40,13 @@ public class User {
 
     public String getEmail() {
         return email;
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }
+
