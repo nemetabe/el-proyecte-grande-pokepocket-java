@@ -2,11 +2,14 @@ package com.codecool.backend.dao;
 
 import com.codecool.backend.controller.dto.NewTransactionDto;
 import com.codecool.backend.dao.model.Transaction;
+import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Repository
 public class MemoryTransactionDao implements TransactionDao {
 
     Set<Transaction> transactions;
