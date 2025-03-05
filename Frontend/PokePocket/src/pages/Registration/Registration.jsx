@@ -1,0 +1,153 @@
+import React, { useState } from "react";
+import "./Registration.css";
+import { Col, Container, Row } from "react-bootstrap";
+import { fetchData } from "../../utils";
+import LoginForm from "../../components/LoginForm";
+import RegistrationForm from "../../components/RegistrationForm";
+import { useNavigate } from "react-router-dom";
+
+function Registration() {
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const [validation, setValidation] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const [isTermsAccepted, setIsTermsAccepted] = useState(false);
+  const [isRegistering, setIsRegistering] = useState(true);
+  const [isFadingOut, setIsFadingOut] = useState(false);
+
+  const validateUsername = (value) => {
+    if (value.length < 4) {
+      return "Username must be at least 4 characters";
+    }
+    return "Correct";
+  };
+
+  const validateEmail = (value) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(value)) {
+      return "Invalid email format";
+    }
+    return "Correct";
+  };
+
+  const validatePassword = (value) => {
+    const hasUpperCase = /[A-Z]/.test(value);
+    const hasLowerCase = /[a-z]/.test(value);
+    const hasNumber = /\d/.test(value);
+    const isLongEnough = value.length >= 8;
+
+    if (!hasUpperCase || !hasLowerCase || !hasNumber || !isLongEnough) {
+      return "Password must be at least 8 characters, include upper/lowercase and a number";
+    }
+    return "Correct";
+  };
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+
+    let validationMessage = "";
+    if (id === "username") validationMessage = validateUsername(value);
+    if (id === "email") validationMessage = validateEmail(value);
+    if (id === "password") validationMessage = validatePassword(value);
+
+    setValidation((prev) => ({
+      ...prev,
+      [id]: validationMessage,
+    }));
+  };
+
+  const handleCheckboxChange = (e) => {
+    setIsTermsAccepted(e.target.checked);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (
+      isRegistering &&
+      (validation.username !== "Correct" ||
+        validation.email !== "Correct" ||
+        validation.password !== "Correct")
+    ) {
+      alert("Please correct the errors before submitting.");
+      return;
+    }
+
+    console.log("Submitted data:", formData);
+    await fetchData(isRegistering ? "user/register" : "user/login", "POST", formData);
+    navigate("/main");
+  };
+
+  const switchForm = () => {
+    setIsFadingOut(true);
+    setTimeout(() => {
+      setIsRegistering((prev) => !prev);
+      setIsFadingOut(false);
+    }, 500);
+  };
+
+  return (
+    <>
+      <Container
+        className="bg-light my-auto col-8 whitebox d-flex justify-content-between"
+        style={{ height: "600px" }}
+      >
+        <Container
+          className={`col-5 my-auto text-dark form-container ${
+            isFadingOut ? "fade-out" : "fade-in"
+          }`}
+        >
+          {isRegistering ? (
+            <>
+              <RegistrationForm
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+                formData={formData}
+                switchForm={switchForm}
+                validation= {validation}
+                handleCheckboxChange={handleCheckboxChange}
+                isTermsAccepted={isTermsAccepted}
+              ></RegistrationForm>
+            </>
+          ) : (
+            <>
+              <LoginForm
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+                formData={formData}
+                switchForm={switchForm}
+              ></LoginForm>
+            </>
+          )}
+        </Container>
+        <Row className="col-4 justify-content-end ">
+          <img
+            className=" regImgDiv me-0"
+            src={
+              new URL("../../assets/registrationImg.jpg", import.meta.url).href
+            }
+            alt="regImg"
+            style={{ height: "100%" }}
+          />
+        </Row>
+      </Container>
+    </>
+  );
+}
+
+export default Registration;

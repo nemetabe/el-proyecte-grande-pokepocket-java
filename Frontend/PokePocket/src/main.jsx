@@ -3,7 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Registration from './pages/Registration.jsx';
+import Registration from './pages/Registration/Registration.jsx';
 import "./main.css"
 
 const router = createBrowserRouter([
