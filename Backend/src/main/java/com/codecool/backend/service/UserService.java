@@ -6,11 +6,13 @@ import com.codecool.backend.controller.dto.UserRegistrationDto;
 import com.codecool.backend.controller.exceptions.UserNotFoundException;
 import com.codecool.backend.dao.UserDao;
 import com.codecool.backend.dao.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
 
+    @Autowired
     private UserDao userDao;
 
     public UserService(UserDao userDao) {

@@ -4,13 +4,15 @@ import com.codecool.backend.controller.dto.UserCredentialsDto;
 import com.codecool.backend.controller.dto.UserDto;
 import com.codecool.backend.controller.dto.UserRegistrationDto;
 import com.codecool.backend.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequestMapping("/user")
 public class UserController {
 
+    @Autowired
     private UserService userService;
 
     public UserController(UserService userService) {
