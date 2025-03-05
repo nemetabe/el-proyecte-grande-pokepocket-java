@@ -74,9 +74,10 @@ function Registration() {
     e.preventDefault();
 
     if (
+      isRegistering && (
       validation.username !== "Correct" ||
       validation.email !== "Correct" ||
-      validation.password !== "Correct"
+      validation.password !== "Correct")
     ) {
       alert("Please correct the errors before submitting.");
       return;

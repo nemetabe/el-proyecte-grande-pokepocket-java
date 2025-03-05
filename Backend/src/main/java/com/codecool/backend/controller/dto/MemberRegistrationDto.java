@@ -1,4 +1,6 @@
 package com.codecool.backend.controller.dto;
 
-public record MemberRegistrationDto(String name, String email, String password) {
+import com.fasterxml.jackson.annotation.JsonAlias;
+
+public record MemberRegistrationDto(@JsonAlias("username") String name, String email, String password) {
 }

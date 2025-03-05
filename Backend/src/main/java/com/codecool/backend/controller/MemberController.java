@@ -7,7 +7,7 @@ import com.codecool.backend.service.MemberService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class MemberController {
 
     private MemberService userService;
