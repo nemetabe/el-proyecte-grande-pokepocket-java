@@ -1,22 +1,22 @@
 package com.codecool.backend.dao;
 
-import com.codecool.backend.dao.model.User;
+import com.codecool.backend.dao.model.Member;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Repository
-public class MemoryUserDao implements UserDao {
+public class MemoryMemberDao implements MemberDao {
     private static int counter = 0;
-    private Set<User> users;
+    private Set<Member> users;
 
-    public MemoryUserDao() {
+    public MemoryMemberDao() {
         this.users = new HashSet<>();
     }
 
     @Override
-    public int createUser(User user) {
+    public int createUser(Member user) {
         user.setId(counter);
         users.add(user);
         counter++;
@@ -24,7 +24,7 @@ public class MemoryUserDao implements UserDao {
     }
 
     @Override
-    public User getUserById(int id) {
+    public Member getUserById(int id) {
         return users.stream()
                 .filter(user -> user.getId() == id)
                 .findFirst()
@@ -33,7 +33,7 @@ public class MemoryUserDao implements UserDao {
 
     @Override
     public boolean deleteUserById(int id) {
-        User user = getUserById(id);
+        Member user = getUserById(id);
         if (user == null) {
             return false;
         }
@@ -42,19 +42,18 @@ public class MemoryUserDao implements UserDao {
     }
 
     @Override
-    public boolean updateUserById(User user) {
-        User oldUser = getUserById(user.getId());
+    public boolean updateUserById(Member user) {
+        Member oldUser = getUserById(user.getId());
         if (oldUser != null) {
             users.remove(oldUser);
             users.add(user);
-            System.out.println(oldUser);
             return true;
         }
         return false;
     }
 
     @Override
-    public User getUserByEmailAndPassword(String email, String password) {
+    public Member getUserByEmailAndPassword(String email, String password) {
         return users.stream()
                 .filter(user -> user.getEmail().equals(email) && user.getPassword().equals(password))
                 .findFirst().orElse(null);

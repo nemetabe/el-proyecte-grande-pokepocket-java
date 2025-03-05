@@ -1,32 +1,33 @@
 package com.codecool.backend.dao;
 
-import com.codecool.backend.controller.dto.UserDto;
-import com.codecool.backend.dao.model.User;
+import com.codecool.backend.dao.model.Member;
+import com.codecool.backend.controller.dto.MemberDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class MemoryUserDaoTest {
-    private MemoryUserDao memoryUserDao;
+    private MemoryMemberDao memoryUserDao;
+
 
 
     @BeforeEach
     void setUp() {
-        memoryUserDao = new MemoryUserDao();
+        memoryUserDao = new MemoryMemberDao();
     }
 
     @Test
     void getUserById_returnsCorrectUser() {
-        User user = new User("bill");
+        Member user = memoryUserDao.getUserById(userId);
         int userId = memoryUserDao.createUser(user);
-        User actual = memoryUserDao.getUserById(userId);
+        Member actual = memoryUserDao.getUserById(userId);
         assertEquals(userId, actual.getId());
     }
 
     @Test
     void updateUser_returnsTrue_whenExistingUserIsUpdated() {
-        User user = new User("bill");
+        Member user = new Member("bill");
         int userId = memoryUserDao.createUser(user);
         user.setName("Test");
         boolean expected = true;
@@ -38,8 +39,8 @@ class MemoryUserDaoTest {
 
     @Test
     void updateUser_returnsFalse_whenUserDoesNotExist() {
-        User user = new User("bill");
-        User user2 = new User("bob");
+        Member user = new Member("bill");
+        Member user2 = new Member("bob");
         int userId = memoryUserDao.createUser(user);
         boolean actual = memoryUserDao.updateUserById(user2);
         assertFalse(actual);
@@ -47,7 +48,7 @@ class MemoryUserDaoTest {
 
     @Test
     void deleteUser_returnsTrue_whenUserIsDeleted() {
-        User user = new User("bill");
+        Member user = new Member("bill");
         int userId = memoryUserDao.createUser(user);
         boolean actual = memoryUserDao.deleteUserById(userId);
         assertTrue(actual);
@@ -55,7 +56,7 @@ class MemoryUserDaoTest {
 
     @Test
     void deleteUser_returnsFalse_whenUserDoesNotExist() {
-        User user = new User("bill");
+        Member user = new Member("bill");
         int userId = memoryUserDao.createUser(user);
         boolean actual = memoryUserDao.deleteUserById(userId+1);
         assertFalse(actual);
@@ -64,7 +65,7 @@ class MemoryUserDaoTest {
 //    @Test
 //    void getUserByUsernameAndPassword_returnsCorrectUser() {
 //        UserDto userDto = new UserDto(1, "bill", "test@test.com");
-//        User user = new User(userDto);
+//        Member user = new Member(userDto);
 //        int userId = memoryUserDao.createUser(user);
 //    }
 }

@@ -4,7 +4,9 @@ import com.codecool.backend.controller.dto.NewTransactionDto;
 import com.codecool.backend.dao.model.Transaction;
 import org.springframework.stereotype.Repository;
 
+import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -18,22 +20,27 @@ public class MemoryTransactionDao implements TransactionDao {
     }
 
     @Override
-    public int addTransaction(Transaction transaction) {
+    public int createTransaction(Transaction transaction) {
         transactions.add(transaction);
-        return transaction.id();
+        return transaction.getId();
+    }
+
+    @Override
+    public List<Transaction> getAllTransactions() throws SQLException {
+        return List.of();
     }
 
     @Override
     public Transaction getTransactionById(int id) {
         return transactions.stream()
-                .filter(transaction -> transaction.id() == id)
+                .filter(transaction -> transaction.getId() == id)
                 .findFirst()
                 .orElse(null);
     }
 
     @Override
     public boolean updateTransaction(Transaction transaction) {
-        Transaction oldTransaction = getTransactionById(transaction.id());
+        Transaction oldTransaction = getTransactionById(transaction.getId());
         if (oldTransaction == null) {
             return false;
         }
@@ -50,16 +57,16 @@ public class MemoryTransactionDao implements TransactionDao {
         @Override
         public int getSumOfTransactionByCategoryId (int categoryId){
             return transactions.stream()
-                    .filter(transaction -> transaction.categoryId() == categoryId)
-                    .mapToInt(Transaction::amount)
+                    .filter(transaction -> transaction.getCategoryId() == categoryId)
+                    .mapToInt(Transaction::getAmount)
                     .sum();
         }
 
         @Override
         public int getAvrgSpendingByCategoryId (int categoryId){
             return (int) transactions.stream()
-                    .filter(transaction -> transaction.categoryId() == categoryId)
-                    .mapToInt(Transaction::amount)
+                    .filter(transaction -> transaction.getCategoryId() == categoryId)
+                    .mapToInt(Transaction::getAmount)
                     .average()
                     .orElse(0);
         }

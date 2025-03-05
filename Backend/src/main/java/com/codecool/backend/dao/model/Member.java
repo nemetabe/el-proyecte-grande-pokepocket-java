@@ -1,26 +1,26 @@
 package com.codecool.backend.dao.model;
 
-import com.codecool.backend.controller.dto.UserDto;
-import com.codecool.backend.controller.dto.UserRegistrationDto;
+import com.codecool.backend.controller.dto.MemberDto;
+import com.codecool.backend.controller.dto.MemberRegistrationDto;
 
-public class User {
+public class Member {
     private int id;
     private String name;
 
     private String email;
     private String password;
 
-    public User(String name) {
+    public Member(String name) {
         this.name = name;
     }
 
-    public User(UserRegistrationDto userRegistrationDto) {
+    public Member(MemberRegistrationDto userRegistrationDto) {
         name = userRegistrationDto.name();
         email = userRegistrationDto.email();
         password = userRegistrationDto.password();
     }
 
-    public User(UserDto userDto) {
+    public Member(MemberDto userDto) {
         id = userDto.id();
         name = userDto.name();
         email = userDto.email();
