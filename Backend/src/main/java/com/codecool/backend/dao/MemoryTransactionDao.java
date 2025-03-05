@@ -21,20 +21,20 @@ public class MemoryTransactionDao implements TransactionDao {
     @Override
     public int addTransaction(Transaction transaction) {
         transactions.add(transaction);
-        return transaction.id();
+        return transaction.getId();
     }
 
     @Override
     public Transaction getTransactionById(int id) {
         return transactions.stream()
-                .filter(transaction -> transaction.id() == id)
+                .filter(transaction -> transaction.getId() == id)
                 .findFirst()
                 .orElse(null);
     }
 
     @Override
     public boolean updateTransaction(Transaction transaction) {
-        Transaction oldTransaction = getTransactionById(transaction.id());
+        Transaction oldTransaction = getTransactionById(transaction.getId());
         if (oldTransaction == null) {
             return false;
         }
@@ -51,16 +51,16 @@ public class MemoryTransactionDao implements TransactionDao {
         @Override
         public int getSumOfTransactionByCategoryId (int categoryId){
             return transactions.stream()
-                    .filter(transaction -> transaction.categoryId() == categoryId)
-                    .mapToInt(Transaction::amount)
+                    .filter(transaction -> transaction.getCategoryId() == categoryId)
+                    .mapToInt(Transaction::getAmount)
                     .sum();
         }
 
         @Override
         public int getAvrgSpendingByCategoryId (int categoryId){
             return (int) transactions.stream()
-                    .filter(transaction -> transaction.categoryId() == categoryId)
-                    .mapToInt(Transaction::amount)
+                    .filter(transaction -> transaction.getCategoryId() == categoryId)
+                    .mapToInt(Transaction::getAmount)
                     .average()
                     .orElse(0);
         }
