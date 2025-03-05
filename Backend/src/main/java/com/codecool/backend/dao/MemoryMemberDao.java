@@ -8,11 +8,12 @@ import java.util.Set;
 
 @Repository
 public class MemoryMemberDao implements MemberDao {
-    private static int counter = 0;
+    private int counter;
     private Set<Member> users;
 
     public MemoryMemberDao() {
         this.users = new HashSet<>();
+        this.counter = 0;
     }
 
     @Override
