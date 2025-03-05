@@ -44,12 +44,12 @@ public class MemoryMemberDao implements MemberDao {
     @Override
     public boolean updateUserById(Member user) {
         Member oldUser = getUserById(user.getId());
-        if (oldUser == null) {
-            return false;
+        if (oldUser != null) {
+            users.remove(oldUser);
+            users.add(user);
+            return true;
         }
-        users.remove(oldUser);
-        users.add(user);
-        return true;
+        return false;
     }
 
     @Override
