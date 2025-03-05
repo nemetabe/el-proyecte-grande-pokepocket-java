@@ -1,15 +1,23 @@
 package com.codecool.backend.dao.model;
 
+import com.codecool.backend.controller.dto.TransactionDto;
+
 public class Transaction {
     int id;
     String name;
     int categoryId;
     int amount;
+
     public Transaction(int id, String name, int categoryId, int amount) {
         this.id = id;
         this.name = name;
         this.categoryId = categoryId;
         this.amount = amount;
+    }
+
+    public Transaction(TransactionDto dto) {
+        id = dto.id();
+        name = dto.name();
     }
 
     public int getId() {
