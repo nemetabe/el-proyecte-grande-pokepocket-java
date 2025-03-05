@@ -1,9 +1,16 @@
 package com.codecool.backend.dao;
 
+import com.codecool.backend.controller.dto.NewTransactionDto;
+import com.codecool.backend.controller.dto.TransactionDto;
 import com.codecool.backend.dao.model.Transaction;
 
+import java.sql.SQLException;
+import java.util.List;
+
 public interface TransactionDao {
-    int addTransaction(Transaction transaction);
+    int createTransaction(NewTransactionDto transaction);
+
+    List<Transaction> getAllTransactions() throws SQLException;
 
     Transaction getTransactionById(int id);
 
