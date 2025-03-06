@@ -1,7 +1,8 @@
 import React from "react";
-import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
+import { Navbar, Container, Nav, NavDropdown, NavLink } from "react-bootstrap";
 import PokeBall from "../../assets/pokeball.png";
 import "./CustomNavbar.css";
+import {PersonCircle} from "react-bootstrap-icons";
 
 function CustomNavbar() {
   return (
@@ -16,8 +17,8 @@ function CustomNavbar() {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto custom-nav font-bold font-serif">
-            <Nav.Link href="#home" className="mx-2 rounded-pill">
+          <Nav className="me-auto custom-nav font-bold font-serif ">
+            <Nav.Link href="" className="mx-2 rounded-pill">
               Home
             </Nav.Link>
             <Nav.Link href="" className="mx-2 rounded-pill">
@@ -26,9 +27,10 @@ function CustomNavbar() {
             <Nav.Link href="" className="mx-2 rounded-pill">
               Placeholder
             </Nav.Link>
-            <Nav.Link href="" className="mx-2 rounded-pill d-flex">
-              <img src="" alt="" />
-            </Nav.Link>
+            <PersonCircle
+              size={30}
+              className="ml-8 my-auto"
+            ></PersonCircle>
           </Nav>
         </Navbar.Collapse>
       </Container>
