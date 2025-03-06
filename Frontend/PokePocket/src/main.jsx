@@ -5,16 +5,17 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Registration from './pages/Registration/Registration.jsx';
 import "./main.css"
+import CustomNavbar from './components/Navbar/CustomNavbar.jsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Registration></Registration>
   },
-  // {
-  //   path: "/main",
-  //   element: <MainPage />,
-  //   // errorElement: <ErrorPage />, future implement if have remaining time
+  {
+    path: "/main",
+    element: <CustomNavbar />,
+    // errorElement: <ErrorPage />, future implement if have remaining time
   //   children: [
   //     {
   //       path: "/question/:id",
@@ -29,7 +30,7 @@ const router = createBrowserRouter([
   //       element: <Login/>
   //     }
   //   ],
-  // },
+  },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
