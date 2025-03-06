@@ -1,16 +1,15 @@
 package com.codecool.backend.dao;
 
+import com.codecool.backend.controller.dto.MemberCredentialsDto;
+import com.codecool.backend.controller.dto.MemberRegistrationDto;
 import com.codecool.backend.dao.model.Member;
-import com.codecool.backend.controller.dto.MemberDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MemoryUserDaoTest {
+class MemoryMemberDaoTest {
     private MemoryMemberDao memoryUserDao;
-
-
 
     @BeforeEach
     void setUp() {
@@ -19,7 +18,8 @@ class MemoryUserDaoTest {
 
     @Test
     void getUserById_returnsCorrectUser() {
-        Member user = memoryUserDao.getUserById(userId);
+        Member user = new Member("bob");
+        int expected = 1;
         int userId = memoryUserDao.createUser(user);
         Member actual = memoryUserDao.getUserById(userId);
         assertEquals(userId, actual.getId());
@@ -31,7 +31,7 @@ class MemoryUserDaoTest {
         int userId = memoryUserDao.createUser(user);
         user.setName("Test");
         boolean expected = true;
-        boolean actual = memoryUserDao.updateUserById(user);
+        boolean actual = memoryUserDao.updateUser(user);
 
         assertEquals(expected, actual);
         assertEquals("Test", memoryUserDao.getUserById(userId).getName());
@@ -41,8 +41,9 @@ class MemoryUserDaoTest {
     void updateUser_returnsFalse_whenUserDoesNotExist() {
         Member user = new Member("bill");
         Member user2 = new Member("bob");
+        user2.setId(2);
         int userId = memoryUserDao.createUser(user);
-        boolean actual = memoryUserDao.updateUserById(user2);
+        boolean actual = memoryUserDao.updateUser(user2);
         assertFalse(actual);
     }
 
@@ -62,10 +63,19 @@ class MemoryUserDaoTest {
         assertFalse(actual);
     }
 
-//    @Test
-//    void getUserByUsernameAndPassword_returnsCorrectUser() {
-//        UserDto userDto = new UserDto(1, "bill", "test@test.com");
-//        Member user = new Member(userDto);
-//        int userId = memoryUserDao.createUser(user);
-//    }
+    @Test
+    void getUserByUsernameAndPassword_returnsCorrectUser() {
+        String name = "bob";
+        String email = "bob@gmail.com";
+        String password = "password";
+
+        MemberRegistrationDto userDto = new MemberRegistrationDto(name, email, password);
+        Member user = new Member(userDto);
+        int userId = memoryUserDao.createUser(user);
+
+        assertEquals(userId, user.getId());
+        assertEquals(name, user.getName());
+        assertEquals(email, user.getEmail());
+        assertEquals(password, user.getPassword());
+    }
 }

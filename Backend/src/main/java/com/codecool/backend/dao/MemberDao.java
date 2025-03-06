@@ -10,7 +10,7 @@ public interface MemberDao {
 
     boolean deleteUserById(int id);
 
-    boolean updateUserById(Member user);
+    boolean updateUser(Member user);
 
     Member getUserByEmailAndPassword(String email, String password);
 }

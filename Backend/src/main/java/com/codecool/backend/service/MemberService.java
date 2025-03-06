@@ -40,6 +40,6 @@ public class MemberService {
 
     public boolean updateUser(MemberDto userDto) {
         Member user = new Member(userDto);
-        return userDao.updateUserById(user);
+        return userDao.updateUser(user);
     }
 }
