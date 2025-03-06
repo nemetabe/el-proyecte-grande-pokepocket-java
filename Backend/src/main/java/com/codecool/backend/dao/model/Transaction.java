@@ -1,5 +1,6 @@
 package com.codecool.backend.dao.model;
 
+import com.codecool.backend.controller.dto.NewTransactionDto;
 import com.codecool.backend.controller.dto.TransactionDto;
 
 public class Transaction {
@@ -20,9 +21,15 @@ public class Transaction {
         name = dto.name();
     }
 
+    public Transaction(NewTransactionDto dto) {
+        name = dto.name();
+        amount = dto.amount();
+    }
+
     public int getId() {
         return id;
     }
+    public void setId(int id) {this.id = id;}
 
     public String getName() {
         return name;

@@ -12,22 +12,28 @@ import java.util.stream.Collectors;
 
 @Repository
 public class MemoryTransactionDao implements TransactionDao {
-
-    Set<Transaction> transactions;
+    protected int counter;
+    protected Set<Transaction> transactions;
 
     public MemoryTransactionDao() {
         transactions = new HashSet<>();
     }
 
     @Override
-    public int createTransaction(Transaction transaction) {
+    public int createTransaction(NewTransactionDto transactionDto) {
+        Transaction transaction = new Transaction(transactionDto);
+        transaction.setId(counter);
         transactions.add(transaction);
+        counter++;
         return transaction.getId();
     }
 
     @Override
     public List<Transaction> getAllTransactions() throws SQLException {
-        return List.of();
+        if (transactions.isEmpty()) {
+            throw new SQLException("There is no transaction");
+        }
+        return transactions.stream().collect(Collectors.toList());
     }
 
     @Override

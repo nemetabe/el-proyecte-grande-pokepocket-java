@@ -9,8 +9,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MemoryUserDaoTest {
     private MemoryMemberDao memoryUserDao;
-    private int userId;
-    private Member user;
+
+
 
     @BeforeEach
     void setUp() {
