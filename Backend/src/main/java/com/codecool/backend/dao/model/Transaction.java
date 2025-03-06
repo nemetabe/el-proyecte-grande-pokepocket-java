@@ -5,6 +5,8 @@ import com.codecool.backend.controller.dto.TransactionDto;
 
 public class Transaction {
     int id;
+
+
     String name;
     int categoryId;
     int amount;
@@ -24,6 +26,7 @@ public class Transaction {
     public Transaction(NewTransactionDto dto) {
         name = dto.name();
         amount = dto.amount();
+        categoryId = dto.categoryId();
     }
 
     public int getId() {
@@ -35,10 +38,24 @@ public class Transaction {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public int getCategoryId() {
         return categoryId;
     }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+
     public int getAmount() {
         return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 }

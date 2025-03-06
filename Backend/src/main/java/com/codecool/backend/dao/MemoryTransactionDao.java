@@ -5,6 +5,7 @@ import com.codecool.backend.dao.model.Transaction;
 import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -33,7 +34,7 @@ public class MemoryTransactionDao implements TransactionDao {
         if (transactions.isEmpty()) {
             throw new SQLException("There is no transaction");
         }
-        return transactions.stream().collect(Collectors.toList());
+        return new ArrayList<>(transactions);
     }
 
     @Override

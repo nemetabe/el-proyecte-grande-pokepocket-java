@@ -1,4 +1,4 @@
 package com.codecool.backend.controller.dto;
 
-public record NewTransactionDto(String name, String category, int amount) {
+public record NewTransactionDto(String name, int categoryId, int amount) {
 }
