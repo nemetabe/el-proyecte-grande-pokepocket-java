@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Registration from './pages/Registration/Registration.jsx';
 import "./main.css"
 import CustomNavbar from './components/Navbar/CustomNavbar.jsx';
+import ErrorPage from './pages/Errorpage/ErrorPage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -16,11 +17,11 @@ const router = createBrowserRouter([
     path: "/main",
     element: <CustomNavbar />,
     // errorElement: <ErrorPage />, future implement if have remaining time
-  //   children: [
-  //     {
-  //       path: "/question/:id",
-  //       element: <QuestionPage />
-  //     },
+    children: [
+      {
+        path: "/main",
+        element: <ErrorPage />
+      },
   //     {
   //       path: "/user/:id/create-question",
   //       element: <QuestionForm/>
@@ -29,7 +30,7 @@ const router = createBrowserRouter([
   //       path: "/login",
   //       element: <Login/>
   //     }
-  //   ],
+    ],
   },
 ]);
 
