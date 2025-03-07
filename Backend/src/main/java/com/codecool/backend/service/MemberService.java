@@ -6,6 +6,7 @@ import com.codecool.backend.controller.dto.MemberRegistrationDto;
 import com.codecool.backend.controller.exceptions.MemberNotFoundException;
 import com.codecool.backend.dao.MemberDao;
 import com.codecool.backend.dao.model.Member;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,6 +14,7 @@ public class MemberService {
 
     private MemberDao userDao;
 
+    @Autowired
     public MemberService(MemberDao userDao) {
         this.userDao = userDao;
     }

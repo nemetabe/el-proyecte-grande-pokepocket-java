@@ -4,6 +4,7 @@ import com.codecool.backend.controller.dto.NewTransactionDto;
 import com.codecool.backend.controller.dto.TransactionDto;
 import com.codecool.backend.dao.TransactionDao;
 import com.codecool.backend.dao.model.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.List;
 public class TransactionService {
     private final TransactionDao transactionDao;
 
+    @Autowired
     public TransactionService(TransactionDao transactionDao) {
         this.transactionDao = transactionDao;
     }
