@@ -10,7 +10,7 @@ import java.util.List;
 public interface TransactionDao {
     int createTransaction(NewTransactionDto transaction);
 
-    List<Transaction> getAllTransactions() throws SQLException;
+    List<Transaction> getAllTransactions();
 
     Transaction getTransactionById(int id);
 

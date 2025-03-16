@@ -49,8 +49,8 @@ public class MemoryMemberDao implements MemberDao {
 
         }
         Member oldUser = getUserById(user.getId());
-        oldUser.setName(user.getName());
-        oldUser.setId(user.getId());
+        users.remove(oldUser);
+        users.add(user);
         return true;
     }
 
