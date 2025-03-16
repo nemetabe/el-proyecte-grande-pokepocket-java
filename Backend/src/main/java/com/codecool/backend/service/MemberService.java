@@ -3,7 +3,7 @@ package com.codecool.backend.service;
 import com.codecool.backend.controller.dto.MemberCredentialsDto;
 import com.codecool.backend.controller.dto.MemberDto;
 import com.codecool.backend.controller.dto.MemberRegistrationDto;
-import com.codecool.backend.controller.exceptions.MemberNotFoundException;
+import com.codecool.backend.controller.exception.MemberNotFoundException;
 import com.codecool.backend.dao.MemberDao;
 import com.codecool.backend.dao.model.Member;
 import org.springframework.beans.factory.annotation.Autowired;

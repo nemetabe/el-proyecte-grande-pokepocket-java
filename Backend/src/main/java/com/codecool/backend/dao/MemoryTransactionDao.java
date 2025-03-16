@@ -30,10 +30,7 @@ public class MemoryTransactionDao implements TransactionDao {
     }
 
     @Override
-    public List<Transaction> getAllTransactions() throws SQLException {
-        if (transactions.isEmpty()) {
-            throw new SQLException("There is no transaction");
-        }
+    public List<Transaction> getAllTransactions() {
         return new ArrayList<>(transactions);
     }
 

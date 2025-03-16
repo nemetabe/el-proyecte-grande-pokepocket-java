@@ -1,4 +1,4 @@
-package com.codecool.backend.controller.exceptions;
+package com.codecool.backend.controller.exception;
 
 public class MemberNotFoundException extends RuntimeException {
     public MemberNotFoundException() {
