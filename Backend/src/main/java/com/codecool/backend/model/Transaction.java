@@ -13,10 +13,10 @@ import java.util.Objects;
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    int id;
-    String name;
-    int categoryId;
-    int amount;
+    private int id;
+    private String name;
+    private int categoryId;
+    private int amount;
 
     public Transaction() {
     }
@@ -43,7 +43,9 @@ public class Transaction {
         return id;
     }
 
-    public void setId(int id) {this.id = id;}
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
