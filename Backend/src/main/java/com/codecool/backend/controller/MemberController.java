@@ -30,12 +30,12 @@ public class MemberController {
 
     @GetMapping("/{id}")
     public MemberDto getUser(@PathVariable int id) {
-        return userService.getUser(id);
+        return userService.getMember(id);
     }
 
     @DeleteMapping("/{id}")
     public boolean deleteUser(@PathVariable int id) {
-        return userService.deleteUser(id);
+        return userService.deleteMember(id);
     }
 
     @PutMapping("")

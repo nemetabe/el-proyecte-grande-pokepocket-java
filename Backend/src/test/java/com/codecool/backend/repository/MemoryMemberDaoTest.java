@@ -1,8 +1,7 @@
-package com.codecool.backend.dao;
+package com.codecool.backend.repository;
 
-import com.codecool.backend.controller.dto.MemberCredentialsDto;
 import com.codecool.backend.controller.dto.MemberRegistrationDto;
-import com.codecool.backend.dao.model.Member;
+import com.codecool.backend.model.Member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

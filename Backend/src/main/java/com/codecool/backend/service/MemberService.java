@@ -4,44 +4,44 @@ import com.codecool.backend.controller.dto.MemberCredentialsDto;
 import com.codecool.backend.controller.dto.MemberDto;
 import com.codecool.backend.controller.dto.MemberRegistrationDto;
 import com.codecool.backend.controller.exception.MemberNotFoundException;
-import com.codecool.backend.dao.MemberDao;
-import com.codecool.backend.dao.model.Member;
+import com.codecool.backend.model.Member;
+import com.codecool.backend.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MemberService {
 
-    private MemberDao userDao;
+    private final MemberRepository memberRepository;
 
     @Autowired
-    public MemberService(MemberDao userDao) {
-        this.userDao = userDao;
+    public MemberService(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
     }
 
-    public int logIn(MemberCredentialsDto userCredentials) {
-        Member user = userDao.getUserByEmailAndPassword(userCredentials.email(), userCredentials.password());
-        if (user == null) throw new MemberNotFoundException();
-        return user.getId();
+    public int logIn(MemberCredentialsDto memberCredentials) {
+        Member member = memberRepository.getMemberByEmailAndPassword(memberCredentials.email(), memberCredentials.password());
+        if (member == null) throw new MemberNotFoundException();
+        return member.getId();
     }
 
-    public int signUp(MemberRegistrationDto userRegistration) {
-        Member user = new Member(userRegistration);
-        return userDao.createUser(user);
+    public int signUp(MemberRegistrationDto memberRegistration) {
+        Member member = new Member(memberRegistration);
+        return memberRepository.save(member).getId();
     }
 
-    public MemberDto getUser(int id) {
-        Member user = userDao.getUserById(id);
-        if (user == null) throw new MemberNotFoundException();
-        return new MemberDto(user);
+    public MemberDto getMember(int id) {
+        Member member = memberRepository.getMemberById(id);
+        if (member == null) throw new MemberNotFoundException();
+        return new MemberDto(member);
     }
 
-    public boolean deleteUser(int id) {
-        return userDao.deleteUserById(id);
+    public boolean deleteMember(int id) {
+        return memberRepository.deleteMemberById(id);
     }
 
     public boolean updateUser(MemberDto userDto) {
-        Member user = new Member(userDto);
-        return userDao.updateUser(user);
+        Member member = new Member(userDto);
+        return memberRepository.save(member) != null;
     }
 }

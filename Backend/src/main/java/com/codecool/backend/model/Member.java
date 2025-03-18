@@ -1,4 +1,4 @@
-package com.codecool.backend.dao.model;
+package com.codecool.backend.model;
 
 import com.codecool.backend.controller.dto.MemberDto;
 import com.codecool.backend.controller.dto.MemberRegistrationDto;

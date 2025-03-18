@@ -1,7 +1,7 @@
-package com.codecool.backend.dao;
+package com.codecool.backend.repository;
 
 import com.codecool.backend.controller.dto.NewTransactionDto;
-import com.codecool.backend.dao.model.Transaction;
+import com.codecool.backend.model.Transaction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

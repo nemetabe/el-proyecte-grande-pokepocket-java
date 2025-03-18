@@ -2,8 +2,7 @@ package com.codecool.backend.service;
 
 import com.codecool.backend.controller.dto.NewTransactionDto;
 import com.codecool.backend.controller.dto.TransactionDto;
-import com.codecool.backend.dao.TransactionDao;
-import com.codecool.backend.dao.model.Transaction;
+import com.codecool.backend.model.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
