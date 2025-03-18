@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.OptionalDouble;
 
 @RestController
 @RequestMapping("/api/transactions")
@@ -29,7 +30,7 @@ public class TransactionController {
     }
 
     @GetMapping("/{id}/avrg")
-    public int getAverageTransactions(@PathVariable int id) {
+    public OptionalDouble getAverageTransactions(@PathVariable int id) {
         return transactionService.getAvrgSpendingByCategoryId(id);
     }
 
