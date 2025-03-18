@@ -1,14 +1,13 @@
 package com.codecool.backend.controller;
 
-import com.codecool.backend.controller.dto.MemberDto;
 import com.codecool.backend.controller.dto.NewTransactionDto;
 import com.codecool.backend.controller.dto.TransactionDto;
-import com.codecool.backend.dao.model.Transaction;
 import com.codecool.backend.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.OptionalDouble;
 
 @RestController
 @RequestMapping("/api/transactions")
@@ -31,7 +30,7 @@ public class TransactionController {
     }
 
     @GetMapping("/{id}/avrg")
-    public int getAverageTransactions(@PathVariable int id) {
+    public OptionalDouble getAverageTransactions(@PathVariable int id) {
         return transactionService.getAvrgSpendingByCategoryId(id);
     }
 

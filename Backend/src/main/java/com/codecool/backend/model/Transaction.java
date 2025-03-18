@@ -1,15 +1,25 @@
-package com.codecool.backend.dao.model;
+package com.codecool.backend.model;
 
 import com.codecool.backend.controller.dto.NewTransactionDto;
 import com.codecool.backend.controller.dto.TransactionDto;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 import java.util.Objects;
 
+@Entity
 public class Transaction {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     int id;
     String name;
     int categoryId;
     int amount;
+
+    public Transaction() {
+    }
 
     public Transaction(int id, String name, int categoryId, int amount) {
         this.id = id;
@@ -32,6 +42,7 @@ public class Transaction {
     public int getId() {
         return id;
     }
+
     public void setId(int id) {this.id = id;}
 
     public String getName() {
