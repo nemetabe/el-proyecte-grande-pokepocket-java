@@ -2,14 +2,24 @@ package com.codecool.backend.dao.model;
 
 import com.codecool.backend.controller.dto.MemberDto;
 import com.codecool.backend.controller.dto.MemberRegistrationDto;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 import java.util.Objects;
 
+@Entity
 public class Member {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
     private String name;
     private String email;
     private String password;
+
+    public Member() {
+    }
 
     public Member(String name) {
         this.name = name;
@@ -31,13 +41,6 @@ public class Member {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-    public void setName(String name){
-        this.name = name;
-    }
-
     public String getName() {
         return name;
     }
@@ -48,6 +51,22 @@ public class Member {
 
     public String getPassword() {
         return password;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
