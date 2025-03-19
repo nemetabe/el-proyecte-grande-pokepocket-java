@@ -1,15 +1,14 @@
 import React from 'react'
-import { Col, Container, Row } from "react-bootstrap";
 
 function LoginForm({handleChange, handleSubmit, formData, switchForm}) {
   return (
     <>
-    <Row className="text-center">
-      <Col>
+    <div className="text-center">
+      <div>
         <h2>Login</h2>
-      </Col>
-    </Row>
-    <Row>
+      </div>
+    </div>
+    <div>
       <form className="row g-3" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="email" className="form-label">
@@ -43,7 +42,7 @@ function LoginForm({handleChange, handleSubmit, formData, switchForm}) {
           </button>
         </div>
       </form>
-      <Row>
+      <div>
         <a
           className="my-2 text-center mx-auto"
           href="#"
@@ -51,8 +50,8 @@ function LoginForm({handleChange, handleSubmit, formData, switchForm}) {
         >
           Don't have an account? Register
         </a>
-      </Row>
-    </Row>
+      </div>
+    </div>
   </>
   )
 }

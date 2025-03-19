@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./Registration.css";
-import { Col, Container, Row } from "react-bootstrap";
 import { fetchData } from "../../utils";
 import LoginForm from "../../components/LoginForm";
 import RegistrationForm from "../../components/RegistrationForm";
@@ -103,15 +102,10 @@ function Registration() {
 
   return (
     <>
-      <Container
-        className="bg-light my-auto col-8 whitebox d-flex justify-content-between"
-        style={{ height: "600px" }}
-      >
-        <Container
-          className={`col-5 my-auto text-dark form-container ${
-            isFadingOut ? "fade-out" : "fade-in"
-          }`}
-        >
+    <div className="flex justify-center items-center w-full h-screen">
+      <div className="bg-white m-auto whitebox flex justify-between h-[600px] basis-8/12">
+        <div
+          className={`basis-7/12 my-auto text-dark form-container ${isFadingOut ? "fade-out" : "fade-in"}`}>
           {isRegistering ? (
             <>
               <RegistrationForm
@@ -134,8 +128,8 @@ function Registration() {
               ></LoginForm>
             </>
           )}
-        </Container>
-        <Row className="col-4 justify-content-end ">
+        </div>
+        <div className="justify-items-end basis-5/12">
           <img
             className=" regImgDiv me-0"
             src={
@@ -144,8 +138,9 @@ function Registration() {
             alt="regImg"
             style={{ height: "100%" }}
           />
-        </Row>
-      </Container>
+        </div>
+      </div>
+      </div>
     </>
   );
 }
