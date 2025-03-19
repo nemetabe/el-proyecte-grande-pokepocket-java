@@ -1,147 +1,148 @@
+import Fieldset from 'daisyui/components/fieldset'
 import React from 'react'
-import { Row, Col } from 'react-bootstrap'
 
 function RegistrationForm({handleChange, handleSubmit, formData, switchForm, validation, handleCheckboxChange, isTermsAccepted}) {
 
   return (
     <>
-    <Row className="text-center">
-      <Col>
-        <h2>Registration</h2>
-      </Col>
-    </Row>
-    <Row>
-      <form className="row g-3" onSubmit={handleSubmit}>
-        {/* Username */}
-        <div>
-          <label htmlFor="username" className="form-label">
-            Username
-          </label>
-          <input
-            type="text"
-            className={`form-control ${
-              validation.username
-                ? validation.username === "Correct"
-                  ? "is-valid"
-                  : "is-invalid"
-                : ""
-            }`}
-            id="username"
-            value={formData.username}
-            onChange={handleChange}
-            required
-          />
-          <small
-            className={
-              validation.username === "Correct"
-                ? "text-success"
-                : "text-danger"
-            }
-          >
-            {validation.username}
-          </small>
-        </div>
+    <div className="text-center">
+      <div>
+        <h2 className='font-bold text-2xl'>Registration</h2>
+      </div>
+    </div>
+    <div className='flex items-center justify-center'>
+      <div>
+        <form className="p-5" onSubmit={handleSubmit}>
+          {/* Username */}
+          <fieldset className='fieldset'>
+            <div>
+              <label htmlFor="username" className="font-medium text-[1rem]">
+                Username
+              </label>
+              <input
+                type="text"
+                className={`input ${
+                  validation.username
+                    ? validation.username === "Correct"
+                      ? "input-success"
+                      : "input-error"
+                    : ""
+                }`}
+                id="username"
+                value={formData.username}
+                onChange={handleChange}
+                required
+              />
+              <small
+                className={`text-[14px]
+                  ${validation.username === "Correct"
+                    ? "text-success"
+                    : "text-error"}
+                  `
+                }
+              >
+                {validation.username}
+              </small>
+            </div>
+          </fieldset>
 
-        {/* Email */}
-        <div>
-          <label htmlFor="email" className="form-label">
-            Email
-          </label>
-          <input
-            type="email"
-            className={`form-control ${
-              validation.email
-                ? validation.email === "Correct"
-                  ? "is-valid"
-                  : "is-invalid"
-                : ""
-            }`}
-            id="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-          <small
-            className={
-              validation.email === "Correct"
-                ? "text-success"
-                : "text-danger"
-            }
-          >
-            {validation.email}
-          </small>
-        </div>
-
-        {/* Password */}
-        <div>
-          <label htmlFor="password" className="form-label">
-            Password
-          </label>
-          <input
-            type="password"
-            className={`form-control ${
-              validation.password
-                ? validation.password === "Correct"
-                  ? "is-valid"
-                  : "is-invalid"
-                : ""
-            }`}
-            id="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-          <small
-            className={
-              validation.password === "Correct"
-                ? "text-success"
-                : "text-danger"
-            }
-          >
-            {validation.password}
-          </small>
-        </div>
-
-        {/* Terms Checkbox */}
-        <div className="col-12">
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              id="termsAccepted"
-              checked={isTermsAccepted}
-              onChange={handleCheckboxChange}
-            />
-            <label
-              className="form-check-label"
-              htmlFor="termsAccepted"
-            >
-              Agree to terms and conditions
+          {/* Email */}
+          <fieldset className='fieldset'>
+            <label htmlFor="email" className="font-medium text-[1rem]">
+              Email
             </label>
-          </div>
-        </div>
+            <input
+              type="email"
+              className={`input ${
+                validation.email
+                  ? validation.email === "Correct"
+                    ? "input-success"
+                    : "input-error"
+                  : ""
+              }`}
+              id="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+            <small
+              className={`text-[14px]
+                ${validation.email === "Correct"
+                  ? "text-success"
+                  : "text-error"}
+                `
+              }
+            >
+              {validation.email}
+            </small>
+          </fieldset>
 
-        {/* Submit Button */}
-        <div className="col-4 mx-auto">
-          <button
-            className="btn btn-primary"
-            type="submit"
-            disabled={!isTermsAccepted}
+          {/* Password */}
+          <fieldset className='fieldset'>
+            <label htmlFor="password" className="font-medium text-[1rem]">
+              Password
+            </label>
+            <input
+              type="password"
+              className={`input ${
+                validation.password
+                  ? validation.password === "Correct"
+                    ? "input-success"
+                    : "input-error"
+                  : ""
+              }`}
+              id="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+            <small
+              className={`text-[14px]
+                ${validation.password === "Correct"
+                  ? "text-success"
+                  : "text-error"}
+                `
+              }
+            >
+              {validation.password}
+            </small>
+          </fieldset>
+
+          {/* Terms Checkbox */}
+          
+            <div className="m-2">
+              <input
+                className="checkbox-sm"
+                type="checkbox"
+                id="termsAccepted"
+                checked={isTermsAccepted}
+                onChange={handleCheckboxChange}
+              />
+                Agree to terms and conditions
+            </div>
+
+          {/* Submit Button */}
+          <div className="text-center">
+            <button
+              className="btn btn-primary rounded-full"
+              type="submit"
+              disabled={!isTermsAccepted}
+            >
+              Registration
+            </button>
+          </div>
+        </form>
+        <div className="text-center">
+          <a
+          className='text-blue-600'
+            href="#"
+            onClick={switchForm}
           >
-            Registration
-          </button>
+            Already have an account?
+          </a>
         </div>
-      </form>
-      <Row>
-        <a
-          className="my-2 text-center mx-auto"
-          href="#"
-          onClick={switchForm}
-        >
-          Already have an account?
-        </a>
-      </Row>
-    </Row>
+      </div>
+    </div>
   </>
   )
 }

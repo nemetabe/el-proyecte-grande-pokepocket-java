@@ -4,10 +4,10 @@ const PokeBall = new URL('../../assets/pokeball.png', import.meta.url).href;
 
 function ErrorPage() {
   return (
-    <div className='d-flex justify-content-center my-auto' style={{height:"100%"}}>
-        <div className='text-secondary my-auto text-[100px]'>4</div>
-        <img src={PokeBall} alt="PokeBall"  className='my-auto' style={{maxHeight:"100px"}}/>
-        <div className='text-secondary my-auto text-[100px]'>4</div>
+    <div className='flex justify-center my-auto h-full'>
+        <div className='text-pokeball my-auto text-9xl'>4</div>
+        <img src={PokeBall} alt="PokeBall"  className='m-auto max-h-28'/>
+        <div className='text-pokeball my-auto text-9xl'>4</div>
     </div>
   )
 }

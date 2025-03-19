@@ -29,18 +29,4 @@ body{
     opacity: 1;
   }
 
-  .is-valid {
-    border-color: green !important;
-  }
-  
-  .is-invalid {
-    border-color: red !important;
-  }
-  
-  .text-danger {
-    color: red;
-  }
-  
-  .text-success {
-    color: green;
-  }
+
