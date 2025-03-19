@@ -65,28 +65,37 @@ public class PokemonEvolutionService {
             List<EvolutionChain> evolutions = evolutionChainRepository.findByBasePokemonId(pokemon.getSpeciesId());
 
             if (evolutions.isEmpty()) {
-                throw new IllegalStateException("No evolution found for this Pokémon");
+                pokemon.setIsEvolutionPending(false);
+                return userPokemonRepository.save(pokemon);
             }
 
+            EvolutionChain correctEvolution = null;
 
-            // Get the first evolution (we should have logic to choose correct one if multiple)  !!!!!!!!
-            // TODO:
-            EvolutionChain evolution = evolutions.get(0);
+            for (EvolutionChain evolution : evolutions) {
+                // Since all our evolutions are happiness-based with the same threshold (220),
+                // we can just take the first one. In a more complex system with multiple
+                // evolution paths, we'd need more logic here.
+                correctEvolution = evolution;
+                break;
+            }
 
+            if (correctEvolution == null) {
+                throw new IllegalStateException("No suitable evolution found for this Pokémon");
+            }
 
-            Optional<PokemonSpecies> evolvedSpecies = pokemonSpeciesRepository.findById(evolution.getEvolvedPokemonId());
+            Optional<PokemonSpecies> evolvedSpecies = pokemonSpeciesRepository.findById(correctEvolution.getEvolvedPokemonId());
 
             if (evolvedSpecies.isEmpty()) {
                 throw new IllegalStateException("Evolved species not found");
             }
 
-            PokemonAsset evolvedAsset = pokemonAssetRepository.findBySpeciesId(evolution.getEvolvedPokemonId());
+            PokemonAsset evolvedAsset = pokemonAssetRepository.findBySpeciesId(correctEvolution.getEvolvedPokemonId());
 
             if (evolvedAsset == null) {
                 throw new IllegalStateException("Assets for evolved form not found");
             }
 
-            pokemon.setSpeciesId(evolution.getEvolvedPokemonId());
+            pokemon.setSpeciesId(correctEvolution.getEvolvedPokemonId());
             pokemon.setPictureUrl(evolvedAsset.getPictureUrl());
             pokemon.setGifUrl(evolvedAsset.getGifUrl());
             pokemon.setHappiness(evolvedSpecies.get().getBaseHappiness());
