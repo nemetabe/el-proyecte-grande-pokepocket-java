@@ -5,51 +5,53 @@ function LoginForm({handleChange, handleSubmit, formData, switchForm}) {
     <>
     <div className="text-center">
       <div>
-        <h2>Login</h2>
+        <h2 className='font-bold text-2xl'>Login</h2>
       </div>
     </div>
-    <div>
-      <form className="row g-3" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email" className="form-label">
-            Email
-          </label>
-          <input
-            type="email"
-            className="form-control"
-            id="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="password" className="form-label">
-            Password
-          </label>
-          <input
-            type="password"
-            className="form-control"
-            id="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="col-4 mx-auto d-flex justify-content-center">
-          <button className="btn btn-primary" type="submit">
-            Login
-          </button>
-        </div>
-      </form>
+    <div className='flex items-center justify-center'>
       <div>
-        <a
-          className="my-2 text-center mx-auto"
-          href="#"
-          onClick={switchForm}
-        >
-          Don't have an account? Register
-        </a>
+        <form className="p-5" onSubmit={handleSubmit}>
+          <fieldset className='fieldset'>
+            <label htmlFor="email" className="font-medium text-[1rem]">
+              Email
+            </label>
+            <input
+              type="email"
+              className="input"
+              id="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </fieldset>
+          <div>
+            <label htmlFor="password" className="font-medium text-[1rem]">
+              Password
+            </label>
+            <input
+              type="password"
+              className="input"
+              id="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="text-center mt-5">
+            <button className="btn btn-primary rounded-full" type="submit">
+              Login
+            </button>
+          </div>
+        </form>
+        <div className='text-center'>
+          <a
+            className="text-blue-600"
+            href="#"
+            onClick={switchForm}
+          >
+            Don't have an account? Register
+          </a>
+        </div>
       </div>
     </div>
   </>
