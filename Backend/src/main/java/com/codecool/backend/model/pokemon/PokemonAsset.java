@@ -8,7 +8,8 @@ import lombok.Setter;
 @Entity
 @Table(name = "pokemon_assets")
 public class PokemonAsset {
-
+    @Getter
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long assetId;
