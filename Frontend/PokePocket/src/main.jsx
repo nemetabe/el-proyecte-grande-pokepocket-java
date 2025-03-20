@@ -6,6 +6,7 @@ import Registration from './pages/Registration/Registration.jsx';
 import "./main.css"
 import CustomNavbar from './components/Navbar/CustomNavbar.jsx';
 import ErrorPage from './pages/Errorpage/ErrorPage.jsx';
+import AddExpenseForm from './components/AddExpenseForm.jsx';
 
 const router = createBrowserRouter([
   {
@@ -21,10 +22,10 @@ const router = createBrowserRouter([
         path: "/main",
         element: <ErrorPage />
       },
-  //     {
-  //       path: "/user/:id/create-question",
-  //       element: <QuestionForm/>
-  //     },
+      {
+        path: "/main/expense",
+        element: <AddExpenseForm userId={1}/>
+      },
   //     {
   //       path: "/login",
   //       element: <Login/>

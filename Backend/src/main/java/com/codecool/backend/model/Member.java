@@ -2,14 +2,12 @@ package com.codecool.backend.model;
 
 import com.codecool.backend.controller.dto.MemberDto;
 import com.codecool.backend.controller.dto.MemberRegistrationDto;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Objects;
 
 @Data
@@ -24,6 +22,9 @@ public class Member {
     private String email;
     private String password;
 
+    @OneToMany(mappedBy = "member")
+    private List<Transaction> transactions;
+
     public Member() {
     }
 
@@ -31,10 +32,10 @@ public class Member {
         this.name = name;
     }
 
-    public Member(MemberRegistrationDto userRegistrationDto) {
-        name = userRegistrationDto.name();
-        email = userRegistrationDto.email();
-        password = userRegistrationDto.password();
+    public Member(MemberRegistrationDto memberRegistrationDto) {
+        name = memberRegistrationDto.name();
+        email = memberRegistrationDto.email();
+        password = memberRegistrationDto.password();
     }
 
     public Member(MemberDto userDto) {
