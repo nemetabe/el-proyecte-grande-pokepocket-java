@@ -1,5 +1,6 @@
 package com.codecool.backend.service;
 
+import com.codecool.backend.controller.dto.UserPokemonDto;
 import com.codecool.backend.model.pokemon.EvolutionChain;
 import com.codecool.backend.model.pokemon.PokemonAsset;
 import com.codecool.backend.model.pokemon.PokemonSpecies;
@@ -31,8 +32,10 @@ public class PokemonEvolutionService {
     @Autowired
     private PokemonAssetRepository pokemonAssetRepository;
 
-    public List<UserPokemon> checkHappinessEvolutions() {
-        return userPokemonRepository.findPokemonReadyToEvolveByHappiness();
+    public List<UserPokemonDto> checkHappinessEvolutions() {
+        return userPokemonRepository.findPokemonReadyToEvolveByHappiness().stream()
+                .map(UserPokemonDto::new)
+                .toList();
     }
 
     /**
@@ -53,7 +56,7 @@ public class PokemonEvolutionService {
     }
 
     @Transactional
-    public UserPokemon evolvePokemon(Long pokemonId) {
+    public UserPokemonDto evolvePokemon(Long pokemonId) {
         Optional<UserPokemon> optionalPokemon = userPokemonRepository.findById(pokemonId);
 
         if (optionalPokemon.isPresent()) {
@@ -67,7 +70,8 @@ public class PokemonEvolutionService {
 
             if (evolutions.isEmpty()) {
                 pokemon.setIsEvolutionPending(false);
-                return userPokemonRepository.save(pokemon);
+                UserPokemon userPokemon = userPokemonRepository.save(pokemon);
+                return new UserPokemonDto(userPokemon);
             }
 
             EvolutionChain correctEvolution = null;
@@ -103,21 +107,22 @@ public class PokemonEvolutionService {
             pokemon.setHappiness(evolvedSpecies.get().getBaseHappiness());
             pokemon.setIsEvolutionPending(false);
 
-            return userPokemonRepository.save(pokemon);
-        }
+            UserPokemon userPokemon = userPokemonRepository.save(pokemon);
+            return new UserPokemonDto(userPokemon);        }
 
         throw new IllegalArgumentException("Pokémon not found");
     }
 
     // TODO implement logic
     @Transactional
-    public UserPokemon increaseHappiness(Long pokemonId, Integer amount) {
+    public UserPokemonDto increaseHappiness(Long pokemonId, Integer amount) {
         Optional<UserPokemon> optionalPokemon = userPokemonRepository.findById(pokemonId);
 
         if (optionalPokemon.isPresent()) {
             UserPokemon pokemon = optionalPokemon.get();
             pokemon.setHappiness(Math.min(255, pokemon.getHappiness() + amount));
-            return userPokemonRepository.save(pokemon);
+            UserPokemon userPokemon = userPokemonRepository.save(pokemon);
+            return new UserPokemonDto(userPokemon);
         }
 
         throw new IllegalArgumentException("Pokémon not found");
