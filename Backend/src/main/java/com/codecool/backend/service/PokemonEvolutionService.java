@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -93,7 +94,8 @@ public class PokemonEvolutionService {
                 throw new IllegalStateException("Evolved species not found");
             }
 
-            PokemonAsset evolvedAsset = pokemonAssetRepository.findBySpeciesId(correctEvolution.getEvolvedPokemonId());
+            PokemonAsset evolvedAsset = pokemonAssetRepository.findBySpeciesId(correctEvolution.getEvolvedPokemonId())
+                    .orElseThrow(() -> new NoSuchElementException("Evolved species not found"));
 
             if (evolvedAsset == null) {
                 throw new IllegalStateException("Assets for evolved form not found");

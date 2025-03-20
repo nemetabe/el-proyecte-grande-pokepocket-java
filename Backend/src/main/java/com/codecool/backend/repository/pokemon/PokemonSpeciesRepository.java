@@ -5,7 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PokemonSpeciesRepository extends JpaRepository<PokemonSpecies, Long> {
+public interface PokemonSpeciesRepository extends JpaRepository <PokemonSpecies, Long> {
     PokemonSpecies findByName(String name);
-    PokemonSpecies findByPokeIndexNumber(int pokeIndexNumber);
+    PokemonSpecies findByPokeIndexNumber(Long pokeIndexNumber);
+
 }
