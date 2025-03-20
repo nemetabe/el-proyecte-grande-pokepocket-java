@@ -1,6 +1,7 @@
 package com.codecool.backend.service;
 
 import com.codecool.backend.controller.dto.UserPokemonDto;
+import com.codecool.backend.controller.exception.PokemonNotFoundException;
 import com.codecool.backend.model.pokemon.EvolutionChain;
 import com.codecool.backend.model.pokemon.PokemonAsset;
 import com.codecool.backend.model.pokemon.PokemonSpecies;
@@ -33,7 +34,9 @@ public class PokemonEvolutionService {
     private PokemonAssetRepository pokemonAssetRepository;
 
     public List<UserPokemonDto> checkHappinessEvolutions() {
-        return userPokemonRepository.findPokemonReadyToEvolveByHappiness().stream()
+        List<UserPokemon> pokemons = userPokemonRepository.findPokemonReadyToEvolveByHappiness()
+                .orElseThrow(() -> new PokemonNotFoundException("No Pokemon ready to evolve "));
+        return pokemons.stream()
                 .map(UserPokemonDto::new)
                 .toList();
     }
@@ -43,30 +46,25 @@ public class PokemonEvolutionService {
      */
     @Transactional
     public boolean markForEvolution(Long pokemonId) {
-        Optional<UserPokemon> optionalPokemon = userPokemonRepository.findById(pokemonId);
+        UserPokemon pokemon = userPokemonRepository.findById(pokemonId)
+                .orElseThrow(() -> new PokemonNotFoundException("Pokemon not found"));
 
-        if (optionalPokemon.isPresent()) {
-            UserPokemon pokemon = optionalPokemon.get();
-            pokemon.setIsEvolutionPending(true);
-            userPokemonRepository.save(pokemon);
-            return true;
-        }
-
-        return false;
+        pokemon.setIsEvolutionPending(true);
+        userPokemonRepository.save(pokemon);
+        return true;
     }
 
     @Transactional
     public UserPokemonDto evolvePokemon(Long pokemonId) {
-        Optional<UserPokemon> optionalPokemon = userPokemonRepository.findById(pokemonId);
-
-        if (optionalPokemon.isPresent()) {
-            UserPokemon pokemon = optionalPokemon.get();
+        UserPokemon pokemon = userPokemonRepository.findById(pokemonId)
+                .orElseThrow(() -> new PokemonNotFoundException("Pokemon not found"));
 
             if (!pokemon.getIsEvolutionPending()) {
                 throw new IllegalStateException("Pokémon is not ready to evolve");
             }
 
-            List<EvolutionChain> evolutions = evolutionChainRepository.findByBasePokemonId(pokemon.getSpeciesId());
+            List<EvolutionChain> evolutions = evolutionChainRepository.findByBasePokemonId(pokemon.getSpeciesId())
+                    .orElseThrow(() -> new PokemonNotFoundException("Evolutions not found"));
 
             if (evolutions.isEmpty()) {
                 pokemon.setIsEvolutionPending(false);
@@ -88,44 +86,35 @@ public class PokemonEvolutionService {
                 throw new IllegalStateException("No suitable evolution found for this Pokémon");
             }
 
-            Optional<PokemonSpecies> evolvedSpecies = pokemonSpeciesRepository.findById(correctEvolution.getEvolvedPokemonId());
+            PokemonSpecies evolvedSpecies = pokemonSpeciesRepository.findById(correctEvolution.getEvolvedPokemonId())
+                    .orElseThrow(() -> new PokemonNotFoundException("Evolved species not found"));
 
-            if (evolvedSpecies.isEmpty()) {
-                throw new IllegalStateException("Evolved species not found");
-            }
 
             PokemonAsset evolvedAsset = pokemonAssetRepository.findBySpeciesId(correctEvolution.getEvolvedPokemonId())
-                    .orElseThrow(() -> new NoSuchElementException("Evolved species not found"));
+                    .orElseThrow(() -> new PokemonNotFoundException("Assets for evolved form not found"));
 
-            if (evolvedAsset == null) {
-                throw new IllegalStateException("Assets for evolved form not found");
-            }
 
             pokemon.setSpeciesId(correctEvolution.getEvolvedPokemonId());
             pokemon.setPictureUrl(evolvedAsset.getPictureUrl());
             pokemon.setGifUrl(evolvedAsset.getGifUrl());
-            pokemon.setHappiness(evolvedSpecies.get().getBaseHappiness());
+
+
+            pokemon.setHappiness(evolvedSpecies.getBaseHappiness());
             pokemon.setIsEvolutionPending(false);
 
             UserPokemon userPokemon = userPokemonRepository.save(pokemon);
-            return new UserPokemonDto(userPokemon);        }
-
-        throw new IllegalArgumentException("Pokémon not found");
+            return new UserPokemonDto(userPokemon);
     }
 
     // TODO implement logic
     @Transactional
     public UserPokemonDto increaseHappiness(Long pokemonId, Integer amount) {
-        Optional<UserPokemon> optionalPokemon = userPokemonRepository.findById(pokemonId);
+        UserPokemon pokemon = userPokemonRepository.findById(pokemonId)
+                .orElseThrow(() -> new PokemonNotFoundException("Pokemon not found"));
 
-        if (optionalPokemon.isPresent()) {
-            UserPokemon pokemon = optionalPokemon.get();
-            pokemon.setHappiness(Math.min(255, pokemon.getHappiness() + amount));
-            UserPokemon userPokemon = userPokemonRepository.save(pokemon);
-            return new UserPokemonDto(userPokemon);
-        }
-
-        throw new IllegalArgumentException("Pokémon not found");
+        pokemon.setHappiness(Math.min(255, pokemon.getHappiness() + amount));
+        UserPokemon userPokemon = userPokemonRepository.save(pokemon);
+        return new UserPokemonDto(userPokemon);
     }
 
 }
