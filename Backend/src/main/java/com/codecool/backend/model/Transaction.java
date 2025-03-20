@@ -18,20 +18,27 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private int categoryId;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     private int amount;
 
     @ManyToOne
     @JoinColumn(referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_member_transaction"))
     private Member member;
 
+    // Add date for transaction
+    private java.time.LocalDate date;
+
     public Transaction() {
     }
 
-    public Transaction(Long id, String name, int categoryId, int amount, Member member) {
+    public Transaction(Long id, String name, Category category, int amount, Member member) {
         this.id = id;
         this.name = name;
-        this.categoryId = categoryId;
+        this.category = category;
         this.amount = amount;
         this.member = member;
     }
@@ -44,7 +51,7 @@ public class Transaction {
     public Transaction(NewTransactionDto dto) {
         name = dto.name();
         amount = dto.amount();
-        categoryId = dto.categoryId();
+        category = dto.categoryId();
     }
 
     @Override
@@ -52,8 +59,9 @@ public class Transaction {
         return "Transaction{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", categoryId=" + categoryId +
+                ", category=" + category +
                 ", amount=" + amount +
+                ", date=" + date +
                 '}';
     }
 
@@ -62,11 +70,13 @@ public class Transaction {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Transaction that = (Transaction) o;
-        return id == that.id && categoryId == that.categoryId && amount == that.amount && Objects.equals(name, that.name);
+        return id.equals(that.id) && amount == that.amount &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(category, that.category);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, categoryId, amount);
+        return Objects.hash(id, name, category, amount);
     }
 }
