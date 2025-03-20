@@ -42,8 +42,11 @@ public class TransactionService {
     }
 
     public List<TransactionDto> getAllByUser(int userId) {
-        Member member = memberRepository.getMemberById(userId);
-        return transactionRepository.getAllByMember(member).stream()
+        Member member = memberRepository.getMemberById(userId)
+                .orElseThrow(MemberNotFoundException::new);
+        List<Transaction> transactions = transactionRepository.getAllByMember(member)
+                .orElseThrow(TransactionNotFoundException::new);
+        return transactions.stream()
                 .map(TransactionDto::new)
                 .toList();
     }

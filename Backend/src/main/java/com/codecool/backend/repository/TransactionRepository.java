@@ -14,10 +14,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 
     public boolean deleteTransactionById(int id);
 
+    Optional<List<Transaction>> getAllByCategoryId(int categoryId);
 
-    public Optional<List<Transaction>> getAllByCategoryId(int categoryId);
-
-    List<Transaction> getAllByCategoryId(int categoryId);
-
-    List<Transaction> getAllByMember(Member member);
+    Optional<List<Transaction>> getAllByMember(Member member);
 }
