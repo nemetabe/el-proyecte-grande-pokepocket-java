@@ -5,12 +5,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
-    Transaction getTransactionsById(int id);
+    public Optional<Transaction> getTransactionsById(int id);
 
-    boolean deleteTransactionById(int id);
+    public boolean deleteTransactionById(int id);
 
-    List<Transaction> getAllByCategoryId(int categoryId);
+    public Optional<List<Transaction>> getAllByCategoryId(int categoryId);
 }
