@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import {fetchData} from "../utils";
 
-function AddExpenseForm({userId}) {
+function AddExpenseForm({userId, setExpense}) {
     const [categories, setCategories] = useState([]);
 
     const [category, setCategory] = useState(0);
@@ -23,7 +23,9 @@ function AddExpenseForm({userId}) {
         };
 
         let transactionId;
-        fetchData("/transactions/add", "POST", expenseObject).then(response => transactionId = response);
+        fetchData("transactions/add", "POST", expenseObject).then(response => transactionId = response);
+        // fetchData("transactions/")
+        document.getElementById("my_modal_4").close();
     }
 
     return (
