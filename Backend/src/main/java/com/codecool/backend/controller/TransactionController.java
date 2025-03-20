@@ -1,5 +1,6 @@
 package com.codecool.backend.controller;
 
+import com.codecool.backend.controller.dto.CategoryDto;
 import com.codecool.backend.controller.dto.NewTransactionDto;
 import com.codecool.backend.controller.dto.TransactionDto;
 import com.codecool.backend.service.TransactionService;
@@ -18,6 +19,11 @@ public class TransactionController {
     @Autowired
     public TransactionController(TransactionService transactionService) {
         this.transactionService = transactionService;
+    }
+
+    @GetMapping("/categories/all")
+    public List<CategoryDto> getAllCategories() {
+        return transactionService.getAllCategories();
     }
 
     @GetMapping("/all")
