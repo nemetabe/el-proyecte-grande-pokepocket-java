@@ -35,7 +35,7 @@ function CustomNavbar() {
                 <a>Item 1</a>
               </li>
               <li>
-                <a>Parent</a>
+                <a>Item 2</a>
               </li>
               <li>
                 <a>Item 3</a>
@@ -54,7 +54,7 @@ function CustomNavbar() {
               <a >Item 1</a>
             </li>
             <li>
-                <a>Parent</a>
+                <a>Item 2</a>
             </li>
             <li>
               <a>Item 3</a>

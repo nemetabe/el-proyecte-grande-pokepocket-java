@@ -24,7 +24,14 @@ function AddExpenseForm({userId, setExpense}) {
 
         let transactionId;
         fetchData("transactions/add", "POST", expenseObject).then(response => transactionId = response);
-        // fetchData("transactions/")
+        fetchData("transactions/1/all").then(response => {
+            const sumWithInitial = response.reduce(
+                (accumulator, currentValue) => accumulator + currentValue.amount,
+                0,
+              );
+            setExpense(sumWithInitial);
+        })
+        // setExpense(1000);
         document.getElementById("my_modal_4").close();
     }
 

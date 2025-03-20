@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import AddExpenseForm from "../../components/AddExpenseForm";
 
 function MyPocket() {
   const [income, setIncome] = useState(10000);
   const [expense, setExpense] = useState(500);
   const [profit, setProfit] = useState(income-expense);
+
+  useEffect(() => {
+    setProfit(income-expense);
+  }, [expense]);
+  
   return (
     <>
       <div className="bg-white/75 h-[85vh] m-5 text-center p-2 rounded-[15px]">
@@ -74,7 +79,7 @@ function MyPocket() {
                     id="dropdownDefaultButton"
                     data-dropdown-toggle="lastDaysdropdown"
                     data-dropdown-placement="bottom"
-                    class="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
+                    class="text-sm font-medium text-black hover:text-primary text-center inline-flex items-center"
                     type="button"
                   >
                     Last 6 months
