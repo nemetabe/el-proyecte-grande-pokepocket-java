@@ -9,6 +9,5 @@ import java.time.LocalDate;
 public record TransactionDto(Long id, String name, Category category, int amount, Member member, LocalDate date) {
     public TransactionDto(Transaction transaction){
         this(transaction.getId(), transaction.getName(), transaction.getCategory(), transaction.getAmount(), transaction.getMember(), transaction.getDate());
-
     }
 }
