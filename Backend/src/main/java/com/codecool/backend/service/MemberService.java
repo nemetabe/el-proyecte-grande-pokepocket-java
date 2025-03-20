@@ -20,8 +20,8 @@ public class MemberService {
     }
 
     public int logIn(MemberCredentialsDto memberCredentials) {
-        Member member = memberRepository.getMemberByEmailAndPassword(memberCredentials.email(), memberCredentials.password());
-        if (member == null) throw new MemberNotFoundException();
+        Member member = memberRepository.getMemberByEmailAndPassword(memberCredentials.email(), memberCredentials.password())
+                .orElseThrow(MemberNotFoundException::new);
         return member.getId();
     }
 
@@ -31,8 +31,8 @@ public class MemberService {
     }
 
     public MemberDto getMember(int id) {
-        Member member = memberRepository.getMemberById(id);
-        if (member == null) throw new MemberNotFoundException();
+        Member member = memberRepository.getMemberById(id)
+                .orElseThrow(MemberNotFoundException::new);
         return new MemberDto(member);
     }
 

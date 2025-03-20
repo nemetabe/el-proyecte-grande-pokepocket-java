@@ -5,9 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface EvolutionChainRepository extends JpaRepository<EvolutionChain, Integer> {
-    List<EvolutionChain> findByBasePokemonId(Long basePokemonId);
+    public Optional<List<EvolutionChain>> findByBasePokemonId(Long basePokemonId);
 
 }
