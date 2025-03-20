@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<Category, Integer> {
-    public Category getCategoryById(int id);
+public interface CategoryRepository extends JpaRepository<Category, Long> {
+    public Category getCategoryById(Long id);
 }
