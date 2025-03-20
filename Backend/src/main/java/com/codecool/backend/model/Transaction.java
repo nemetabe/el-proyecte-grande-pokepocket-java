@@ -51,7 +51,6 @@ public class Transaction {
     public Transaction(NewTransactionDto dto) {
         name = dto.name();
         amount = dto.amount();
-        category = dto.categoryId();
     }
 
     @Override
