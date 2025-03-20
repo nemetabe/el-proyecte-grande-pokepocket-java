@@ -103,7 +103,7 @@ function Registration() {
   return (
     <>
     <div className="flex justify-center items-center w-full h-screen">
-      <div className="bg-white m-auto whitebox flex justify-between h-[600px] basis-8/12">
+      <div className="bg-white m-auto whitebox flex justify-between h-[600px] basis-6/12">
         <div
           className={`basis-7/12 my-auto text-dark form-container ${isFadingOut ? "fade-out" : "fade-in"}`}>
           {isRegistering ? (
