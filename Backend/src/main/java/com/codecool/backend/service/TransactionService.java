@@ -11,6 +11,7 @@ import com.codecool.backend.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.OptionalDouble;
@@ -40,8 +41,11 @@ public class TransactionService {
     public Long createTransaction(NewTransactionDto transactionDto) {
         Member member = memberRepository.getMemberById(transactionDto.memberId());
         Category category = categoryRepository.getCategoryById(transactionDto.categoryId());
+        LocalDate date = LocalDate.now();
         Transaction transaction = new Transaction(transactionDto);
         transaction.setMember(member);
+        transaction.setCategory(category);
+        transaction.setDate(date);
         return transactionRepository.save(transaction).getId();
     }
 
