@@ -18,19 +18,31 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    private int categoryId;
-    private int amount;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    private int amount;
+    // Add member relationship
     @ManyToOne
+    @JoinColumn(name = "member_id")
     private Member member;
+
+    // Add date for transaction
+    private java.time.LocalDate date;
 
     public Transaction() {
     }
 
+    public Transaction(int id, String name, Category category, int amount) {
+
+
     public Transaction(int id, String name, int categoryId, int amount, Member member) {
+
         this.id = id;
         this.name = name;
-        this.categoryId = categoryId;
+        this.category = category;
         this.amount = amount;
         this.member = member;
     }
@@ -38,12 +50,13 @@ public class Transaction {
     public Transaction(TransactionDto dto) {
         id = dto.id();
         name = dto.name();
+        // You'll need to update your DTO and add logic to set the category
     }
 
     public Transaction(NewTransactionDto dto) {
         name = dto.name();
         amount = dto.amount();
-        categoryId = dto.categoryId();
+        // You'll need to update your DTO and add logic to set the category
     }
 
     @Override
@@ -51,8 +64,9 @@ public class Transaction {
         return "Transaction{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", categoryId=" + categoryId +
+                ", category=" + category +
                 ", amount=" + amount +
+                ", date=" + date +
                 '}';
     }
 
@@ -61,11 +75,13 @@ public class Transaction {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Transaction that = (Transaction) o;
-        return id == that.id && categoryId == that.categoryId && amount == that.amount && Objects.equals(name, that.name);
+        return id == that.id && amount == that.amount &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(category, that.category);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, categoryId, amount);
+        return Objects.hash(id, name, category, amount);
     }
 }
