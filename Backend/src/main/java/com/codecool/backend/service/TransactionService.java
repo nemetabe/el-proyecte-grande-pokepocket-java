@@ -38,6 +38,13 @@ public class TransactionService {
         return transactionDtos;
     }
 
+    public List<TransactionDto> getAllByUser(int userId) {
+        Member member = memberRepository.getMemberById(userId);
+        return transactionRepository.getAllByMember(member).stream()
+                .map(TransactionDto::new)
+                .toList();
+    }
+
     public Long createTransaction(NewTransactionDto transactionDto) {
         Member member = memberRepository.getMemberById(transactionDto.memberId());
         Category category = categoryRepository.getCategoryById(transactionDto.categoryId());

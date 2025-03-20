@@ -1,5 +1,6 @@
 package com.codecool.backend.repository;
 
+import com.codecool.backend.model.Member;
 import com.codecool.backend.model.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -13,4 +14,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     boolean deleteTransactionById(int id);
 
     List<Transaction> getAllByCategoryId(int categoryId);
+
+    List<Transaction> getAllByMember(Member member);
 }
