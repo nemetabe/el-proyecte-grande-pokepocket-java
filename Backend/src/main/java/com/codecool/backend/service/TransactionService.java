@@ -1,5 +1,6 @@
 package com.codecool.backend.service;
 
+import com.codecool.backend.controller.dto.CategoryDto;
 import com.codecool.backend.controller.dto.NewTransactionDto;
 import com.codecool.backend.controller.dto.TransactionDto;
 import com.codecool.backend.model.Category;
@@ -29,6 +30,12 @@ public class TransactionService {
         this.memberRepository = memberRepository;
         this.memberService = memberService;
         this.categoryRepository = categoryRepository;
+    }
+
+    public List<CategoryDto> getAllCategories() {
+        return categoryRepository.findAll().stream()
+                .map(CategoryDto::new)
+                .toList();
     }
 
     public List<TransactionDto> getAllTransactions() throws Exception {
