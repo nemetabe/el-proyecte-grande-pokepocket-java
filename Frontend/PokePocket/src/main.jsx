@@ -7,6 +7,9 @@ import "./main.css"
 import CustomNavbar from './components/Navbar/CustomNavbar.jsx';
 import ErrorPage from './pages/Errorpage/ErrorPage.jsx';
 import AddExpenseForm from './components/AddExpenseForm.jsx';
+import MainPage from './pages/MainPage/MainPage.jsx';
+import MyPokemon from './pages/MyPokemon/MyPokemon.jsx';
+import MyPocket from './pages/MyPocket/MyPocket.jsx';
 
 const router = createBrowserRouter([
   {
@@ -16,20 +19,20 @@ const router = createBrowserRouter([
   {
     path: "/main",
     element: <CustomNavbar />,
-    // errorElement: <ErrorPage />, future implement if have remaining time
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/main",
-        element: <ErrorPage />
+        element: <MainPage />
       },
       {
-        path: "/main/expense",
-        element: <AddExpenseForm userId={1}/>
+        path: "/main/mypokemon",
+        element: <MyPokemon/>
       },
-  //     {
-  //       path: "/login",
-  //       element: <Login/>
-  //     }
+      {
+        path: "/main/mypocket",
+        element: <MyPocket/>
+      }
     ],
   },
 ]);

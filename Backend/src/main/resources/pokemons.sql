@@ -149,6 +149,7 @@ VALUES
  NULL),
 
 -- Gible -> Gabite -> Garchomp (3-stage)
+
 (443, 'Gible', 'It nests in small, horizontal holes in cave walls. It pounces to catch prey that stray too close.', 70,
  'happiness', 220),
 (444, 'Gabite', 'There is a long-held belief that medicine made from its scales will heal even incurable illnesses.',
@@ -157,6 +158,7 @@ VALUES
  NULL),
 
 -- Machop -> Machoke -> Machamp (3-stage)
+
 (66, 'Machop',
  'Its whole body is composed of muscles. Even though it''s the size of a human child, it can hurl 100 grown-ups.', 70,
  'happiness', 220),

@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
-@Repository
+@Entity
 public class Saving {
     @Getter
     @Setter

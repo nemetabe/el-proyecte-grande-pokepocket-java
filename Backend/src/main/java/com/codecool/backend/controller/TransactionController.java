@@ -24,6 +24,12 @@ public class TransactionController {
     public List<TransactionDto> getAll() throws Exception {
         return transactionService.getAllTransactions();
     }
+
+    @GetMapping("/{userId}/all")
+    public List<TransactionDto> getAllByUser(@PathVariable int userId) {
+        return transactionService.getAllByUser(userId);
+    }
+
     @GetMapping("/{id}")
     public TransactionDto getTransactionById(@PathVariable int id) {
         return transactionService.getTransactionById(id);
