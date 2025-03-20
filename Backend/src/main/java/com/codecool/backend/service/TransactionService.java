@@ -33,7 +33,7 @@ public class TransactionService {
         return transactionDtos;
     }
 
-    public int createTransaction(NewTransactionDto transactionDto) {
+    public Long createTransaction(NewTransactionDto transactionDto) {
         Member member = memberRepository.getMemberById(transactionDto.memberId());
         Transaction transaction = new Transaction(transactionDto);
         transaction.setMember(member);

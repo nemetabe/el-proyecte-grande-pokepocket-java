@@ -40,7 +40,7 @@ public class TransactionController {
     }
 
     @PostMapping("/add")
-    public int addTransaction(@RequestBody NewTransactionDto transactionDto) {
+    public Long addTransaction(@RequestBody NewTransactionDto transactionDto) {
        return transactionService.createTransaction(transactionDto);
     }
 

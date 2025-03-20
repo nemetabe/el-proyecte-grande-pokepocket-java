@@ -16,7 +16,7 @@ public class Transaction {
     @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String name;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -24,9 +24,9 @@ public class Transaction {
     private Category category;
 
     private int amount;
-    // Add member relationship
+
     @ManyToOne
-    @JoinColumn(name = "member_id")
+    @JoinColumn(referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_member_transaction"))
     private Member member;
 
     // Add date for transaction
@@ -35,11 +35,7 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(int id, String name, Category category, int amount) {
-
-
-    public Transaction(int id, String name, int categoryId, int amount, Member member) {
-
+    public Transaction(Long id, String name, Category category, int amount, Member member) {
         this.id = id;
         this.name = name;
         this.category = category;
@@ -50,13 +46,12 @@ public class Transaction {
     public Transaction(TransactionDto dto) {
         id = dto.id();
         name = dto.name();
-        // You'll need to update your DTO and add logic to set the category
     }
 
     public Transaction(NewTransactionDto dto) {
         name = dto.name();
         amount = dto.amount();
-        // You'll need to update your DTO and add logic to set the category
+        category = dto.categoryId();
     }
 
     @Override
@@ -75,7 +70,7 @@ public class Transaction {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Transaction that = (Transaction) o;
-        return id == that.id && amount == that.amount &&
+        return id.equals(that.id) && amount == that.amount &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(category, that.category);
     }

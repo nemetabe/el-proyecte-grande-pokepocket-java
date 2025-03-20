@@ -13,8 +13,7 @@ import java.util.Objects;
 @Data
 @Entity
 public class Member {
-    @Getter
-    @Setter
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
