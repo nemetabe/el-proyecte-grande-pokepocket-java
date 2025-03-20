@@ -3,6 +3,9 @@ package com.codecool.backend.service;
 import com.codecool.backend.controller.dto.CategoryDto;
 import com.codecool.backend.controller.dto.NewTransactionDto;
 import com.codecool.backend.controller.dto.TransactionDto;
+import com.codecool.backend.controller.exception.CategoryNotFoundException;
+import com.codecool.backend.controller.exception.MemberNotFoundException;
+import com.codecool.backend.controller.exception.TransactionNotFoundException;
 import com.codecool.backend.model.Category;
 import com.codecool.backend.model.Member;
 import com.codecool.backend.model.Transaction;
@@ -38,7 +41,7 @@ public class TransactionService {
                 .toList();
     }
 
-    public List<TransactionDto> getAllTransactions() throws Exception {
+    public List<TransactionDto> getAllTransactions() {
         List<Transaction> allTransactions = transactionRepository.findAll();
         List<TransactionDto> transactionDtos = new ArrayList<>();
         allTransactions.forEach(transaction -> transactionDtos.add(new TransactionDto(transaction)));
@@ -46,15 +49,21 @@ public class TransactionService {
     }
 
     public List<TransactionDto> getAllByUser(int userId) {
-        Member member = memberRepository.getMemberById(userId);
-        return transactionRepository.getAllByMember(member).stream()
+        Member member = memberRepository.getMemberById(userId)
+                .orElseThrow(MemberNotFoundException::new);
+        List<Transaction> transactions = transactionRepository.getAllByMember(member)
+                .orElseThrow(TransactionNotFoundException::new);
+        return transactions.stream()
                 .map(TransactionDto::new)
                 .toList();
     }
 
     public Long createTransaction(NewTransactionDto transactionDto) {
-        Member member = memberRepository.getMemberById(transactionDto.memberId());
-        Category category = categoryRepository.getCategoryById(transactionDto.categoryId());
+        Member member = memberRepository.getMemberById(transactionDto.memberId())
+                .orElseThrow(MemberNotFoundException::new);
+
+        Category category = categoryRepository.getCategoryById(transactionDto.categoryId())
+                .orElseThrow(CategoryNotFoundException::new);
         LocalDate date = LocalDate.now();
         Transaction transaction = new Transaction(transactionDto);
         transaction.setMember(member);
@@ -64,8 +73,9 @@ public class TransactionService {
     }
 
     public TransactionDto getTransactionById(int id) {
-        Transaction transaction = transactionRepository.getTransactionsById(id);
-        if (transaction == null) throw new IllegalArgumentException();
+        Transaction transaction = transactionRepository.getTransactionsById(id)
+                .orElseThrow(TransactionNotFoundException::new);
+
         return new TransactionDto(transaction);
     }
 
@@ -79,15 +89,17 @@ public class TransactionService {
     }
 
     public int getSumOfTransactionByCategoryId(int categoryId) {
-        return transactionRepository.getAllByCategoryId(categoryId)
-                .stream()
+        List<Transaction> transactions = transactionRepository.getAllByCategoryId(categoryId)
+                .orElseThrow(TransactionNotFoundException::new);
+        return transactions.stream()
                 .mapToInt(Transaction::getAmount)
                 .sum();
     }
 
-    public OptionalDouble getAvrgSpendingByCategoryId(int categoryId) {
-        return transactionRepository.getAllByCategoryId(categoryId)
-                .stream()
+    public OptionalDouble getAvgSpendingByCategoryId(int categoryId) {
+        List<Transaction> transactions = transactionRepository.getAllByCategoryId(categoryId)
+                .orElseThrow(TransactionNotFoundException::new);
+        return transactions.stream()
                 .mapToInt(Transaction::getAmount)
                 .average();
     }
