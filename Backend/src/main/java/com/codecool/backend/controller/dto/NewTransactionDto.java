@@ -1,4 +1,6 @@
 package com.codecool.backend.controller.dto;
 
-public record NewTransactionDto(String name, int categoryId, int amount) {
+import com.codecool.backend.model.Member;
+
+public record NewTransactionDto(String name, int categoryId, int amount, int memberId) {
 }

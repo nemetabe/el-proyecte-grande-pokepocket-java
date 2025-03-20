@@ -2,10 +2,7 @@ package com.codecool.backend.model;
 
 import com.codecool.backend.controller.dto.NewTransactionDto;
 import com.codecool.backend.controller.dto.TransactionDto;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,14 +21,18 @@ public class Transaction {
     private int categoryId;
     private int amount;
 
+    @ManyToOne
+    private Member member;
+
     public Transaction() {
     }
 
-    public Transaction(int id, String name, int categoryId, int amount) {
+    public Transaction(int id, String name, int categoryId, int amount, Member member) {
         this.id = id;
         this.name = name;
         this.categoryId = categoryId;
         this.amount = amount;
+        this.member = member;
     }
 
     public Transaction(TransactionDto dto) {
