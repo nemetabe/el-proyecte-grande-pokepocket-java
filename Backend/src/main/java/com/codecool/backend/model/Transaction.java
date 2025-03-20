@@ -2,30 +2,37 @@ package com.codecool.backend.model;
 
 import com.codecool.backend.controller.dto.NewTransactionDto;
 import com.codecool.backend.controller.dto.TransactionDto;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Objects;
 
+@Data
 @Entity
 public class Transaction {
+    @Getter
+    @Setter
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private int categoryId;
     private int amount;
 
+    @ManyToOne
+    private Member member;
+
     public Transaction() {
     }
 
-    public Transaction(int id, String name, int categoryId, int amount) {
+    public Transaction(int id, String name, int categoryId, int amount, Member member) {
         this.id = id;
         this.name = name;
         this.categoryId = categoryId;
         this.amount = amount;
+        this.member = member;
     }
 
     public Transaction(TransactionDto dto) {
@@ -37,39 +44,6 @@ public class Transaction {
         name = dto.name();
         amount = dto.amount();
         categoryId = dto.categoryId();
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
-    }
-
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
     }
 
     @Override

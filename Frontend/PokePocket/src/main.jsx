@@ -6,6 +6,7 @@ import Registration from './pages/Registration/Registration.jsx';
 import "./main.css"
 import CustomNavbar from './components/Navbar/CustomNavbar.jsx';
 import ErrorPage from './pages/Errorpage/ErrorPage.jsx';
+import AddExpenseForm from './components/AddExpenseForm.jsx';
 import MainPage from './pages/MainPage/MainPage.jsx';
 import MyPokemon from './pages/MyPokemon/MyPokemon.jsx';
 import MyPocket from './pages/MyPocket/MyPocket.jsx';

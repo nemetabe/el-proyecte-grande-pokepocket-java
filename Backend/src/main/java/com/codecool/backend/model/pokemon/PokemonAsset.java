@@ -8,27 +8,31 @@ import lombok.Setter;
 @Entity
 @Table(name = "pokemon_assets")
 public class PokemonAsset {
-
+    @Getter
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long assetId;
+    private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "species_id", nullable = false)
     private Long speciesId;
 
-    @Column(nullable = false)
+    @Column(name = "picture_url", nullable = false)
     private String pictureUrl;
 
-    @Column(nullable = false)
+    @Column(name = "gif_url", nullable = false)
     private String gifUrl;
 
+    @Column(name = "sprite_front")
     private String spriteFront;
 
+    @Column(name = "sprite_back")
     private String spriteBack;
 
+    @Column(name = "cry_audio_url")
     private String cryAudioUrl;
 
     @OneToOne
-    @JoinColumn(name = "speciesId", insertable = false, updatable = false)
+    @JoinColumn(name = "species_id", insertable = false, updatable = false)
     private PokemonSpecies species;
 }

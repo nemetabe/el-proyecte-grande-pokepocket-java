@@ -2,21 +2,28 @@ package com.codecool.backend.model;
 
 import com.codecool.backend.controller.dto.MemberDto;
 import com.codecool.backend.controller.dto.MemberRegistrationDto;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.List;
 import java.util.Objects;
 
+@Data
 @Entity
 public class Member {
+    @Getter
+    @Setter
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private String email;
     private String password;
+
+    @OneToMany(mappedBy = "member")
+    private List<Transaction> transactions;
 
     public Member() {
     }
@@ -25,48 +32,16 @@ public class Member {
         this.name = name;
     }
 
-    public Member(MemberRegistrationDto userRegistrationDto) {
-        name = userRegistrationDto.name();
-        email = userRegistrationDto.email();
-        password = userRegistrationDto.password();
+    public Member(MemberRegistrationDto memberRegistrationDto) {
+        name = memberRegistrationDto.name();
+        email = memberRegistrationDto.email();
+        password = memberRegistrationDto.password();
     }
 
     public Member(MemberDto userDto) {
         id = userDto.id();
         name = userDto.name();
         email = userDto.email();
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     @Override
