@@ -37,7 +37,7 @@ public class TransactionController {
 
     @GetMapping("/{id}/avrg")
     public OptionalDouble getAverageTransactions(@PathVariable int id) {
-        return transactionService.getAvrgSpendingByCategoryId(id);
+        return transactionService.getAvgSpendingByCategoryId(id);
     }
 
     @GetMapping("/{id}/sum")

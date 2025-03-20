@@ -5,11 +5,13 @@ import com.codecool.backend.model.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
-    boolean deleteMemberById(int id);
+    public boolean deleteMemberById(int id);
 
-    Member getMemberById(int id);
+    public Optional<Member> getMemberById(int id);
 
-    Member getMemberByEmailAndPassword(String email, String password);
+    public Optional<Member> getMemberByEmailAndPassword(String email, String password);
 }
