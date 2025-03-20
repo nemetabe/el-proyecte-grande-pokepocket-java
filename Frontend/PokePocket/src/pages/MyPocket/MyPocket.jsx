@@ -1,14 +1,23 @@
-import React, { useState , useEffect} from "react";
+import React, { useState , useEffect, use} from "react";
 import AddExpenseForm from "../../components/AddExpenseForm";
+import { fetchData } from "../../utils";
 
 function MyPocket() {
-  const [income, setIncome] = useState(10000);
-  const [expense, setExpense] = useState(500);
-  const [profit, setProfit] = useState(income-expense);
+  const [income, setIncome] = useState(500000);
+  const [expense, setExpense] = useState(null);
+  const [profit, setProfit] = useState(null);
+
+  useEffect(() => {
+    fetchData("transactions/1/all").then(response => {
+      const sumWithInitial = response.reduce((accumulator, currentValue) => accumulator + currentValue.amount, 0);
+      setExpense(sumWithInitial);
+    });
+  }, []);
 
   useEffect(() => {
     setProfit(income-expense);
-  }, [expense]);
+
+  }, [expense, income]);
   
   return (
     <>
