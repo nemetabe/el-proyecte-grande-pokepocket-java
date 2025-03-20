@@ -18,7 +18,7 @@ public class PokemonSpecies {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private Integer pokeIndexNumber;
+    private Long pokeIndexNumber;
 
     @Column(nullable = false)
     private String name;
@@ -31,6 +31,5 @@ public class PokemonSpecies {
     private String evolutionTrigger; //  happiness
 
     private Integer evolutionThreshold;
-
 
 }
