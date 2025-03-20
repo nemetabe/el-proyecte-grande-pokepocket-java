@@ -14,7 +14,7 @@ public class UserPokemon {
     @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long pokemonId;
+    private Long id;
 
     @Column(nullable = false)
     private Long speciesId;

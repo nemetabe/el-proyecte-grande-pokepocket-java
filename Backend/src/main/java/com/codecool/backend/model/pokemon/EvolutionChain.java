@@ -13,8 +13,8 @@ public class EvolutionChain {
     @Getter
     @Setter
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long evolutionId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
     private Long basePokemonId;

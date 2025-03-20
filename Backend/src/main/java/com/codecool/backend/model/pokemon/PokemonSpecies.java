@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 
 @Data
 @Entity
@@ -12,12 +11,11 @@ import org.springframework.data.annotation.Id;
 public class PokemonSpecies {
     @Getter
     @Setter
-    @jakarta.persistence.Id
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(name = "poke_index_number", unique = true, nullable = false)
     private Long pokeIndexNumber;
 
     @Column(nullable = false)
@@ -25,11 +23,13 @@ public class PokemonSpecies {
 
     private String description;
 
-    @Column(nullable = false)
+    @Column(name = "base_happiness", nullable = false)
     private Integer baseHappiness = 70;
 
-    private String evolutionTrigger; //  happiness
+    @Column(name = "evolution_trigger")
+    private String evolutionTrigger;
 
+    @Column(name = "evolution_threshold")
     private Integer evolutionThreshold;
 
 }
