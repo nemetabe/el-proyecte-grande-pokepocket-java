@@ -24,7 +24,6 @@ public class Transaction {
     private Category category;
 
     private int amount;
-
     // Add member relationship
     @ManyToOne
     @JoinColumn(name = "member_id")
@@ -37,10 +36,15 @@ public class Transaction {
     }
 
     public Transaction(int id, String name, Category category, int amount) {
+
+
+    public Transaction(int id, String name, int categoryId, int amount, Member member) {
+
         this.id = id;
         this.name = name;
         this.category = category;
         this.amount = amount;
+        this.member = member;
     }
 
     public Transaction(TransactionDto dto) {

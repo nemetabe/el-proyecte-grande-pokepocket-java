@@ -2,7 +2,9 @@ package com.codecool.backend.service;
 
 import com.codecool.backend.controller.dto.NewTransactionDto;
 import com.codecool.backend.controller.dto.TransactionDto;
+import com.codecool.backend.model.Member;
 import com.codecool.backend.model.Transaction;
+import com.codecool.backend.repository.MemberRepository;
 import com.codecool.backend.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +16,14 @@ import java.util.OptionalDouble;
 @Service
 public class TransactionService {
     private final TransactionRepository transactionRepository;
+    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     @Autowired
-    public TransactionService(TransactionRepository transactionRepository) {
+    public TransactionService(TransactionRepository transactionRepository, MemberRepository memberRepository, MemberService memberService) {
         this.transactionRepository = transactionRepository;
+        this.memberRepository = memberRepository;
+        this.memberService = memberService;
     }
 
     public List<TransactionDto> getAllTransactions() throws Exception {
@@ -28,7 +34,9 @@ public class TransactionService {
     }
 
     public int createTransaction(NewTransactionDto transactionDto) {
+        Member member = memberRepository.getMemberById(transactionDto.memberId());
         Transaction transaction = new Transaction(transactionDto);
+        transaction.setMember(member);
         return transactionRepository.save(transaction).getId();
     }
 
