@@ -16,18 +16,19 @@ public class Transaction {
     @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String name;
     private int categoryId;
     private int amount;
 
     @ManyToOne
+    @JoinColumn(referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_member_transaction"))
     private Member member;
 
     public Transaction() {
     }
 
-    public Transaction(int id, String name, int categoryId, int amount, Member member) {
+    public Transaction(Long id, String name, int categoryId, int amount, Member member) {
         this.id = id;
         this.name = name;
         this.categoryId = categoryId;
