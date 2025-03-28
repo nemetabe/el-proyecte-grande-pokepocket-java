@@ -6,9 +6,8 @@ import com.codecool.backend.model.Transaction;
 
 import java.time.LocalDate;
 
-public record TransactionDto(Long id, String name, Category category, int amount, Member member, LocalDate date) {
+public record TransactionDto(Long id, String name, Category category, int amount, int memberId, LocalDate date) {
     public TransactionDto(Transaction transaction){
-        this(transaction.getId(), transaction.getName(), transaction.getCategory(), transaction.getAmount(), transaction.getMember(), transaction.getDate());
-
+        this(transaction.getId(), transaction.getName(), transaction.getCategory(), transaction.getAmount(), transaction.getMember().getId(), transaction.getDate());
     }
 }

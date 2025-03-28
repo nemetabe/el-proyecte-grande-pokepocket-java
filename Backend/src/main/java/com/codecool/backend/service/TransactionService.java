@@ -1,5 +1,6 @@
 package com.codecool.backend.service;
 
+import com.codecool.backend.controller.dto.CategoryDto;
 import com.codecool.backend.controller.dto.NewTransactionDto;
 import com.codecool.backend.controller.dto.TransactionDto;
 import com.codecool.backend.controller.exception.CategoryNotFoundException;
@@ -34,6 +35,12 @@ public class TransactionService {
         this.categoryRepository = categoryRepository;
     }
 
+    public List<CategoryDto> getAllCategories() {
+        return categoryRepository.findAll().stream()
+                .map(CategoryDto::new)
+                .toList();
+    }
+
     public List<TransactionDto> getAllTransactions() {
         List<Transaction> allTransactions = transactionRepository.findAll();
         List<TransactionDto> transactionDtos = new ArrayList<>();
@@ -42,8 +49,11 @@ public class TransactionService {
     }
 
     public List<TransactionDto> getAllByUser(int userId) {
-        Member member = memberRepository.getMemberById(userId);
-        return transactionRepository.getAllByMember(member).stream()
+        Member member = memberRepository.getMemberById(userId)
+                .orElseThrow(MemberNotFoundException::new);
+        List<Transaction> transactions = transactionRepository.getAllByMember(member)
+                .orElseThrow(TransactionNotFoundException::new);
+        return transactions.stream()
                 .map(TransactionDto::new)
                 .toList();
     }

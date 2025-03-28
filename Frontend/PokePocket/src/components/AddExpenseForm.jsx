@@ -4,13 +4,19 @@ import {fetchData} from "../utils";
 function AddExpenseForm({userId, setExpense}) {
     const [categories, setCategories] = useState([]);
 
-    const [category, setCategory] = useState(0);
-    const [name, setName] = useState("");
-    const [amount, setAmount] = useState(0);
+    const [isFilled, setIsFilled] = useState(false);
 
-    // useEffect(() => {
-    //     fetchData("/transactions/categories").then(response => setCategories(response));
-    // }, []);
+    const [category, setCategory] = useState(null);
+    const [name, setName] = useState(null);
+    const [amount, setAmount] = useState(null);
+
+    useEffect(() => {
+        setIsFilled(category && name && amount);
+    }, [category, name, amount]);
+
+    useEffect(() => {
+        fetchData("transactions/categories/all").then(response => setCategories(response));
+    }, []);
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -23,15 +29,15 @@ function AddExpenseForm({userId, setExpense}) {
         };
 
         let transactionId;
-        fetchData("transactions/add", "POST", expenseObject).then(response => transactionId = response);
-        fetchData("transactions/1/all").then(response => {
-            const sumWithInitial = response.reduce(
-                (accumulator, currentValue) => accumulator + currentValue.amount,
-                0,
-              );
-            setExpense(sumWithInitial);
+        fetchData("transactions/add", "POST", expenseObject)
+        .then(response => transactionId = response)
+        .then(() => {
+            fetchData("transactions/1/all").then(response => {
+                const sumWithInitial = response.reduce((accumulator, currentValue) => accumulator + currentValue.amount, 0);
+                setExpense(sumWithInitial);
+            })
         })
-        // setExpense(1000);
+      
         document.getElementById("my_modal_4").close();
     }
 
@@ -39,7 +45,7 @@ function AddExpenseForm({userId, setExpense}) {
         <form onSubmit={handleSubmit}>
             <select defaultValue="Pick a category" className="select" onChange={(event) => setCategory(event.target.value)}>
                 <option disabled={true}>Pick a category</option>
-                {categories.map(category => (<option id={category.id}>{category.name}</option>))}
+                {categories.map(category => (<option key={category.id} value={category.id}>{category.categoryType}</option>))}
             </select>
             <fieldset className="fieldset flex">
                 <legend className="fieldset-legend">Name</legend>
@@ -47,9 +53,9 @@ function AddExpenseForm({userId, setExpense}) {
             </fieldset>
             <fieldset className="fieldset flex">
                 <legend className="fieldset-legend">Amount</legend>
-                <input type="number" className="input" placeholder="Expense name" onChange={(event) => setAmount(event.target.value)}/>
+                <input type="number" className="input" placeholder="Expense amount" onChange={(event) => setAmount(event.target.value)}/>
             </fieldset>
-            <button type="submit" className="btn btn-primary">Add expense</button>
+            <button type="submit" className="btn btn-primary" disabled={!isFilled}>Add expense</button>
         </form>
     )
 }

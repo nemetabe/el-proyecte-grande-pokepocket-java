@@ -1,20 +1,29 @@
-import React, { useState , useEffect} from "react";
+import React, { useState , useEffect, use} from "react";
 import AddExpenseForm from "../../components/AddExpenseForm";
+import { fetchData } from "../../utils";
 
 function MyPocket() {
-  const [income, setIncome] = useState(10000);
-  const [expense, setExpense] = useState(500);
-  const [profit, setProfit] = useState(income-expense);
+  const [income, setIncome] = useState(500000);
+  const [expense, setExpense] = useState(null);
+  const [profit, setProfit] = useState(null);
+
+  useEffect(() => {
+    fetchData("transactions/1/all").then(response => {
+      const sumWithInitial = response.reduce((accumulator, currentValue) => accumulator + currentValue.amount, 0);
+      setExpense(sumWithInitial);
+    });
+  }, []);
 
   useEffect(() => {
     setProfit(income-expense);
-  }, [expense]);
+
+  }, [expense, income]);
   
   return (
     <>
       <div className="bg-white/75 h-[85vh] m-5 text-center p-2 rounded-[15px]">
-        <div className="grid grid-cols-3 h-[35%] gap-2">
-          <div className="bg-gray-300  rounded-[15px] flex">
+        <div className="grid grid-cols-3 grid-rows-2 h-full gap-2">
+          <div className="bg-gray-300 rounded-[15px] flex">
             <button
               className="btn m-auto bg-pokeball p-3 rounded-[15px] "
               onClick={() => document.getElementById("my_modal_4").showModal()}
@@ -22,7 +31,7 @@ function MyPocket() {
               Add Expense
             </button>
           </div>
-          <div className="bg-gray-300  rounded-[15px] flex">
+          <div className="bg-gray-300 rounded-[15px] flex">
             <div class=" w-[100%] bg-gray-300 rounded-[15px] shadow-sm p-2">
               <div class="flex justify-between border-gray-200 border-b dark:border-gray-700 pb-3">
                 <dl>
@@ -191,9 +200,7 @@ function MyPocket() {
             </div>
           </div>
           <div className="bg-gray-300 rounded-[15px]"></div>
-        </div>
-        <div className="grid grid-cols-1 h-[60%] rounded-[15px] my-4 gap-2">
-          <div className="bg-gray-300 rounded-[15px] flex"></div>
+          <div className="col-span-3 bg-gray-300 rounded-[15px] "></div>
         </div>
       </div>
       <dialog id="my_modal_4" className="modal">

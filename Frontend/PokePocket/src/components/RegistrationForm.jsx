@@ -15,8 +15,8 @@ function RegistrationForm({handleChange, handleSubmit, formData, switchForm, val
         <form className="p-5" onSubmit={handleSubmit}>
           {/* Username */}
           <fieldset className='fieldset'>
-            <div>
-              <label htmlFor="username" className="font-medium text-[1rem]">
+            <div className='flex-row'>
+              <label htmlFor="username" className="font-medium text-[1rem] flex">
                 Username
               </label>
               <input
@@ -34,7 +34,7 @@ function RegistrationForm({handleChange, handleSubmit, formData, switchForm, val
                 required
               />
               <small
-                className={`text-[14px]
+                className={`text-[14px] flex
                   ${validation.username === "Correct"
                     ? "text-success"
                     : "text-error"}
