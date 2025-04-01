@@ -21,7 +21,7 @@ function Registration() {
   });
 
   const [isTermsAccepted, setIsTermsAccepted] = useState(false);
-  const [isRegistering, setIsRegistering] = useState(true);
+  const [isRegistering, setIsRegistering] = useState(false);
   const [isFadingOut, setIsFadingOut] = useState(false);
 
   useEffect(() => {

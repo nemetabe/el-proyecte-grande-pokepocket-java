@@ -10,12 +10,14 @@ function AddExpenseForm({userId, setExpense}) {
     const [name, setName] = useState(null);
     const [amount, setAmount] = useState(null);
 
+    const [jwt, setJwt] = useState(localStorage.getItem("pokePocketJwt"));
+
     useEffect(() => {
         setIsFilled(category && name && amount);
     }, [category, name, amount]);
 
     useEffect(() => {
-        fetchData("transactions/categories/all").then(response => setCategories(response));
+        fetchData("transactions/categories/all", "GET", null, jwt).then(response => setCategories(response));
     }, []);
 
     function handleSubmit(e) {
@@ -33,7 +35,6 @@ function AddExpenseForm({userId, setExpense}) {
         fetchData("transactions/add", "POST", expenseObject, jwt)
         .then(response => transactionId = response)
         .then(() => {
-            const jwt = localStorage.getItem("pokePocketJwt");
             fetchData("transactions/all", "GET", null, jwt).then(response => {
                 const sumWithInitial = response.reduce((accumulator, currentValue) => accumulator + currentValue.amount, 0);
                 setExpense(sumWithInitial);

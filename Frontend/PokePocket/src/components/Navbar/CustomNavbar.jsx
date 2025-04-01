@@ -73,7 +73,6 @@ function CustomNavbar() {
           <div className="w-10 rounded-full">
             <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
           </div>
-          <button className="btn btn-secondary" onClick={() => onCLickLogout()}>Log out</button>
         </div>
       </div>
       </div>
