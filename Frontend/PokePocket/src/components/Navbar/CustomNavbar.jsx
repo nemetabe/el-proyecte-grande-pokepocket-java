@@ -1,9 +1,17 @@
 import React from "react";
 import PokeBall from "../../assets/pokeball.png";
 import "./CustomNavbar.css";
-import { Outlet } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function CustomNavbar() {
+  const navigate = useNavigate();
+
+  function onCLickLogout() {
+    localStorage.setItem("pokePocketJwt", "null");
+
+    navigate("/");
+  }
+
   return (
     <>
       <div className="flex">
@@ -68,7 +76,6 @@ function CustomNavbar() {
         </div>
       </div>
       </div>
-      <Outlet />
     </>
   );
 }

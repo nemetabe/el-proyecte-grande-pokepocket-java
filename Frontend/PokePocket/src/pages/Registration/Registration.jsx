@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Registration.css";
 import { fetchData } from "../../utils";
 import LoginForm from "../../components/LoginForm";
@@ -21,8 +21,12 @@ function Registration() {
   });
 
   const [isTermsAccepted, setIsTermsAccepted] = useState(false);
-  const [isRegistering, setIsRegistering] = useState(true);
+  const [isRegistering, setIsRegistering] = useState(false);
   const [isFadingOut, setIsFadingOut] = useState(false);
+
+  useEffect(() => {
+    localStorage.getItem("pokePocketJwt") == "null" || navigate("/main");
+  }, []);
 
   const validateUsername = (value) => {
     if (value.length < 4) {
@@ -88,7 +92,9 @@ function Registration() {
     }
 
     console.log("Submitted data:", formData);
-    await fetchData(isRegistering ? "user/register" : "user/login", "POST", formData);
+    const responseBody = await fetchData(isRegistering ? "user/register" : "user/login", "POST", formData);
+    localStorage.setItem("pokePocketJwt", responseBody.jwt);
+
     navigate("/main");
   };
 
