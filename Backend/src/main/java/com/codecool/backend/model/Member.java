@@ -9,17 +9,23 @@ import lombok.Setter;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Data
 @Entity
+@SequenceGenerator(name="seq", initialValue=2, allocationSize=100)
 public class Member {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "seq")
     private int id;
     private String name;
     private String email;
     private String password;
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles;
 
     @OneToMany(mappedBy = "member")
     private List<Transaction> transactions;
@@ -36,6 +42,8 @@ public class Member {
         email = memberRegistrationDto.email();
         password = memberRegistrationDto.password();
     }
+
+
 
     public Member(MemberDto userDto) {
         id = userDto.id();
