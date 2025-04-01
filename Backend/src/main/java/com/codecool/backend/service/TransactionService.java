@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.OptionalDouble;
 
@@ -48,18 +49,25 @@ public class TransactionService {
         return transactionDtos;
     }
 
-    public List<TransactionDto> getAllByUser(int userId) {
-        Member member = memberRepository.getMemberById(userId)
+    public List<TransactionDto> getAllByUser(String email, LocalDate startDate) {
+
+        Member member = memberRepository.findMemberByEmail(email)
                 .orElseThrow(MemberNotFoundException::new);
-        List<Transaction> transactions = transactionRepository.getAllByMember(member)
+        List<Transaction> transactions = new ArrayList<>();
+        if(startDate == null){
+            transactions = transactionRepository.getAllByMember(member)
+                    .orElseThrow(TransactionNotFoundException::new);
+        } else {
+            transactions = transactionRepository.getAllByMemberAndDateAfter(member, startDate)
                 .orElseThrow(TransactionNotFoundException::new);
+        }
         return transactions.stream()
                 .map(TransactionDto::new)
                 .toList();
     }
 
-    public Long createTransaction(NewTransactionDto transactionDto) {
-        Member member = memberRepository.getMemberById(transactionDto.memberId())
+    public Long createTransaction(String email,NewTransactionDto transactionDto) {
+        Member member = memberRepository.findMemberByEmail(email)
                 .orElseThrow(MemberNotFoundException::new);
 
         Category category = categoryRepository.getCategoryById(transactionDto.categoryId())
