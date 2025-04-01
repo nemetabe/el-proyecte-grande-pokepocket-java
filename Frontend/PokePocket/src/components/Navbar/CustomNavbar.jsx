@@ -1,9 +1,17 @@
 import React from "react";
 import PokeBall from "../../assets/pokeball.png";
 import "./CustomNavbar.css";
-import { Outlet } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function CustomNavbar() {
+  const navigate = useNavigate();
+
+  function onCLickLogout() {
+    localStorage.setItem("pokePocketJwt", "null");
+
+    navigate("/");
+  }
+
   return (
     <>
       <div className="flex">
@@ -65,10 +73,10 @@ function CustomNavbar() {
           <div className="w-10 rounded-full">
             <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
           </div>
+          <button className="btn btn-secondary" onClick={() => onCLickLogout()}>Log out</button>
         </div>
       </div>
       </div>
-      <Outlet />
     </>
   );
 }

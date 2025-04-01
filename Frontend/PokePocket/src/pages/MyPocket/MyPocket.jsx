@@ -8,7 +8,9 @@ function MyPocket() {
   const [profit, setProfit] = useState(null);
 
   useEffect(() => {
-    fetchData("transactions/1/all").then(response => {
+    const jwt = localStorage.getItem("pokePocketJwt");
+
+    fetchData("transactions/all", "GET", null, jwt).then(response => {
       const sumWithInitial = response.reduce((accumulator, currentValue) => accumulator + currentValue.amount, 0);
       setExpense(sumWithInitial);
     });

@@ -22,17 +22,19 @@ function AddExpenseForm({userId, setExpense}) {
         e.preventDefault();
 
         const expenseObject = {
-            memberId: userId,
             categoryId: category,
             name: name,
             amount: amount
         };
 
+        const jwt = localStorage.getItem("pokePocketJwt");
+
         let transactionId;
-        fetchData("transactions/add", "POST", expenseObject)
+        fetchData("transactions/add", "POST", expenseObject, jwt)
         .then(response => transactionId = response)
         .then(() => {
-            fetchData("transactions/1/all").then(response => {
+            const jwt = localStorage.getItem("pokePocketJwt");
+            fetchData("transactions/all", "GET", null, jwt).then(response => {
                 const sumWithInitial = response.reduce((accumulator, currentValue) => accumulator + currentValue.amount, 0);
                 setExpense(sumWithInitial);
             })
