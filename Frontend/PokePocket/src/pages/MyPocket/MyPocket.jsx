@@ -23,7 +23,7 @@ function MyPocket() {
     <>
       <div className="bg-white/75 h-[85vh] m-5 text-center p-2 rounded-[15px]">
         <div className="grid grid-cols-3 grid-rows-2 h-full gap-2">
-          <div className="bg-gray-300 rounded-[15px] flex">
+          <div className="bg-gray-300 rounded-[15px] items-center flex">
             <button
               className="btn m-auto bg-pokeball p-3 rounded-[15px] "
               onClick={() => document.getElementById("my_modal_4").showModal()}
@@ -57,7 +57,7 @@ function MyPocket() {
                         d="M5 13V1m0 0L1 5m4-4 4 4"
                       />
                     </svg>
-                    Profit rate {profit/expense*100} %
+                    Profit rate {Math.round(profit/expense*100)}%
                   </span>
                 </div>
               </div>
