@@ -9,6 +9,7 @@ import com.codecool.backend.security.jwt.JwtUtils;
 import com.codecool.backend.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -70,8 +71,28 @@ public class MemberController {
         return userService.deleteMember(id);
     }
 
+
     @PutMapping("")
-    public boolean updateUser(@RequestBody MemberDto userDto) {
-        return userService.updateUser(userDto);
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> updateUser(@RequestBody MemberDto userDto) {
+        // Get current authenticated user
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserEmail = authentication.getName();
+
+        // Get the member associated with the email
+        Member currentMember = userService.findMemberByEmail(currentUserEmail);
+
+        // Check if user is updating their own profile or is an admin
+        if (currentMember.getId() != userDto.id() && !authentication.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+            return ResponseEntity.status(403).body("You can only update your own profile");
+        }
+
+        boolean updated = userService.updateUser(userDto);
+        if (updated) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().body("Failed to update user");
+        }
     }
 }
