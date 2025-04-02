@@ -1,14 +1,12 @@
 package com.codecool.backend.controller;
 
-import com.codecool.backend.controller.dto.JwtResponse;
-import com.codecool.backend.controller.dto.MemberCredentialsDto;
-import com.codecool.backend.controller.dto.MemberDto;
-import com.codecool.backend.controller.dto.MemberRegistrationDto;
+import com.codecool.backend.controller.dto.*;
 import com.codecool.backend.model.Member;
 import com.codecool.backend.security.jwt.JwtUtils;
 import com.codecool.backend.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/api/user")
@@ -60,6 +58,19 @@ public class MemberController {
         return userService.register(signUpRequest, encoder);
     }
 
+    @GetMapping("/profile")
+    @PreAuthorize("isAuthenticated()")
+    public MemberProfileDto getProfile() {
+        // Get current authenticated user
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserEmail = authentication.getName();
+
+        // Get the member associated with the email
+        Member currentMember = userService.findMemberByEmail(currentUserEmail);
+
+        return new MemberProfileDto(currentMember.getId(), currentMember.getName(), currentMember.getEmail(), currentMember.getTargetAmount());
+    }
+
     @GetMapping("/{id}")
     public MemberDto getUser(@PathVariable int id) {
         return userService.getMember(id);
@@ -70,8 +81,33 @@ public class MemberController {
         return userService.deleteMember(id);
     }
 
-    @PutMapping("")
-    public boolean updateUser(@RequestBody MemberDto userDto) {
-        return userService.updateUser(userDto);
+
+    @PutMapping("/profile/update")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> updateUser(@RequestBody UpdateProfileDto profileDto) {
+        // Get current authenticated user
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserEmail = authentication.getName();
+
+        // Get the member associated with the email
+        Member currentMember = userService.findMemberByEmail(currentUserEmail);
+
+        if(profileDto.currentPassword()!="" && profileDto.newPassword()!="") {
+            if (currentMember.getPassword() != encoder.encode(profileDto.currentPassword())) {
+                return ResponseEntity.badRequest().body("Wrong current password");
+            }
+
+            currentMember.setPassword(encoder.encode(profileDto.newPassword()));
+        }
+
+        currentMember.setName(profileDto.username());
+        currentMember.setTargetAmount(profileDto.newTargetAmount());
+
+        boolean updated = userService.updateUser(currentMember);
+        if (updated) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().body("Failed to update user");
+        }
     }
 }
