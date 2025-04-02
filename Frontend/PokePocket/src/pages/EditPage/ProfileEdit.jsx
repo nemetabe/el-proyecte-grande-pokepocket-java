@@ -1,3 +1,4 @@
+
 import React, {useState, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import {fetchData} from "../../utils.js";
@@ -5,7 +6,6 @@ import "./ProfileEdit.css";
 import ProfileEditForm from "../../components/ProfileEditForm.jsx";
 
 function ProfileEdit() {
-
     const navigate = useNavigate();
     const [jwt, setJwt] = useState(localStorage.getItem("pokePocketJwt"));
     const [isLoading, setIsLoading] = useState(true);
@@ -88,6 +88,9 @@ function ProfileEdit() {
     const handleChange = (e) => {
         const {id, value} = e.target;
 
+        // Skip changes to email field since it should be read-only
+        if (id === "email") return;
+
         setFormData(prev => ({
             ...prev,
             [id]: value,
@@ -95,7 +98,6 @@ function ProfileEdit() {
 
         let validationMessage = "";
         if (id === "username") validationMessage = validateUsername(value);
-        if (id === "email") validationMessage = validateEmail(value);
         if (id === "newPassword") {
             validationMessage = validatePassword(value);
             // Also validate confirm password when password changes
@@ -119,7 +121,6 @@ function ProfileEdit() {
         // Validate form before submission
         if (
             (validation.username && validation.username !== "Correct") ||
-            (validation.email && validation.email !== "Correct") ||
             (validation.newPassword && validation.newPassword !== "Correct") ||
             (validation.confirmPassword && validation.confirmPassword !== "Correct")
         ) {
@@ -129,7 +130,7 @@ function ProfileEdit() {
 
         const updateData = {
             username: formData.username,
-            email: formData.email,
+            // Email is not included in the update data since it's not editable
         };
 
         if (formData.newPassword) {
@@ -166,7 +167,6 @@ function ProfileEdit() {
                 <div className="bg-white m-2 rounded-xl shadow-md p-5 max-w-md w-full">
                     <h2 className="text-3xl font-bold text-center mb-6 text-pokeball">Edit Profile</h2>
 
-                    {/* Using a modified version of RegistrationForm */}
                     <div className="form-container fade-in">
                         <ProfileEditForm
                             handleChange={handleChange}
@@ -174,14 +174,13 @@ function ProfileEdit() {
                             formData={formData}
                             validation={validation}
                             navigate={navigate}
+                            emailReadOnly={true}
                         />
                     </div>
                 </div>
             </div>
         </div>
-    )
-
-
+    );
 }
 
-export default ProfileEdit
+export default ProfileEdit;
