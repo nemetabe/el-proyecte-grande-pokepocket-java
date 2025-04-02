@@ -92,12 +92,15 @@ public class MemberController {
         // Get the member associated with the email
         Member currentMember = userService.findMemberByEmail(currentUserEmail);
 
-        if (currentMember.getPassword() != encoder.encode(profileDto.currentPassword())) {
-            return ResponseEntity.badRequest().body("Wrong current password");
+        if(profileDto.currentPassword()!="" && profileDto.newPassword()!="") {
+            if (currentMember.getPassword() != encoder.encode(profileDto.currentPassword())) {
+                return ResponseEntity.badRequest().body("Wrong current password");
+            }
+
+            currentMember.setPassword(encoder.encode(profileDto.newPassword()));
         }
 
         currentMember.setName(profileDto.username());
-        currentMember.setPassword(encoder.encode(profileDto.newPassword()));
         currentMember.setTargetAmount(profileDto.newTargetAmount());
 
         boolean updated = userService.updateUser(currentMember);
