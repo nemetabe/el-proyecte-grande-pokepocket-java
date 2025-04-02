@@ -12,7 +12,9 @@ function Layout() {
     return (
         <>
             <CustomNavbar />
+            <div className="flex m-2">
             <Outlet />
+            </div>
         </>
     );
 }

@@ -92,10 +92,24 @@ function Registration() {
     }
 
     console.log("Submitted data:", formData);
-    const responseBody = await fetchData(isRegistering ? "user/register" : "user/login", "POST", formData);
-    localStorage.setItem("pokePocketJwt", responseBody.jwt);
+    const responseBody = await fetchData(isRegistering ? "user/register" : "user/login", "POST", formData, null, !isRegistering);
+    if (!isRegistering) {
+      if (responseBody.status === 401) {
+        setFormData({
+          username: "",
+          email: "",
+          password: "",
+        });
+      } else {
+        localStorage.setItem("pokePocketJwt", responseBody.jwt);
+        navigate("/main");
+      }
+    } else {
+      const responseBody = await fetchData("user/login", "POST", formData);
+      localStorage.setItem("pokePocketJwt", responseBody.jwt);
+      navigate("/main");
+    }
 
-    navigate("/main");
   };
 
   const switchForm = () => {

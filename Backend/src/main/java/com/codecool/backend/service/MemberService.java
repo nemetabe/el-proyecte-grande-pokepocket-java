@@ -49,8 +49,7 @@ public class MemberService {
         return memberRepository.deleteMemberById(id);
     }
 
-    public boolean updateUser(MemberDto userDto) {
-        Member member = new Member(userDto);
+    public boolean updateUser(Member member) {
         return memberRepository.save(member) != null;
     }
 

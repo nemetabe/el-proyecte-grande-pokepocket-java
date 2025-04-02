@@ -17,7 +17,8 @@ function AddExpenseForm({userId, setExpense}) {
     }, [category, name, amount]);
 
     useEffect(() => {
-        fetchData("transactions/categories/all", "GET", null, jwt).then(response => setCategories(response));
+        fetchData("transactions/categories/all", "GET", null, jwt)
+            .then(response => setCategories(response));
     }, []);
 
     function handleSubmit(e) {
@@ -33,6 +34,7 @@ function AddExpenseForm({userId, setExpense}) {
 
         let transactionId;
         fetchData("transactions/add", "POST", expenseObject, jwt)
+
         .then(response => transactionId = response)
         .then(() => {
             fetchData("transactions/all", "GET", null, jwt).then(response => {
