@@ -16,6 +16,7 @@ function ProfileEdit() {
         password: "",
         newPassword: "",
         confirmPassword: "",
+        newTarget:0,
     });
 
     const [validation, setValidation] = useState({
