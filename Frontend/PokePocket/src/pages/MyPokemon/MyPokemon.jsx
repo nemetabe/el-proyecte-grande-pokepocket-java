@@ -20,13 +20,16 @@ function MyPokemon() {
         2: "https://media.tenor.com/fk9-MPwwo60AAAAi/pok%C3%A9mon-charmeleongif.gif",
         3: "https://media.tenor.com/63A8n2i1E3YAAAAi/charizard.gif"
       },
-      evolutionName: {
+      evolutionNames: {
         1: "Charmander",
         2: "Charmeleon",
         3: "Charizard",
       },
     },
   });
+  const [saving, setSaving] = useState(null);
+  const [canYouFeed, setCanYouFeed] = useState(true);
+
 
   function feed() {
     setMyPokemon((prev) => {
@@ -54,12 +57,18 @@ function MyPokemon() {
       });
   }
 
-  // useEffect(() => {
-  //   const jwt = localStorage.getItem("pokePocketJwt");
-  //   fetchData("user/currentPokemon", "GET", null, jwt).then(response => {
-  //     setMyPokemon(response);
-  //   })
-  // }, []);
+  useEffect(() => {
+    const jwt = localStorage.getItem("pokePocketJwt");
+    // fetchData("user/currentPokemon", "GET", null, jwt).then(response => {
+    //   setMyPokemon(response);
+    // })
+    fetchData("user/savings", "GET", null, jwt).then(response => {
+        setSaving(response);
+        if(response <= 0){
+            setCanYouFeed(false);
+        }
+    })
+  }, []);
 
   return (
     <div className="bg-white basis-6/12 m-auto relative h-152 grid grid-cols-1 rounded rounded-[1rem] overflow-hidden">
@@ -71,7 +80,7 @@ function MyPokemon() {
       </div>
       {/* Alsó rész a tartalommal */}
       <div className="relative z-10 bg-white p-4 mt-[30%] ">
-        <p className="text-center mx-auto bold text-3xl">{myPokemon.evolution.evolutionName[myPokemon.evolution.evolutionState]}</p>
+        <p className="text-center mx-auto bold text-3xl">{myPokemon.evolution.evolutionNames[myPokemon.evolution.evolutionState]}</p>
         <div className="grid grid-cols-2 gap-2">
           <div>
             <div className="mt-4 flex">
@@ -96,7 +105,7 @@ function MyPokemon() {
             </div>
           </div>
           <div className="flex mt-2">
-            <div className="btn h-20 w-30 border-2 border-black mx-auto drop-shadow-xl" onClick={() => feed()}>
+            <div className={`btn h-20 w-30 border-2 border-black mx-auto drop-shadow-xl ${canYouFeed ? "": "btn-disabled opacity-50"}`} onClick={() => feed()}>
               <img className="h-full w-full" src={RazBerry} alt="Feed" title="Feed" /></div>
           </div>
         </div>
