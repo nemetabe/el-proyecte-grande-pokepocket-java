@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.Set;
 
@@ -35,6 +36,7 @@ public class MemberService {
         user.setPassword(encoder.encode(signUpRequest.password()));
         user.setEmail(signUpRequest.email());
         user.setRoles(Set.of(Role.ROLE_USER));
+        user.setTargetAmount(new BigDecimal(0));
         memberRepository.save(user);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -49,8 +51,7 @@ public class MemberService {
         return memberRepository.deleteMemberById(id);
     }
 
-    public boolean updateUser(MemberDto userDto) {
-        Member member = new Member(userDto);
+    public boolean updateUser(Member member) {
         return memberRepository.save(member) != null;
     }
 

@@ -37,6 +37,27 @@ function ProfileEditForm({ handleChange, handleSubmit, formData, validation, nav
                 </div>
             </fieldset>
 
+            <div className="form-control">
+                <label htmlFor="newTargetAmount" className="label">
+                    <span className="label-text font-semibold">Target amount to save this month</span>
+                </label>
+                <input
+                    type="text"
+                    id="newTargetAmount"
+                    className={`input input-bordered w-full ${
+                        validation.newTargetAmount === "Correct"
+                            ? "input-success"
+                            : validation.newTargetAmount
+                                ? "input-error"
+                                : ""
+                    }`}
+                    value={formData.newTargetAmount}
+                    onChange={handleChange}
+                    required
+                />
+
+            </div>
+
             {/* Email */}
             <fieldset className='fieldset'>
                 <label htmlFor="email" className="font-medium text-[1rem]">
@@ -153,7 +174,6 @@ function ProfileEditForm({ handleChange, handleSubmit, formData, validation, nav
                 </fieldset>
             </div>
 
-            {/* Buttons */}
             <div className="flex justify-between mt-6">
                 <button
                     type="button"

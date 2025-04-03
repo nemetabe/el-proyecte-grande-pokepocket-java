@@ -16,6 +16,7 @@ function ProfileEdit() {
         password: "",
         newPassword: "",
         confirmPassword: "",
+        newTargetAmount:0,
     });
 
     const [validation, setValidation] = useState({
@@ -23,6 +24,7 @@ function ProfileEdit() {
         email: "",
         newPassword: "",
         confirmPassword: "",
+        newTargetAmount:0,
     });
 
     useEffect(() => {
@@ -52,6 +54,14 @@ function ProfileEdit() {
     const validateUsername = (value) => {
         if (value.length < 4) {
             return "Username must be at least 4 characters";
+        }
+        return "Correct";
+    };
+
+    const validateNewTargetAmount = (value) => {
+        // Ensure value is a string of digits with at least 3 characters, no negative sign allowed.
+        if (!/^\d{3,}$/.test(value)) {
+            return "Amount must be a number with at least 3 digits and no minus sign";
         }
         return "Correct";
     };
@@ -106,6 +116,8 @@ function ProfileEdit() {
             }));
         }
         if (id === "confirmPassword") validationMessage = validateConfirmPassword(value);
+        if (id === "newTargetAmount") validationMessage = validateNewTargetAmount(value);
+
 
         setValidation(prev => ({
             ...prev,
@@ -121,7 +133,9 @@ function ProfileEdit() {
             (validation.username && validation.username !== "Correct") ||
             (validation.email && validation.email !== "Correct") ||
             (validation.newPassword && validation.newPassword !== "Correct") ||
-            (validation.confirmPassword && validation.confirmPassword !== "Correct")
+            (validation.confirmPassword && validation.confirmPassword !== "Correct")||
+            (formData.newTargetAmount && validation.newTargetAmount !== "Correct")
+
         ) {
             alert("Please correct the errors before submitting.");
             return;
@@ -135,6 +149,10 @@ function ProfileEdit() {
         if (formData.newPassword) {
             updateData.currentPassword = formData.password;
             updateData.newPassword = formData.newPassword;
+        }
+
+        if(formData.newTargetAmount) {
+            updateData.newTargetAmount = parseInt(formData.newTargetAmount, 10);
         }
 
         try {
