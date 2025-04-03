@@ -7,6 +7,7 @@ import {useNavigate} from "react-router-dom";
 function MainPage() {
   const cardClasses = "cursor-pointer flex rounded-xl relative group h-60  bg-cover bg-center bg-hover-animate ";
   const navigate = useNavigate();
+
   return (
     <div className="w-full">
       <div className="flex">

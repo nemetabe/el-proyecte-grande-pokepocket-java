@@ -3,10 +3,13 @@ package com.codecool.backend.service;
 import com.codecool.backend.controller.dto.MemberCredentialsDto;
 import com.codecool.backend.controller.dto.MemberDto;
 import com.codecool.backend.controller.dto.MemberRegistrationDto;
+import com.codecool.backend.controller.dto.MyPokemonDto;
 import com.codecool.backend.controller.exception.MemberNotFoundException;
 import com.codecool.backend.model.Member;
 import com.codecool.backend.model.Role;
+import com.codecool.backend.model.Transaction;
 import com.codecool.backend.repository.MemberRepository;
+import com.codecool.backend.repository.TransactionRepository;
 import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -24,10 +28,12 @@ import java.util.Set;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final TransactionRepository transactionRepository;
 
     @Autowired
-    public MemberService(MemberRepository memberRepository) {
+    public MemberService(MemberRepository memberRepository, TransactionRepository transactionRepository) {
         this.memberRepository = memberRepository;
+        this.transactionRepository = transactionRepository;
     }
 
 
@@ -58,5 +64,20 @@ public class MemberService {
 
     public Member findMemberByEmail(String email){
         return memberRepository.findMemberByEmail(email).orElse(null);
+    }
+
+//    public MyPokemonDto getMyPokemon(String email) {
+//        Member member = memberRepository.findMemberByEmail(email)
+//                .orElseThrow(MemberNotFoundException::new);
+//    }
+
+
+    public int getMySaving(String email) {
+        Member member = memberRepository.findMemberByEmail(email)
+                .orElseThrow(MemberNotFoundException::new);
+        List<Transaction> transactions = transactionRepository.getAllByMember(member).orElse(null);
+        return member.getTargetAmount().intValue()-(transactions
+                .stream()
+                .mapToInt(Transaction::getAmount).sum());
     }
 }

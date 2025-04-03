@@ -3,7 +3,7 @@ import React from 'react'
 function SpendingInformation({profit, expense, income}) {
   return (
     <div className="bg-gray-300 rounded-[15px] flex">
-    <div class=" w-[100%] bg-gray-300 rounded-[15px] shadow-sm p-2">
+    <div class=" w-[100%] bg-gray-300 rounded-[15px] p-2 my-auto">
       <div class="flex justify-between border-gray-200 border-b dark:border-gray-700 pb-3">
         <dl>
           <dt class="text-base font-normal text-black pb-1">Profit</dt>
@@ -35,7 +35,7 @@ function SpendingInformation({profit, expense, income}) {
 
       <div class="grid grid-cols-2 py-3">
         <dl>
-          <dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">
+          <dt class="text-base font-normal text-black pb-1">
             Income
           </dt>
           <dd class="leading-none text-xl font-bold text-green-500 dark:text-green-400">
@@ -43,7 +43,7 @@ function SpendingInformation({profit, expense, income}) {
           </dd>
         </dl>
         <dl>
-          <dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">
+          <dt class="text-base font-normal text-black pb-1">
             Expense
           </dt>
           <dd class="leading-none text-xl font-bold text-red-600 dark:text-red-500">

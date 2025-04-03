@@ -8,7 +8,7 @@ function Evolution({ evolution, index }) {
           src={evolution.evolutionPictures[index]}
           alt=""
         />
-        <div className="text-center">{evolution.evolutionName[index]}</div>
+        <div className="text-center">{evolution.evolutionNames[index]}</div>
       </div>
     );
   }
