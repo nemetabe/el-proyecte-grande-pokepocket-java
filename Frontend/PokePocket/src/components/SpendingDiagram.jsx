@@ -8,18 +8,20 @@ function SpendingDiagram({ transactions }) {
         const categories = [];
 
         transactions.forEach(transaction => {
-            const category = transaction.category.description;
-            categories.includes(category) || categories.push(category);
+            const category = transaction.category
+            categories.map(category => category.description).includes(category.description) || categories.push(category);
         });
 
+        
         const diagramData = [];
 
         categories.forEach(category => {
             diagramData.push({
-                name: [category],
+                name: category.description,
                 spending: transactions
-                    .filter(transaction => transaction.category.description === category)
-                    .reduce((acc, transaction) => acc + transaction.amount, 0)
+                    .filter(transaction => transaction.category.description === category.description)
+                    .reduce((acc, transaction) => acc + transaction.amount, 0),
+                fill: category.color
             })
         });
 
@@ -27,20 +29,15 @@ function SpendingDiagram({ transactions }) {
     }, [transactions]);
 
     return (
-        diagramData.length < 3 ? (
-            <></>
-        ) : (
-            <ResponsiveContainer width="100%" height="100%" >
+            <ResponsiveContainer width={`${diagramData.length * 25 <= 100 ? diagramData.length * 25 : 100}%`} height="100%" >
                 <BarChart data={diagramData}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name"  fontSize={25}/>
-                    <Tooltip />
-                    <Bar dataKey="spending" fill=" #ff1616">
+                    <Bar dataKey="spending" >
                         <LabelList dataKey="spending" position="insideBottom" fill="#ffffff" fontSize={30}/>
                     </Bar>
                 </BarChart>
             </ResponsiveContainer>
-        )
     );
 }
 
