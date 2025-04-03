@@ -4,6 +4,7 @@ import com.codecool.backend.controller.dto.*;
 import com.codecool.backend.model.Member;
 import com.codecool.backend.security.jwt.JwtUtils;
 import com.codecool.backend.service.MemberService;
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -55,7 +56,8 @@ public class MemberController {
 
     @PostMapping("/register")
     public ResponseEntity<Void> createUser(@RequestBody MemberRegistrationDto signUpRequest) {
-        return userService.register(signUpRequest, encoder);
+
+            return userService.register(signUpRequest, encoder);
     }
 
     @GetMapping("/profile")
