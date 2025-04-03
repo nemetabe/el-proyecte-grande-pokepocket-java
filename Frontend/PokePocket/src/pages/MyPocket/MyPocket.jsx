@@ -18,6 +18,14 @@ function MyPocket() {
           .filter(transaction => transaction.amount > 0)
           .reduce((accumulator, currentValue) => accumulator + currentValue.amount, 0);
       setExpense(sumWithInitial);
+
+      const sumIncome = response
+      .filter(transaction => transaction.amount < 0)
+      .reduce(
+        (accumulator, currentValue) => accumulator + currentValue.amount,
+        0
+      );
+      setIncome(sumIncome);
     });
   }, []);
 
