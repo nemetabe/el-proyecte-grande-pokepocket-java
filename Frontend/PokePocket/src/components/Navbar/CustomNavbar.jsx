@@ -12,6 +12,10 @@ function CustomNavbar() {
     navigate("/");
   }
 
+  function navigateToMain() {
+    navigate("/main");
+  }
+
   return (
     <>
       <div className="flex">
@@ -54,9 +58,9 @@ function CustomNavbar() {
                 </li>
               </ul>
             </div>
-            <div href="#home" className="h-10">
-              <button className="">
-                <img src={PokeBall} alt="" className="w-10 m-auto" />
+            <div className="h-10">
+              <button onClick={navigateToMain} className="cursor-pointer hover:opacity-80 transition-opacity">
+                <img src={PokeBall} alt="Home" className="w-10 m-auto" />
               </button>
             </div>
           </div>
