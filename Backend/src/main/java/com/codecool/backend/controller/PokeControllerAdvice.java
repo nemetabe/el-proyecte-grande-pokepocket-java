@@ -22,6 +22,4 @@ public class PokeControllerAdvice {
     public String transactionNotFoundExceptionHandler(TransactionNotFoundException ex) {
         return ex.getMessage();
     }
-
-
 }
