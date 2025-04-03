@@ -21,6 +21,7 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "seq")
     private int id;
     private String name;
+    @Column(unique = true)
     private String email;
     private String password;
 
