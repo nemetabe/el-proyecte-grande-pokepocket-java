@@ -36,7 +36,7 @@ function MyPocket() {
         <div className="grid grid-cols-3 grid-rows-2 h-full gap-2">
           <div className="bg-gray-300 rounded-[15px] items-center flex">
             <button
-              className="btn m-auto bg-pokeball p-3 rounded-[15px] "
+              className="btn m-auto bg-pokeball p-3 rounded-[15px] text-white"
               onClick={() => document.getElementById("my_modal_4").showModal()}
             >
               Add Expense
