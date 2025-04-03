@@ -105,9 +105,20 @@ function Registration() {
         navigate("/main");
       }
     } else {
-      const responseBody = await fetchData("user/login", "POST", formData);
-      localStorage.setItem("pokePocketJwt", responseBody.jwt);
-      navigate("/main");
+      if (responseBody.status === 409) {
+        setFormData({
+          ...formData,
+          email: ""
+        });
+        setValidation({
+          ...validation,
+          email: "User with this email is already exist!"
+        })
+      } else {
+        const responseBody = await fetchData("user/login", "POST", formData);
+        localStorage.setItem("pokePocketJwt", responseBody.jwt);
+        navigate("/main");
+      }
     }
 
   };
@@ -161,6 +172,7 @@ function Registration() {
         </div>
       </div>
       </div>
+      
     </>
   );
 }

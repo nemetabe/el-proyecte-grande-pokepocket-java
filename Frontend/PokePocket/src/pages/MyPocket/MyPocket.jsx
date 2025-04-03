@@ -14,7 +14,9 @@ function MyPocket() {
 
     fetchData("transactions/all", "GET", null, jwt).then(response => {
       setTransactions(response);
-      const sumWithInitial = response.reduce((accumulator, currentValue) => accumulator + currentValue.amount, 0);
+      const sumWithInitial = response
+          .filter(transaction => transaction.amount > 0)
+          .reduce((accumulator, currentValue) => accumulator + currentValue.amount, 0);
       setExpense(sumWithInitial);
     });
   }, []);

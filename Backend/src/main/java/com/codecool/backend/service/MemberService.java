@@ -7,6 +7,7 @@ import com.codecool.backend.controller.exception.MemberNotFoundException;
 import com.codecool.backend.model.Member;
 import com.codecool.backend.model.Role;
 import com.codecool.backend.repository.MemberRepository;
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

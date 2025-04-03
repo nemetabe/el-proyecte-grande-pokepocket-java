@@ -6,7 +6,7 @@ function Layout() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        localStorage.getItem("pokePocketJwt") == "null" && navigate("/");
+        localStorage.getItem("pokePocketJwt") === "null" && navigate("/");
     }, []);
 
     return (
