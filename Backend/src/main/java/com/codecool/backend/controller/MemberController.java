@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -27,13 +28,15 @@ public class MemberController {
     private final PasswordEncoder encoder;
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
+    private final MemberService memberService;
 
     @Autowired
-    public MemberController(MemberService userService, PasswordEncoder encoder, AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
+    public MemberController(MemberService userService, PasswordEncoder encoder, AuthenticationManager authenticationManager, JwtUtils jwtUtils, MemberService memberService) {
         this.userService = userService;
         this.encoder = encoder;
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
+        this.memberService = memberService;
     }
 
     @PostMapping("/login")
@@ -109,5 +112,17 @@ public class MemberController {
         } else {
             return ResponseEntity.badRequest().body("Failed to update user");
         }
+    }
+
+//    @GetMapping("/currentPokemon")
+//    public MyPokemonDto getMyPokemon(){
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        return memberService.getMyPokemon(user.getUsername());
+//    }
+
+    @GetMapping("/savings")
+    public int getMySavings(){
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return memberService.getMySaving(user.getUsername());
     }
 }
