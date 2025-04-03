@@ -25,5 +25,9 @@ export async function fetchData(path, method = "GET", body = null, jwt = null, h
 
     if (hasRequestBody) {
         return response.json();
+    } else {
+        return response;
     }
 }
+
+
