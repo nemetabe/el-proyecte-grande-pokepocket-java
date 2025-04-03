@@ -85,23 +85,28 @@ public class MemberController {
     @PutMapping("/profile/update")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> updateUser(@RequestBody UpdateProfileDto profileDto) {
-        // Get current authenticated user
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserEmail = authentication.getName();
 
-        // Get the member associated with the email
         Member currentMember = userService.findMemberByEmail(currentUserEmail);
 
-        if(profileDto.currentPassword()!="" && profileDto.newPassword()!="") {
-            if (currentMember.getPassword() != encoder.encode(profileDto.currentPassword())) {
+        if(profileDto.currentPassword() != null && !profileDto.currentPassword().isEmpty()
+                && profileDto.newPassword() != null && !profileDto.newPassword().isEmpty()) {
+
+            if (!encoder.matches(profileDto.currentPassword(), currentMember.getPassword())) {
                 return ResponseEntity.badRequest().body("Wrong current password");
             }
 
             currentMember.setPassword(encoder.encode(profileDto.newPassword()));
         }
 
-        currentMember.setName(profileDto.username());
-        currentMember.setTargetAmount(profileDto.newTargetAmount());
+        if (profileDto.username() != null) {
+            currentMember.setName(profileDto.username());
+        }
+
+        if (profileDto.newTargetAmount() != null) {
+            currentMember.setTargetAmount(profileDto.newTargetAmount());
+        }
 
         boolean updated = userService.updateUser(currentMember);
         if (updated) {
