@@ -26,7 +26,7 @@ function MyPocket() {
   
   return (
     <>
-      <div className="bg-white/75 h-[85vh] m-5 text-center p-2 rounded-[15px]">
+      <div className="bg-white/75 h-[85vh] m-5 text-center p-2 rounded-[15px] mx-auto">
         <div className="grid grid-cols-3 grid-rows-2 h-full gap-2">
           <div className="bg-gray-300 rounded-[15px] items-center flex">
             <button
