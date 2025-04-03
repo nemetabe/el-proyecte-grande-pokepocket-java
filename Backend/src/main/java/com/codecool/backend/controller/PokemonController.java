@@ -20,6 +20,16 @@ public class PokemonController {
         this.pokemonEvolutionService = pokemonEvolutionService;
     }
 
+    @GetMapping("/user/{userId}/currentPokemon")
+    public UserPokemonDto getCurrentPokemon(@PathVariable Long userId) {
+        return pokemonEvolutionService.getCurrentPokemonById(userId);
+    }
+
+    @GetMapping("/user/{userId}/pokemons")
+    public List<UserPokemonDto> getPokemons(@PathVariable Long userId) {
+        return pokemonEvolutionService.getAllPokemonsByUserId(userId);
+    }
+
     @GetMapping("/evolution/check/happiness")
     public List<UserPokemonDto> checkHappinessEvolution() {
         return pokemonEvolutionService.checkHappinessEvolutions();
@@ -39,4 +49,6 @@ public class PokemonController {
     public UserPokemonDto increaseHappiness(@PathVariable Long pokemonId, @PathVariable Integer amount) {
         return pokemonEvolutionService.increaseHappiness(pokemonId, amount);
     }
+
+    //TODO evolutionDTO + endP
 }

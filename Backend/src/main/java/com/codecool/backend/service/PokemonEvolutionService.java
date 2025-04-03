@@ -15,23 +15,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PokemonEvolutionService {
 
-    @Autowired
     private UserPokemonRepository userPokemonRepository;
 
-    @Autowired
     private EvolutionChainRepository evolutionChainRepository;
 
-    @Autowired
     private PokemonSpeciesRepository pokemonSpeciesRepository;
 
-    @Autowired
     private PokemonAssetRepository pokemonAssetRepository;
+
+    @Autowired
+    public PokemonEvolutionService(
+            UserPokemonRepository userPokemonRepository,
+            EvolutionChainRepository evolutionChainRepository,
+            PokemonSpeciesRepository pokemonSpeciesRepository,
+            PokemonAssetRepository pokemonAssetRepository) {
+        this.userPokemonRepository = userPokemonRepository;
+        this.evolutionChainRepository = evolutionChainRepository;
+        this.pokemonSpeciesRepository = pokemonSpeciesRepository;
+        this.pokemonAssetRepository = pokemonAssetRepository;
+    }
+
 
     public List<UserPokemonDto> checkHappinessEvolutions() {
         List<UserPokemon> pokemons = userPokemonRepository.findPokemonReadyToEvolveByHappiness()
@@ -62,8 +70,8 @@ public class PokemonEvolutionService {
             if (!pokemon.getIsEvolutionPending()) {
                 throw new IllegalStateException("Pokémon is not ready to evolve");
             }
-
-            List<EvolutionChain> evolutions = evolutionChainRepository.findByBasePokemonId(pokemon.getSpeciesId())
+//TODO
+            List<EvolutionChain> evolutions = evolutionChainRepository.findEvolutionChainBySpeciesId(pokemon.getSpecies().getId())
                     .orElseThrow(() -> new PokemonNotFoundException("Evolutions not found"));
 
             if (evolutions.isEmpty()) {
@@ -86,15 +94,14 @@ public class PokemonEvolutionService {
                 throw new IllegalStateException("No suitable evolution found for this Pokémon");
             }
 
-            PokemonSpecies evolvedSpecies = pokemonSpeciesRepository.findById(correctEvolution.getEvolvedPokemonId())
-                    .orElseThrow(() -> new PokemonNotFoundException("Evolved species not found"));
+            PokemonSpecies evolvedSpecies = pokemonSpeciesRepository.findById(pokemon.getSpecies().getId()).orElseThrow(() -> new PokemonNotFoundException("Evolved species not found"));
 
 
-            PokemonAsset evolvedAsset = pokemonAssetRepository.findBySpeciesId(correctEvolution.getEvolvedPokemonId())
+            PokemonAsset evolvedAsset = pokemonAssetRepository.findBySpeciesId(correctEvolution.getEvolutionIds().get(correctEvolution.getEvolutionTracker()))
                     .orElseThrow(() -> new PokemonNotFoundException("Assets for evolved form not found"));
 
 
-            pokemon.setSpeciesId(correctEvolution.getEvolvedPokemonId());
+            pokemon.setSpecies(evolvedSpecies);
             pokemon.setPictureUrl(evolvedAsset.getPictureUrl());
             pokemon.setGifUrl(evolvedAsset.getGifUrl());
 
@@ -115,6 +122,20 @@ public class PokemonEvolutionService {
         pokemon.setHappiness(Math.min(255, pokemon.getHappiness() + amount));
         UserPokemon userPokemon = userPokemonRepository.save(pokemon);
         return new UserPokemonDto(userPokemon);
+    }
+
+    public List<UserPokemonDto> getAllPokemonsByUserId(Long userId) {
+        List<UserPokemon> pokemons = userPokemonRepository.findAllByUserId(userId);
+        return pokemons.stream()
+                .map(UserPokemonDto::new)
+                .collect(Collectors.toList());
+    }
+
+    public UserPokemonDto getCurrentPokemonById(Long userId) {
+        UserPokemon pokemon = userPokemonRepository.findFirstByUserIdOrderByHatchDateDesc(userId).orElseThrow(
+                () -> new PokemonNotFoundException("Pokemon not found")
+        );
+        return new UserPokemonDto(pokemon);
     }
 
 }
