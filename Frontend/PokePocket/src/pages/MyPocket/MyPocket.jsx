@@ -1,16 +1,19 @@
 import React, { useState , useEffect, use} from "react";
 import AddExpenseForm from "../../components/AddExpenseForm";
 import { fetchData } from "../../utils";
+import SpendingDiagram from "../../components/SpendingDiagram";
 
 function MyPocket() {
   const [income, setIncome] = useState(500000);
   const [expense, setExpense] = useState(null);
   const [profit, setProfit] = useState(null);
+  const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
     const jwt = localStorage.getItem("pokePocketJwt");
 
     fetchData("transactions/all", "GET", null, jwt).then(response => {
+      setTransactions(response);
       const sumWithInitial = response.reduce((accumulator, currentValue) => accumulator + currentValue.amount, 0);
       setExpense(sumWithInitial);
     });
@@ -201,13 +204,15 @@ function MyPocket() {
               </div>
             </div>
           </div>
-          <div className="bg-gray-300 rounded-[15px]"></div>
-          <div className="col-span-3 bg-gray-300 rounded-[15px] "></div>
+          <div className="row-span-2 bg-gray-300 rounded-[15px]"></div>
+          <div className="col-span-2 bg-gray-300 rounded-[15px] ">
+            <SpendingDiagram transactions={transactions}/>
+          </div>
         </div>
       </div>
       <dialog id="my_modal_4" className="modal">
         <div className="modal-box w-11/12  justify-center">
-          <AddExpenseForm userId={1} setExpense={setExpense}></AddExpenseForm>
+          <AddExpenseForm setExpense={setExpense} onSetTransactions={setTransactions}></AddExpenseForm>
           <div className="modal-action">
             <form method="dialog">
               {/* if there is a button, it will close the modal */}

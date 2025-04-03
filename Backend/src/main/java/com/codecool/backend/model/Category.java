@@ -25,6 +25,7 @@ public class Category {
     }
     public Category(CategoryType type) {
         this.type = type;
+        description = type.description;
     }
 
     public Category(CategoryType type, String description) {
@@ -56,26 +57,32 @@ public class Category {
 
     // Keep the category types as an enum
     public enum CategoryType {
-        INCOME,
-        GROCERY,
-        HOUSEHOLD_SUPPLIES,
-        BILLS,
-        CLOTHING,
-        PETS,
-        INSURANCE,
-        SAVINGS,
-        RENT,
-        UTILITIES,
-        DINING_OUT,
-        TRANSPORTATION,
-        ENTERTAINMENT,
-        HEALTH_CARE,
-        EDUCATION,
-        PERSONAL_CARE,
-        MISCELLANEOUS,
-        LOAN,
-        PAYMENTS,
-        FEES,
-        OTHER
+        INCOME("Income"),
+        GROCERY("Grocery"),
+        HOUSEHOLD_SUPPLIES("Household supplies"),
+        BILLS("Bills"),
+        CLOTHING("Clothing"),
+        PETS("Pets"),
+        INSURANCE("Insurance"),
+        SAVINGS("Savings"),
+        RENT("Rent"),
+        UTILITIES("Utilities"),
+        DINING_OUT("Dining out"),
+        TRANSPORTATION("Transportation"),
+        ENTERTAINMENT("Entertainment"),
+        HEALTH_CARE("Health care"),
+        EDUCATION("Education"),
+        PERSONAL_CARE("Personal care"),
+        MISCELLANEOUS("Miscellaneous"),
+        LOAN("Loan"),
+        PAYMENTS("Payments"),
+        FEES("Fees"),
+        OTHER("Other");
+
+        private final String description;
+
+        CategoryType(String description) {
+            this.description = description;
+        }
     }
 }
