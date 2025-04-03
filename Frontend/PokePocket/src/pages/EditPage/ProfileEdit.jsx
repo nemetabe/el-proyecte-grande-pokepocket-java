@@ -1,3 +1,4 @@
+
 import React, {useState, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import {fetchData} from "../../utils.js";
@@ -5,7 +6,6 @@ import "./ProfileEdit.css";
 import ProfileEditForm from "../../components/ProfileEditForm.jsx";
 
 function ProfileEdit() {
-
     const navigate = useNavigate();
     const [jwt, setJwt] = useState(localStorage.getItem("pokePocketJwt"));
     const [isLoading, setIsLoading] = useState(true);
@@ -16,7 +16,7 @@ function ProfileEdit() {
         password: "",
         newPassword: "",
         confirmPassword: "",
-        newTargetAmount:0,
+        newTargetAmount: "0",
     });
 
     const [validation, setValidation] = useState({
@@ -24,7 +24,7 @@ function ProfileEdit() {
         email: "",
         newPassword: "",
         confirmPassword: "",
-        newTargetAmount:0,
+        newTargetAmount: "",
     });
 
     useEffect(() => {
@@ -40,6 +40,7 @@ function ProfileEdit() {
                     ...prevData,
                     username: userData.username || "",
                     email: userData.email || "",
+                    newTargetAmount: userData.targetAmount?.toString() || "0",
                 }));
                 setIsLoading(false);
             } catch (error) {
@@ -59,9 +60,8 @@ function ProfileEdit() {
     };
 
     const validateNewTargetAmount = (value) => {
-        // Ensure value is a string of digits with at least 3 characters, no negative sign allowed.
-        if (!/^\d{3,}$/.test(value)) {
-            return "Amount must be a number with at least 3 digits and no minus sign";
+        if (!/^\d{1,}$/.test(value)) {
+            return "Amount must be a positive number";
         }
         return "Correct";
     };
@@ -98,6 +98,8 @@ function ProfileEdit() {
     const handleChange = (e) => {
         const {id, value} = e.target;
 
+        if (id === "email") return; // Skip changes if email is read-only
+
         setFormData(prev => ({
             ...prev,
             [id]: value,
@@ -118,7 +120,6 @@ function ProfileEdit() {
         if (id === "confirmPassword") validationMessage = validateConfirmPassword(value);
         if (id === "newTargetAmount") validationMessage = validateNewTargetAmount(value);
 
-
         setValidation(prev => ({
             ...prev,
             [id]: validationMessage,
@@ -134,16 +135,16 @@ function ProfileEdit() {
             (validation.email && validation.email !== "Correct") ||
             (validation.newPassword && validation.newPassword !== "Correct") ||
             (validation.confirmPassword && validation.confirmPassword !== "Correct")||
-            (formData.newTargetAmount && validation.newTargetAmount !== "Correct")
-
+            (validation.newTargetAmount && validation.newTargetAmount !== "Correct")
         ) {
             alert("Please correct the errors before submitting.");
             return;
         }
 
+        // Match the DTO structure expected by the backend
         const updateData = {
             username: formData.username,
-            email: formData.email,
+            email: formData.email, // Include email even if it's not changed
         };
 
         if (formData.newPassword) {
@@ -156,13 +157,30 @@ function ProfileEdit() {
         }
 
         try {
-            const response = await fetchData("user/profile/update", "PUT", updateData, jwt);
+            console.log("Sending update data:", updateData);
 
-            if (response.success) {
+            // Your fetchData utility function needs to handle 204/200 with empty body correctly
+            const response = await fetch("/api/user/profile/update", {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jwt}`
+                },
+                body: JSON.stringify(updateData)
+            });
+
+            if (response.ok) {
+                // Success is indicated by HTTP 200/204, not by response body
                 alert("Profile updated successfully!");
                 navigate("/main");
             } else {
-                alert(response.message || "Failed to update profile.");
+                // Try to parse error message from response
+                try {
+                    const errorText = await response.text();
+                    alert(errorText || "Failed to update profile");
+                } catch (err) {
+                    alert("Failed to update profile");
+                }
             }
         } catch (error) {
             console.error("Error updating profile:", error);
@@ -179,27 +197,22 @@ function ProfileEdit() {
     }
 
     return (
-        <div>
-            <div className="bg-white/75 m-5 rounded-[15px] flex justify-center">
-                <div className="bg-white m-2 rounded-xl shadow-md p-5 max-w-md w-full">
-                    <h2 className="text-3xl font-bold text-center mb-6 text-pokeball">Edit Profile</h2>
-
-                    {/* Using a modified version of RegistrationForm */}
-                    <div className="form-container fade-in">
-                        <ProfileEditForm
-                            handleChange={handleChange}
-                            handleSubmit={handleSubmit}
-                            formData={formData}
-                            validation={validation}
-                            navigate={navigate}
-                        />
-                    </div>
-                </div>
+        <div className="bg-white mx-auto m-5 rounded-[15px] shadow-md p-5 w-full max-w-4xl">
+            <h2 className="text-3xl font-bold text-center mb-6 text-pokeball">
+                Edit Profile
+            </h2>
+            <div className="form-container fade-in">
+                <ProfileEditForm
+                    handleChange={handleChange}
+                    handleSubmit={handleSubmit}
+                    formData={formData}
+                    validation={validation}
+                    navigate={navigate}
+                    emailReadOnly={true}
+                />
             </div>
         </div>
-    )
-
-
+    );
 }
 
-export default ProfileEdit
+export default ProfileEdit;
