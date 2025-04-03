@@ -60,7 +60,6 @@ function ProfileEdit() {
     };
 
     const validateNewTargetAmount = (value) => {
-        // Ensure value is a string of digits with at least 3 characters, no negative sign allowed.
         if (!/^\d{1,}$/.test(value)) {
             return "Amount must be a positive number";
         }
@@ -99,8 +98,7 @@ function ProfileEdit() {
     const handleChange = (e) => {
         const {id, value} = e.target;
 
-        // Skip changes to email if read-only
-        if (id === "email" && emailReadOnly) return;
+        if (id === "email") return; // Skip changes if email is read-only
 
         setFormData(prev => ({
             ...prev,
@@ -143,9 +141,10 @@ function ProfileEdit() {
             return;
         }
 
+        // Match the DTO structure expected by the backend
         const updateData = {
             username: formData.username,
-            email: formData.email,
+            email: formData.email, // Include email even if it's not changed
         };
 
         if (formData.newPassword) {
@@ -158,13 +157,30 @@ function ProfileEdit() {
         }
 
         try {
-            const response = await fetchData("user/profile/update", "PUT", updateData, jwt);
+            console.log("Sending update data:", updateData);
 
-            if (response.success) {
+            // Your fetchData utility function needs to handle 204/200 with empty body correctly
+            const response = await fetch("/api/user/profile/update", {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jwt}`
+                },
+                body: JSON.stringify(updateData)
+            });
+
+            if (response.ok) {
+                // Success is indicated by HTTP 200/204, not by response body
                 alert("Profile updated successfully!");
                 navigate("/main");
             } else {
-                alert(response.message || "Failed to update profile.");
+                // Try to parse error message from response
+                try {
+                    const errorText = await response.text();
+                    alert(errorText || "Failed to update profile");
+                } catch (err) {
+                    alert("Failed to update profile");
+                }
             }
         } catch (error) {
             console.error("Error updating profile:", error);
