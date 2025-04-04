@@ -1,12 +1,10 @@
 package com.codecool.backend.model.pokemon;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "pokemon_assets",
         uniqueConstraints = @UniqueConstraint(columnNames = {"species_id", "evolution_id"}))
@@ -25,19 +23,23 @@ public class PokemonAsset {
     @Column(name = "gif_url", nullable = false)
     private String gifUrl;
 
-    @Column(name = "sprite_front")
+    @Column(name = "sprite_front", nullable = false)
     private String spriteFront;
 
-    @Column(name = "sprite_back")
+    @Column(name = "sprite_back", nullable = false)
     private String spriteBack;
 
-    @Column(name = "cry_audio_url")
+    @Column(name = "cry_audio_url", nullable = false)
     private String cryAudioUrl;
 
 //    @Column(name = "experience")
 //    private Integer experience;
 
-    @OneToOne
-    @JoinColumn(name = "species_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(referencedColumnName = "id", insertable = false, updatable = false)
     private PokemonSpecies species;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(referencedColumnName = "id", insertable = false, updatable = false)
+    private EvolutionChain evolution;
 }

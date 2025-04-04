@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface PokemonAssetRepository extends JpaRepository<PokemonAsset, Integer> {
     public Optional<PokemonAsset> findBySpeciesId(Integer speciesId);
 
+    //public Optional<Pokemon>
+
 }

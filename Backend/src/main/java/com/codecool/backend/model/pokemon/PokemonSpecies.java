@@ -18,26 +18,30 @@ public class PokemonSpecies {
     @Id
     private Integer id;
 
-    @Column(name = "poke_index_number", unique = true, nullable = false)
+    @Column(name = "poke_index_number", nullable = false)
     private Integer pokeIndexNumber;
 
     @Column(nullable = false)
     private String name;
 
-    @ElementCollection
+
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "variety", joinColumns = @JoinColumn(name = "pokemon_id", referencedColumnName = "id"))
-    @MapKeyColumn(name = "pokemon_name")
+    @MapKeyColumn(name = "pokemon_id")
     private Map<String, Integer> pokemons = new HashMap<>();
+
+    @OneToMany
+    @JoinColumn(name = "pokemon_id", referencedColumnName = "id")
+    private PokemonAsset pokemon;
 
     private String description;
 
     @Column(name = "base_happiness", nullable = false)
     private Integer baseHappiness = 70;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "evolution_id", referencedColumnName = "id", nullable = false, updatable = false)
-    private EvolutionChain evolutionChainId;
-    //TODO
+    private EvolutionChain evolution;
 
     @Column(name = "evolution_trigger")
     private String evolutionTrigger;

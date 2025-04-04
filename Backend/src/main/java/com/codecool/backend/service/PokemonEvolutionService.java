@@ -71,7 +71,7 @@ public class PokemonEvolutionService {
                 throw new IllegalStateException("Pokémon is not ready to evolve");
             }
 //TODO
-            List<EvolutionChain> evolutions = evolutionChainRepository.findEvolutionChainBySpeciesId(pokemon.getSpecies().getId())
+            List<EvolutionChain> evolutions = evolutionChainRepository.findEvolutionChainBySpeciesId()
                     .orElseThrow(() -> new PokemonNotFoundException("Evolutions not found"));
 
             if (evolutions.isEmpty()) {
