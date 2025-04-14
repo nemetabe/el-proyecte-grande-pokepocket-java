@@ -23,19 +23,17 @@ import java.util.List;
 @RequestMapping("/api/user")
 public class MemberController {
 
-    private final MemberService userService;
     private final PasswordEncoder encoder;
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
     private final MemberService memberService;
 
     @Autowired
-    public MemberController(MemberService userService, PasswordEncoder encoder, AuthenticationManager authenticationManager, JwtUtils jwtUtils, MemberService memberService) {
-        this.userService = userService;
+    public MemberController(MemberService memberService, PasswordEncoder encoder, AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
+        this.memberService = memberService;
         this.encoder = encoder;
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
-        this.memberService = memberService;
     }
 
     @PostMapping("/login")
@@ -50,7 +48,7 @@ public class MemberController {
         User userDetails = (User) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
                 .toList();
-        Member loggedMember = userService.findMemberByEmail(userDetails.getUsername());
+        Member loggedMember = memberService.findMemberByEmail(userDetails.getUsername());
         return ResponseEntity
                 .ok(new JwtResponse(jwt, loggedMember.getName(), roles));
     }
@@ -58,40 +56,39 @@ public class MemberController {
     @PostMapping("/register")
     public ResponseEntity<Void> createUser(@RequestBody MemberRegistrationDto signUpRequest) {
 
-            return userService.register(signUpRequest, encoder);
+            return memberService.register(signUpRequest, encoder);
     }
 
     @GetMapping("/profile")
-    @PreAuthorize("isAuthenticated()")
+//    @PreAuthorize("isAuthenticated()")
     public MemberProfileDto getProfile() {
         // Get current authenticated user
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserEmail = authentication.getName();
 
         // Get the member associated with the email
-        Member currentMember = userService.findMemberByEmail(currentUserEmail);
+        Member currentMember = memberService.findMemberByEmail(currentUserEmail);
 
         return new MemberProfileDto(currentMember.getId(), currentMember.getName(), currentMember.getEmail(), currentMember.getTargetAmount());
     }
 
     @GetMapping("/{id}")
     public MemberDto getUser(@PathVariable int id) {
-        return userService.getMember(id);
+        return memberService.getMember(id);
     }
 
     @DeleteMapping("/{id}")
     public boolean deleteUser(@PathVariable int id) {
-        return userService.deleteMember(id);
+        return memberService.deleteMember(id);
     }
 
 
     @PutMapping("/profile/update")
-    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> updateUser(@RequestBody UpdateProfileDto profileDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserEmail = authentication.getName();
 
-        Member currentMember = userService.findMemberByEmail(currentUserEmail);
+        Member currentMember = memberService.findMemberByEmail(currentUserEmail);
 
         if(profileDto.currentPassword() != null && !profileDto.currentPassword().isEmpty()
                 && profileDto.newPassword() != null && !profileDto.newPassword().isEmpty()) {
@@ -111,7 +108,7 @@ public class MemberController {
             currentMember.setTargetAmount(profileDto.newTargetAmount());
         }
 
-        boolean updated = userService.updateMember(currentMember);
+        boolean updated = memberService.updateMember(currentMember);
         if (updated) {
             return ResponseEntity.ok().build();
         } else {
