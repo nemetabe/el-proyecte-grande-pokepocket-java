@@ -3,6 +3,7 @@ package com.codecool.backend.controller;
 import com.codecool.backend.controller.dto.CategoryDto;
 import com.codecool.backend.controller.dto.NewTransactionDto;
 import com.codecool.backend.controller.dto.TransactionDto;
+import com.codecool.backend.model.Category;
 import com.codecool.backend.model.Member;
 import com.codecool.backend.service.TransactionService;
 import jakarta.websocket.server.PathParam;
@@ -46,6 +47,11 @@ public class TransactionController {
     @GetMapping("/{id}")
     public TransactionDto getTransactionById(@PathVariable int id) {
         return transactionService.getTransactionById(id);
+    }
+
+    @GetMapping("/{category}")
+    public List<TransactionDto> getTransactionById(@PathVariable Category category) {
+        return transactionService.getTransactionByGategory(category);
     }
 
     @GetMapping("/{id}/avrg")
