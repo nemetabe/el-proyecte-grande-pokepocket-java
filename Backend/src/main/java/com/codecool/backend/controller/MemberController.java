@@ -4,7 +4,6 @@ import com.codecool.backend.controller.dto.*;
 import com.codecool.backend.model.Member;
 import com.codecool.backend.security.jwt.JwtUtils;
 import com.codecool.backend.service.MemberService;
-import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,7 +16,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -113,7 +111,7 @@ public class MemberController {
             currentMember.setTargetAmount(profileDto.newTargetAmount());
         }
 
-        boolean updated = userService.updateUser(currentMember);
+        boolean updated = userService.updateMember(currentMember);
         if (updated) {
             return ResponseEntity.ok().build();
         } else {

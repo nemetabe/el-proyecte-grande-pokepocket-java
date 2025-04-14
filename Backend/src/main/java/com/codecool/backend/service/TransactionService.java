@@ -16,10 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.OptionalDouble;
+import java.util.*;
 
 @Service
 public class TransactionService {
@@ -80,11 +77,22 @@ public class TransactionService {
         return transactionRepository.save(transaction).getId();
     }
 
-    public TransactionDto getTransactionById(int id) {
-        Transaction transaction = transactionRepository.getTransactionsById(id)
-                .orElseThrow(TransactionNotFoundException::new);
+    public List<TransactionDto> getTransactionByGategory(Category category) {
 
-        return new TransactionDto(transaction);
+        List<Transaction> transactions = new ArrayList<>();
+
+        transactions = transactionRepository.getTransactionsByCategory(category)
+                    .orElseThrow(TransactionNotFoundException::new);
+
+        return transactions.stream()
+                .map(TransactionDto::new)
+                .toList();
+    }
+
+    public TransactionDto getTransactionById(int id) {
+        return transactionRepository.getTransactionById(id)
+                .map(transaction -> new TransactionDto(transaction.getId(), transaction.getName(), transaction.getCategory(), transaction.getAmount(), transaction.getMember().getId(), transaction.getDate()
+                )).orElseThrow(NoSuchElementException::new);
     }
 
     public boolean updateTransaction(TransactionDto transactionDto) {

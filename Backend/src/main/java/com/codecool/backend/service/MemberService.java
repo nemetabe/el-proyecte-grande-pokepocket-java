@@ -1,27 +1,21 @@
 package com.codecool.backend.service;
 
-import com.codecool.backend.controller.dto.MemberCredentialsDto;
 import com.codecool.backend.controller.dto.MemberDto;
 import com.codecool.backend.controller.dto.MemberRegistrationDto;
-import com.codecool.backend.controller.dto.MyPokemonDto;
 import com.codecool.backend.controller.exception.MemberNotFoundException;
 import com.codecool.backend.model.Member;
 import com.codecool.backend.model.Role;
 import com.codecool.backend.model.Transaction;
 import com.codecool.backend.repository.MemberRepository;
 import com.codecool.backend.repository.TransactionRepository;
-import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -38,13 +32,13 @@ public class MemberService {
 
 
     public ResponseEntity<Void> register(MemberRegistrationDto signUpRequest, PasswordEncoder encoder) {
-        Member user = new Member();
-        user.setName(signUpRequest.name());
-        user.setPassword(encoder.encode(signUpRequest.password()));
-        user.setEmail(signUpRequest.email());
-        user.setRoles(Set.of(Role.ROLE_USER));
-        user.setTargetAmount(new BigDecimal(0));
-        memberRepository.save(user);
+        Member member = new Member();
+        member.setName(signUpRequest.name());
+        member.setPassword(encoder.encode(signUpRequest.password()));
+        member.setEmail(signUpRequest.email());
+        member.setRoles(Set.of(Role.ROLE_USER));
+        member.setTargetAmount(new BigDecimal(0));
+        memberRepository.save(member);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -58,7 +52,7 @@ public class MemberService {
         return memberRepository.deleteMemberById(id);
     }
 
-    public boolean updateUser(Member member) {
+    public boolean updateMember(Member member) {
         return memberRepository.save(member) != null;
     }
 
