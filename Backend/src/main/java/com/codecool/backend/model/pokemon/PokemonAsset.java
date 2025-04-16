@@ -35,7 +35,7 @@ public class PokemonAsset {
     private Integer baseExperience;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(referencedColumnName = "id")
+    @JoinColumn(name = "species_id")
     private PokemonSpecies species;
 
     @ManyToOne(fetch = FetchType.EAGER)

@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @Entity
 @JsonIgnoreProperties("evolutionChain")
-@Table(name = "pokemon_species", uniqueConstraints = @UniqueConstraint(columnNames = {"evolution_id", "poke_index_number"}))
+@Table(name = "pokemon_species", uniqueConstraints = @UniqueConstraint(columnNames = {"evolution_chain_id", "poke_index_number"}))
 public class PokemonSpecies {
     @Getter
     @Setter
@@ -35,8 +35,7 @@ public class PokemonSpecies {
     @Column()
     private String name;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "name", referencedColumnName = "name")
+    @OneToMany(mappedBy = "species", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<PokemonAsset> pokemons = new ArrayList<>();
 
     private String description;
@@ -46,7 +45,7 @@ public class PokemonSpecies {
     private Integer baseHappiness = 70;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "evolution_chain_id", referencedColumnName = "id")
+    @JoinColumn(name = "evolution_chain_id")
     private EvolutionChain evolutionChain;
 
     @Column(name = "evolution_trigger")

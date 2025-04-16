@@ -47,14 +47,7 @@ public class PokemonService {
     @EventListener(ApplicationReadyEvent.class)
     public void init() {
         if (evolutionChainRepository.count() == 0) {
-//            Thread thread = new Thread(() -> {
-//                try {
-//                    Thread.sleep(7777);
-//                } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            });
-            fetchEvolutionChains(10);//100);
+            fetchEvolutionChains(100);
         }
     }
 
@@ -96,12 +89,11 @@ public class PokemonService {
 
                 speciesList.add(species);
             }
-            evolutionChainRepository.save(evolutionChain);
             List<EvolutionStageDto> evolvesTo = currentStage.evolvesTo();
             currentStage = (evolvesTo != null && !evolvesTo.isEmpty()) ? evolvesTo.get(0) : null;
         }
-
         evolutionChain.setEvolutions(speciesList);
+        evolutionChainRepository.save(evolutionChain);
         return speciesList;
     }
 
@@ -110,13 +102,6 @@ public class PokemonService {
             try {
                 String url = getFormattedUrl(String.valueOf(species.getId()), PokeApiBaseUrl.SPECIES); // e.g., https://pokeapi.co/api/v2/pokemon-species/{id}
                 PokemonSpeciesDto dto = restTemplate.getForObject(url, PokemonSpeciesDto.class);
-                Thread thread = new Thread(() -> {
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                });
                 if (dto != null && dto.id() != null) {
                     saveOrUpdateSpecies(dto);
                 }
@@ -134,7 +119,7 @@ public class PokemonService {
             throw new RuntimeException("Species with ID " + speciesId + "?????????");
         }
 
-        PokemonSpecies species = pokemonSpeciesRepository.findById(speciesId).orElse(new PokemonSpecies());
+        PokemonSpecies species = pokemonSpeciesRepository.findById(speciesId).orElseGet(PokemonSpecies::new);
         species.setId(speciesId);
         species.setName(dto.name());
         species.setBaseHappiness(dto.baseHappiness());
@@ -155,10 +140,11 @@ public class PokemonService {
         pokemonSpeciesRepository.save(species);
 
         if (dto.varieties() != null && !dto.varieties().isEmpty()) {
-            saveOrUpdatePokemons(dto.varieties()
+            List<NamedPokeApiResourceDto> namedPokeApiResourceDtoList= dto.varieties()
                     .stream()
                     .map(PokemonSpeciesVarietyDto::pokemon)
-                    .toList(), species);
+                    .toList();
+            saveOrUpdatePokemons(namedPokeApiResourceDtoList, species);
         }
     }
 
@@ -175,13 +161,13 @@ public class PokemonService {
                     Integer id = dto.id();
                     if (id != null) {
                         PokemonAsset pokemon = pokemonAssetRepository
-                            .findPokemonAssetById(id)
-                            .orElseGet(PokemonAsset::new);
-                        if (!pokemonAssetRepository.existsById(id)) {
-                            pokemon = createPokemonAsset(id, species.getName(), species, species.getEvolutionChain(), dto.baseExperience());
+                            .findPokemonAssetById(id).orElseGet(PokemonAsset::new);
+                        //log.info("pokemon", pokemon);
+                        if (pokemon.getName() == null) {
+                            pokemon = (PokemonAsset) createPokemonAsset(id, species.getName(), species, species.getEvolutionChain(), dto.baseExperience());
                         }
-                        pokemonAssetRepository.save(pokemon);
                         species.addPokemon(pokemon);
+                        pokemonAssetRepository.save(pokemon);
                     }
                 }
             } catch (Exception e) {
@@ -202,7 +188,7 @@ public class PokemonService {
         String cryAudioUrl = getFormattedUrl(id, PokeApiBaseUrl.CRY);
 
         PokemonAsset poke = new PokemonAsset();
-        poke.setId(Integer.parseInt(id));
+        poke.setId(pokeIndex);
         poke.setName(name);
 
         poke.setPictureUrl(pictureUrl);
