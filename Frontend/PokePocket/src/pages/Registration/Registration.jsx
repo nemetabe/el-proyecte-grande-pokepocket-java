@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Registration.css";
 import { fetchData } from "../../utils";
 import LoginForm from "../../components/LoginForm";
@@ -21,8 +21,12 @@ function Registration() {
   });
 
   const [isTermsAccepted, setIsTermsAccepted] = useState(false);
-  const [isRegistering, setIsRegistering] = useState(true);
+  const [isRegistering, setIsRegistering] = useState(false);
   const [isFadingOut, setIsFadingOut] = useState(false);
+
+  useEffect(() => {
+    localStorage.getItem("pokePocketJwt") == "null" || navigate("/main");
+  }, []);
 
   const validateUsername = (value) => {
     if (value.length < 4) {
@@ -88,8 +92,35 @@ function Registration() {
     }
 
     console.log("Submitted data:", formData);
-    await fetchData(isRegistering ? "user/register" : "user/login", "POST", formData);
-    navigate("/main");
+    const responseBody = await fetchData(isRegistering ? "user/register" : "user/login", "POST", formData, null, !isRegistering);
+    if (!isRegistering) {
+      if (responseBody.status === 401) {
+        setFormData({
+          username: "",
+          email: "",
+          password: "",
+        });
+      } else {
+        localStorage.setItem("pokePocketJwt", responseBody.jwt);
+        navigate("/main");
+      }
+    } else {
+      if (responseBody.status === 409) {
+        setFormData({
+          ...formData,
+          email: ""
+        });
+        setValidation({
+          ...validation,
+          email: "User with this email is already exist!"
+        })
+      } else {
+        const responseBody = await fetchData("user/login", "POST", formData);
+        localStorage.setItem("pokePocketJwt", responseBody.jwt);
+        navigate("/main");
+      }
+    }
+
   };
 
   const switchForm = () => {
@@ -141,6 +172,7 @@ function Registration() {
         </div>
       </div>
       </div>
+      
     </>
   );
 }

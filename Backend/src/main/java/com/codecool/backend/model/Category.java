@@ -21,10 +21,14 @@ public class Category {
 
     private String description;
 
+    private String color;
+
     public Category() {
     }
     public Category(CategoryType type) {
         this.type = type;
+        description = type.description;
+        color = type.color;
     }
 
     public Category(CategoryType type, String description) {
@@ -56,26 +60,34 @@ public class Category {
 
     // Keep the category types as an enum
     public enum CategoryType {
-        INCOME,
-        GROCERY,
-        HOUSEHOLD_SUPPLIES,
-        BILLS,
-        CLOTHING,
-        PETS,
-        INSURANCE,
-        SAVINGS,
-        RENT,
-        UTILITIES,
-        DINING_OUT,
-        TRANSPORTATION,
-        ENTERTAINMENT,
-        HEALTH_CARE,
-        EDUCATION,
-        PERSONAL_CARE,
-        MISCELLANEOUS,
-        LOAN,
-        PAYMENTS,
-        FEES,
-        OTHER
+            INCOME("Income", "#1E90FF"),
+            GROCERY("Grocery", "#32CD32"),
+            HOUSEHOLD_SUPPLIES("Household supplies", "#FFD700"),
+            BILLS("Bills", "#FF4500"),
+            CLOTHING("Clothing", "#9370DB"),
+            PETS("Pets", "#FF69B4"),
+            INSURANCE("Insurance", "#00CED1"),
+            SAVINGS("Savings", "#7FFF00"),
+            RENT("Rent", "#DC143C"),
+            UTILITIES("Utilities", "#4682B4"),
+            DINING_OUT("Dining out", "#FFA07A"),
+            TRANSPORTATION("Transportation", "#808080"),
+            ENTERTAINMENT("Entertainment", "#8A2BE2"),
+            HEALTH_CARE("Health care", "#008080"),
+            EDUCATION("Education", "#00FF7F"),
+            PERSONAL_CARE("Personal care", "#FF6347"),
+            MISCELLANEOUS("Miscellaneous", "#708090"),
+            LOAN("Loan", "#B22222"),
+            PAYMENTS("Payments", "#A9A9A9"),
+            FEES("Fees", "#CD853F"),
+            OTHER("Other", "#696969");
+
+        private final String description;
+        private final String color;
+
+        CategoryType(String description, String color) {
+            this.description = description;
+            this.color = color;
+        }
     }
 }

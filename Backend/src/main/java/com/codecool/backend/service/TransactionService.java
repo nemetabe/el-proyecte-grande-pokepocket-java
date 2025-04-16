@@ -16,9 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.OptionalDouble;
+import java.util.*;
 
 @Service
 public class TransactionService {
@@ -48,18 +46,25 @@ public class TransactionService {
         return transactionDtos;
     }
 
-    public List<TransactionDto> getAllByUser(int userId) {
-        Member member = memberRepository.getMemberById(userId)
+    public List<TransactionDto> getAllByUser(String email, LocalDate startDate) {
+
+        Member member = memberRepository.findMemberByEmail(email)
                 .orElseThrow(MemberNotFoundException::new);
-        List<Transaction> transactions = transactionRepository.getAllByMember(member)
+        List<Transaction> transactions = new ArrayList<>();
+        if(startDate == null){
+            transactions = transactionRepository.getAllByMember(member)
+                    .orElseThrow(TransactionNotFoundException::new);
+        } else {
+            transactions = transactionRepository.getAllByMemberAndDateAfter(member, startDate)
                 .orElseThrow(TransactionNotFoundException::new);
+        }
         return transactions.stream()
                 .map(TransactionDto::new)
                 .toList();
     }
 
-    public Long createTransaction(NewTransactionDto transactionDto) {
-        Member member = memberRepository.getMemberById(transactionDto.memberId())
+    public Long createTransaction(String email,NewTransactionDto transactionDto) {
+        Member member = memberRepository.findMemberByEmail(email)
                 .orElseThrow(MemberNotFoundException::new);
 
         Category category = categoryRepository.getCategoryById(transactionDto.categoryId())
@@ -72,11 +77,22 @@ public class TransactionService {
         return transactionRepository.save(transaction).getId();
     }
 
-    public TransactionDto getTransactionById(int id) {
-        Transaction transaction = transactionRepository.getTransactionsById(id)
-                .orElseThrow(TransactionNotFoundException::new);
+    public List<TransactionDto> getTransactionByGategory(Category category) {
 
-        return new TransactionDto(transaction);
+        List<Transaction> transactions = new ArrayList<>();
+
+        transactions = transactionRepository.getTransactionsByCategory(category)
+                    .orElseThrow(TransactionNotFoundException::new);
+
+        return transactions.stream()
+                .map(TransactionDto::new)
+                .toList();
+    }
+
+    public TransactionDto getTransactionById(int id) {
+        return transactionRepository.getTransactionById(id)
+                .map(transaction -> new TransactionDto(transaction.getId(), transaction.getName(), transaction.getCategory(), transaction.getAmount(), transaction.getMember().getId(), transaction.getDate()
+                )).orElseThrow(NoSuchElementException::new);
     }
 
     public boolean updateTransaction(TransactionDto transactionDto) {
