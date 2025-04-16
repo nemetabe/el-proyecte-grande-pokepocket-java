@@ -1,52 +1,64 @@
 package com.codecool.backend.model.pokemon;
 
+import com.codecool.backend.controller.dto.pokemon.PokemonSpeciesDto;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Data
 @Entity
-@Table(name = "pokemon_species")
+@JsonIgnoreProperties("evolutionChain")
+@Table(name = "pokemon_species", uniqueConstraints = @UniqueConstraint(columnNames = {"evolution_id", "poke_index_number"}))
 public class PokemonSpecies {
     @Getter
     @Setter
     @Id
     private Integer id;
 
-    @Column(name = "poke_index_number", nullable = false)
+    public PokemonSpecies(PokemonSpeciesDto pokemonSpeciesDto) {
+        this.name = pokemonSpeciesDto.name();
+        this.id = pokemonSpeciesDto.id();
+        this.baseHappiness = pokemonSpeciesDto.baseHappiness();
+        this.pokeIndexNumber = pokemonSpeciesDto.id();
+    }
+
+    public PokemonSpecies() {}
+
+    @Column(name = "poke_index_number")
     private Integer pokeIndexNumber;
 
-    @Column(nullable = false)
+    @Column()
     private String name;
 
-
-    @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "variety", joinColumns = @JoinColumn(name = "pokemon_id", referencedColumnName = "id"))
-    @MapKeyColumn(name = "pokemon_id")
-    private Map<String, Integer> pokemons = new HashMap<>();
-
-    @OneToMany
-    @JoinColumn(name = "pokemon_id", referencedColumnName = "id")
-    private PokemonAsset pokemon;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "name", referencedColumnName = "name")
+    private List<PokemonAsset> pokemons = new ArrayList<>();
 
     private String description;
 
-    @Column(name = "base_happiness", nullable = false)
+    @Column(name = "base_happiness")
+    //private Integer baseHappiness = 70;
     private Integer baseHappiness = 70;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "evolution_id", referencedColumnName = "id", nullable = false, updatable = false)
-    private EvolutionChain evolution;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "evolution_chain_id", referencedColumnName = "id")
+    private EvolutionChain evolutionChain;
 
     @Column(name = "evolution_trigger")
     private String evolutionTrigger;
 
     @Column(name = "evolution_threshold")
     private Integer evolutionThreshold;
+
+
+    public void addPokemon(PokemonAsset pokemonAsset) {
+        pokemons.add(pokemonAsset);
+        pokemonAsset.setSpecies(this);
+    }
 
 }

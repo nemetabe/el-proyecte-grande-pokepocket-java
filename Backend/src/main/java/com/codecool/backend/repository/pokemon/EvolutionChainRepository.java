@@ -17,6 +17,6 @@ public interface EvolutionChainRepository extends JpaRepository<EvolutionChain, 
             "JOIN pokemon_species ps ON ps.evolution_id = ec.id " +
             "WHERE ps.evolution_id = ece.evolution_chain_id",
             nativeQuery = true)
-    public Optional<List<EvolutionChain>> findEvolutionChainBySpeciesId();
+    Optional<List<EvolutionChain>> findEvolutionChainBySpeciesId();
 
 }

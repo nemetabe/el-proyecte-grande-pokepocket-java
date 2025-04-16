@@ -97,7 +97,7 @@ public class PokemonEvolutionService {
             PokemonSpecies evolvedSpecies = pokemonSpeciesRepository.findById(pokemon.getSpecies().getId()).orElseThrow(() -> new PokemonNotFoundException("Evolved species not found"));
 
 
-            PokemonAsset evolvedAsset = pokemonAssetRepository.findBySpeciesId(correctEvolution.getEvolutionIds().get(correctEvolution.getEvolutionTracker()))
+            PokemonAsset evolvedAsset = pokemonAssetRepository.findBySpeciesId(correctEvolution.getCurrentEvolution(0).getId())
                     .orElseThrow(() -> new PokemonNotFoundException("Assets for evolved form not found"));
 
 

@@ -42,6 +42,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 @Getter
 @Setter
@@ -52,32 +53,39 @@ public class EvolutionChain {
     @Id
     private Integer id;
 
-
-    @ElementCollection
-    private List<String> evolutions;
-
-
-    @ElementCollection
-    private List<Integer> evolutionIds;
-
-    private Integer evolutionTracker;
+    @OneToMany(mappedBy = "evolutionChain", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<PokemonSpecies> evolutions = new ArrayList<>();
 
     public EvolutionChain() {}
 
-    public EvolutionChain(Integer id, List<String> evolutions, List<Integer> evolutionIds) {
+    public EvolutionChain(Integer id, List<PokemonSpecies> evolutions) {
         this.id = id;
         this.evolutions = evolutions;
-        this.evolutionIds = evolutionIds;
-        this.evolutionTracker = 0;
     }
 
-    public String getBasePokemon() { return evolutions != null ? evolutions.get(0) : null; }
+    public PokemonSpecies getBasePokemon() { return evolutions != null ? evolutions.get(0) : null; }
 
-    public void setEvolutionTracker(Integer increment) {
-        this.evolutionTracker += increment;
+
+    public void addSpecies(PokemonSpecies species) {
+        evolutions.add(species);
+        species.setEvolutionChain(this);
     }
 
-    public String getCurrentEvolution() {
-        return evolutions != null ? evolutions.get(evolutionTracker) : null;
+    public void removeSpecies(PokemonSpecies species) {
+        evolutions.remove(species);
+        species.setEvolutionChain(null);
+    }
+
+    public PokemonSpecies getCurrentEvolution(Integer currentEvolution) {
+        if (evolutions != null && currentEvolution < evolutions.size()) {
+            return evolutions.get(currentEvolution);
+        }
+        return null;
+    }
+    public PokemonSpecies getNextEvolution(Integer currentEvolution) {
+        if (evolutions != null && currentEvolution + 1 < evolutions.size()) {
+            return evolutions.get(currentEvolution + 1);
+        }
+        return null;
     }
 }

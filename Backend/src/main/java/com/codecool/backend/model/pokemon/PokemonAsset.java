@@ -3,43 +3,42 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Data
-@AllArgsConstructor
+
 @NoArgsConstructor
 @Entity
-@Table(name = "pokemon_assets",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"species_id", "evolution_id"}))
+@Table(name = "pokemon_assets")
 public class PokemonAsset {
     @Getter
     @Setter
     @Id
     private Integer id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "picture_url", nullable = false)
+    @Column(name = "picture_url")
     private String pictureUrl;
 
-    @Column(name = "gif_url", nullable = false)
+    @Column(name = "gif_url")
     private String gifUrl;
 
-    @Column(name = "sprite_front", nullable = false)
+    @Column(name = "sprite_front")
     private String spriteFront;
 
-    @Column(name = "sprite_back", nullable = false)
+    @Column(name = "sprite_back")
     private String spriteBack;
 
-    @Column(name = "cry_audio_url", nullable = false)
+    @Column(name = "cry_audio_url")
     private String cryAudioUrl;
 
-//    @Column(name = "experience")
-//    private Integer experience;
+    @Column(name = "base_experience")
+    private Integer baseExperience;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(referencedColumnName = "id")
     private PokemonSpecies species;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(referencedColumnName = "id")
     private EvolutionChain evolution;
 }
