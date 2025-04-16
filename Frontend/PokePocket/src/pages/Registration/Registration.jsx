@@ -102,6 +102,7 @@ function Registration() {
         });
       } else {
         localStorage.setItem("pokePocketJwt", responseBody.jwt);
+        localStorage.setItem("username", responseBody.userName);
         navigate("/main");
       }
     } else {
