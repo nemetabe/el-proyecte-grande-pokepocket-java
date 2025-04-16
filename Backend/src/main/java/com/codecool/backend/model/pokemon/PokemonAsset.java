@@ -1,26 +1,25 @@
 package com.codecool.backend.model.pokemon;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Data
+
+@NoArgsConstructor
 @Entity
 @Table(name = "pokemon_assets")
 public class PokemonAsset {
     @Getter
     @Setter
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    @Column(name = "species_id", nullable = false)
-    private Long speciesId;
+    @Column(name = "name")
+    private String name;
 
-    @Column(name = "picture_url", nullable = false)
+    @Column(name = "picture_url")
     private String pictureUrl;
 
-    @Column(name = "gif_url", nullable = false)
+    @Column(name = "gif_url")
     private String gifUrl;
 
     @Column(name = "sprite_front")
@@ -32,7 +31,14 @@ public class PokemonAsset {
     @Column(name = "cry_audio_url")
     private String cryAudioUrl;
 
-    @OneToOne
-    @JoinColumn(name = "species_id", insertable = false, updatable = false)
+    @Column(name = "base_experience")
+    private Integer baseExperience;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "species_id")
     private PokemonSpecies species;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(referencedColumnName = "id")
+    private EvolutionChain evolution;
 }

@@ -1,4 +1,5 @@
 package com.codecool.backend.model.pokemon;
+import com.codecool.backend.model.Member;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -16,30 +17,31 @@ public class UserPokemon {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Long speciesId;
-
-    @Column(nullable = false)
-    private Long userId;
-
     private String nickname;
 
     @Column(nullable = false)
     private Integer happiness = 70;
 
-    @Column(nullable = false)
+    @Column(name = "picture_url", nullable = false)
     private String pictureUrl;
 
-    @Column(nullable = false)
+    @Column(name = "gif_url",nullable = false)
     private String gifUrl;
 
-    @Column(nullable = false)
+    @Column(name = "hatch_date", nullable = false)
     private LocalDateTime hatchDate = LocalDateTime.now();
 
-    @Column(nullable = false)
+    @Column(name = "is_evolution_pending")
     private Boolean isEvolutionPending = false;
 
     @ManyToOne
-    @JoinColumn(name = "speciesId", insertable = false, updatable = false)
+    @JoinColumn(name = "species_id", referencedColumnName = "id", insertable = false, updatable = false)
     private PokemonSpecies species;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Member user;
+
+    @Column(name = "experience", nullable = false)
+    private Integer experience;
 }
