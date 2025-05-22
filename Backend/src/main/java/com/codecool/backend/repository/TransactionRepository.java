@@ -1,13 +1,12 @@
 package com.codecool.backend.repository;
 
-import com.codecool.backend.model.Category;
-import com.codecool.backend.model.Member;
-import com.codecool.backend.model.Transaction;
+import com.codecool.backend.model.transaction.Category;
+import com.codecool.backend.model.user.Member;
+import com.codecool.backend.model.transaction.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 

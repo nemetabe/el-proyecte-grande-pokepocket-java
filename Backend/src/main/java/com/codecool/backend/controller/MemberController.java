@@ -1,12 +1,11 @@
 package com.codecool.backend.controller;
 
 import com.codecool.backend.controller.dto.*;
-import com.codecool.backend.model.Member;
+import com.codecool.backend.model.user.Member;
 import com.codecool.backend.security.jwt.JwtUtils;
 import com.codecool.backend.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
