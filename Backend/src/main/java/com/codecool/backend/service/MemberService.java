@@ -63,6 +63,7 @@ public class MemberService {
 //    public MyPokemonDto getMyPokemon(String email) {
 //        Member member = memberRepository.findMemberByEmail(email)
 //                .orElseThrow(MemberNotFoundException::new);
+//        member
 //    }
 
 
