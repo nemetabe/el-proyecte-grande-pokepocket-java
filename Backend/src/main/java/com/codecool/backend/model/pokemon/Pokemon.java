@@ -30,4 +30,8 @@ public class Pokemon {
 
     @OneToOne
     private PokemonEvolution evolution;
+
+    //fire - 2
+    //grass - 5
+    //poison - 8
 }
