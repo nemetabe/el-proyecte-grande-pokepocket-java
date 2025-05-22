@@ -1,19 +1,19 @@
-package com.codecool.backend.model;
+package com.codecool.backend.model.transaction;
 
 import com.codecool.backend.controller.dto.NewTransactionDto;
 import com.codecool.backend.controller.dto.TransactionDto;
+import com.codecool.backend.model.user.Member;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Objects;
 
-@Data
 @Entity
+@Getter
+@Setter
 public class Transaction {
-    @Getter
-    @Setter
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,14 +33,6 @@ public class Transaction {
     private java.time.LocalDate date;
 
     public Transaction() {
-    }
-
-    public Transaction(Long id, String name, Category category, int amount, Member member) {
-        this.id = id;
-        this.name = name;
-        this.category = category;
-        this.amount = amount;
-        this.member = member;
     }
 
     public Transaction(TransactionDto dto) {
