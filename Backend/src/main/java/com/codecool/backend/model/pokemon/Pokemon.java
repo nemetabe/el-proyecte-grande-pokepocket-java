@@ -21,8 +21,6 @@ public class Pokemon {
 
     private int experience;
 
-    private int evolutionState;
-
     private String image;
 
     private String gif;
@@ -30,11 +28,6 @@ public class Pokemon {
     @ManyToMany
     private List<PokemonType> types;
 
-    @ManyToMany
-    @JoinTable(
-            name = "pokemon_evolution",
-            joinColumns = @JoinColumn(name = "pokemon_id"),
-            inverseJoinColumns = @JoinColumn(name = "evolution_id")
-    )
-    private Pokemon evolutions;
+    @OneToOne
+    private PokemonEvolution evolution;
 }
