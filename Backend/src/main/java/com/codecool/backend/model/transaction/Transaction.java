@@ -1,19 +1,19 @@
-package com.codecool.backend.model;
+package com.codecool.backend.model.transaction;
 
 import com.codecool.backend.controller.dto.NewTransactionDto;
 import com.codecool.backend.controller.dto.TransactionDto;
+import com.codecool.backend.model.user.Member;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Objects;
 
-@Data
 @Entity
+@Getter
+@Setter
 public class Transaction {
-    @Getter
-    @Setter
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

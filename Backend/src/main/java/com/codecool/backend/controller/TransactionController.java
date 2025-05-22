@@ -3,17 +3,14 @@ package com.codecool.backend.controller;
 import com.codecool.backend.controller.dto.CategoryDto;
 import com.codecool.backend.controller.dto.NewTransactionDto;
 import com.codecool.backend.controller.dto.TransactionDto;
-import com.codecool.backend.model.Category;
-import com.codecool.backend.model.Member;
+import com.codecool.backend.model.transaction.Category;
 import com.codecool.backend.service.TransactionService;
-import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.OptionalDouble;
 

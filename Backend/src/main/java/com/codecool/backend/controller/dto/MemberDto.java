@@ -1,7 +1,7 @@
 package com.codecool.backend.controller.dto;
 
-import com.codecool.backend.model.Member;
-import com.codecool.backend.model.Transaction;
+import com.codecool.backend.model.user.Member;
+import com.codecool.backend.model.transaction.Transaction;
 
 import java.math.BigDecimal;
 import java.util.List;
