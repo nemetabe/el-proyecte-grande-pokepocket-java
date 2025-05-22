@@ -35,14 +35,6 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(Long id, String name, Category category, int amount, Member member) {
-        this.id = id;
-        this.name = name;
-        this.category = category;
-        this.amount = amount;
-        this.member = member;
-    }
-
     public Transaction(TransactionDto dto) {
         id = dto.id();
         name = dto.name();
