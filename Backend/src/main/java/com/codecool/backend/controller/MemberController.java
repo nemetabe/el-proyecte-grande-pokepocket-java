@@ -115,11 +115,11 @@ public class MemberController {
         }
     }
 
-    @GetMapping("/mypokemon")
-    public MyPokemonDto getMyPokemon(){
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return memberService.getMyPokemon(user.getUsername());
-    }
+//    @GetMapping("/mypokemon")
+//    public MyPokemonDto getMyPokemon(){
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        return memberService.getMyPokemon(user.getUsername());
+//    }
 
     @GetMapping("/savings")
     public int getMySavings(){

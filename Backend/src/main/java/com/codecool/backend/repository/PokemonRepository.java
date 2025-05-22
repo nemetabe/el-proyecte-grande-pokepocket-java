@@ -1,7 +1,9 @@
 package com.codecool.backend.repository;
 
-import com.codecool.backend.model.Pokemon;
-import org.springframework.data.repository.CrudRepository;
+import com.codecool.backend.model.pokemon.Pokemon;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface PokemonRepository extends CrudRepository<Pokemon, Long> {
+@Repository
+public interface PokemonRepository extends JpaRepository<Pokemon, Long> {
 }

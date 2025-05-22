@@ -1,52 +1,93 @@
-
--- Insert Pokemons
 INSERT INTO pokemon (name, experience, image, gif) VALUES
-('Bulbasaur', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/1.gif'),
-('Ivysaur', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/2.gif'),
-('Venusaur', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/3.gif'),
-('Charmander', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/4.gif'),
-('Charmilion', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/5.gif'),
-('Charizard', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/6.gif');
+                                                       ('Bulbasaur', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/1.gif'),
+                                                       ('Ivysaur', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/2.gif'),
+                                                       ('Venusaur', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/3.gif'),
+                                                       ('Charmander', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/4.gif'),
+                                                       ('Charmilion', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/5.gif'),
+                                                       ('Charizard', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/6.gif'),
+                                                       ('Squirtle', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/7.gif'),
+                                                       ('Wartortle', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/8.gif'),
+                                                       ('Blastoise', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/9.gif'),
+                                                       ('Caterpie', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/10.gif'),
+                                                       ('Metapod', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/11.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/11.gif'),
+                                                       ('Butterfree', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/12.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/12.gif'),
+                                                       ('Weedle', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/13.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/13.gif'),
+                                                       ('Kakuna', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/14.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/14.gif'),
+                                                       ('Beedrill', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/15.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/15.gif'),
+                                                       ('Pidgey', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/16.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/16.gif'),
+                                                       ('Pidgeotto', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/17.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/17.gif'),
+                                                       ('Pidgeot', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/18.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/18.gif'),
+                                                       ('Pichu', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/172.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/172.gif'),
+                                                       ('Pikachu', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/25.gif'),
+                                                       ('Raichu', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/26.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/26.gif');
 
--- ('Squirtle', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/7.gif'),
---
--- ('Caterpie', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/10.gif'),
---
--- ('Weedle', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/13.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/13.gif'),
---
--- ('Pidgey', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/16.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/16.gif'),
---
--- ('Rattata', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/19.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/19.gif'),
---
--- ('Spearow', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/21.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/21.gif'),
---
--- ('Ekans', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/23.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/23.gif'),
---
--- ('Pikachu', 0, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/25.gif');
-
--- Insert Pokemon types
 INSERT INTO pokemon_types (pokemon_id, types_id) VALUES
-(1, 5),
-(1, 8),
-(2, 5),
-(2, 8),
-(3, 5),
-(3, 8),
-(4, 2),
-(5, 2),
-(6, 2);
--- (3, 'WATER'),
--- (4, 'BUG'),
--- (5, 'BUG'),
--- (5, 'POISON'),
--- (6, 'NORMAL'),
--- (6, 'FLYING'),
--- (7, 'NORMAL'),
--- (8, 'NORMAL'),
--- (8, 'FLYING'),
--- (9, 'POISON'),
--- (10, 'ELECTRIC');
+                                                     (1, 5),
+                                                     (1, 8),
+                                                     (2, 5),
+                                                     (2, 8),
+                                                     (3, 5),
+                                                     (3, 8),
+                                                     (4, 2),
+                                                     (5, 2),
+                                                     (6, 2),
+                                                     (6, 10),
+                                                     (7, 3),
+                                                     (8, 3),
+                                                     (9, 3),
+                                                     (10, 12),
+                                                     (11, 12),
+                                                     (12, 12),
+                                                     (12, 10),
+                                                     (13, 12),
+                                                     (13, 8),
+                                                     (14, 12),
+                                                     (14, 8),
+                                                     (15, 12),
+                                                     (15, 8),
+                                                     (16, 1),
+                                                     (16, 10),
+                                                     (17, 1),
+                                                     (17, 10),
+                                                     (18, 1),
+                                                     (18, 10),
+                                                     (19, 4),
+                                                     (20, 4),
+                                                     (21, 4);
 
 INSERT INTO pokemon_evolution (phase_one_id, phase_two_id, phase_three_id) VALUES
-(1, 2, 3),
-(4, 5, 6);
+                                                                               (1, 2, 3),
+                                                                               (4, 5, 6),
+                                                                               (7, 8, 9),
+                                                                               (10, 11, 12),
+                                                                               (13, 14, 15),
+                                                                               (16, 17, 18),
+                                                                               (19, 20, 21);
+
+UPDATE pokemon
+SET evolution_id = 1
+WHERE id IN (1, 2, 3);
+
+UPDATE pokemon
+SET evolution_id = 2
+WHERE id IN (4, 5, 6);
+
+UPDATE pokemon
+SET evolution_id = 3
+WHERE id IN (7, 8, 9);
+
+UPDATE pokemon
+SET evolution_id = 4
+WHERE id IN (10, 11, 12);
+
+UPDATE pokemon
+SET evolution_id = 5
+WHERE id IN (13, 14, 15);
+
+UPDATE pokemon
+SET evolution_id = 6
+WHERE id IN (16, 17, 18);
+
+UPDATE pokemon
+SET evolution_id = 7
+WHERE id IN (19, 20, 21);

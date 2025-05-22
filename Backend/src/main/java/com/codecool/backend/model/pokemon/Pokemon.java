@@ -28,7 +28,7 @@ public class Pokemon {
     @ManyToMany
     private List<PokemonType> types;
 
-    @OneToOne
+    @ManyToOne
     private PokemonEvolution evolution;
 
     //fire - 2
