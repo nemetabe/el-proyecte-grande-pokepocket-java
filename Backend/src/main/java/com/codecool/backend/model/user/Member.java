@@ -1,9 +1,9 @@
-package com.codecool.backend.model;
+package com.codecool.backend.model.user;
 
 import com.codecool.backend.controller.dto.MemberDto;
 import com.codecool.backend.controller.dto.MemberRegistrationDto;
+import com.codecool.backend.model.transaction.Transaction;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,8 +12,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-@Data
 @Entity
+@Getter
+@Setter
 @SequenceGenerator(name="seq", initialValue=2, allocationSize=100)
 public class Member {
 
