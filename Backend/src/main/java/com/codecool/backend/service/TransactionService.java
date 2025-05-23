@@ -22,14 +22,12 @@ import java.util.*;
 public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final MemberRepository memberRepository;
-    private final MemberService memberService;
     private final CategoryRepository categoryRepository;
 
     @Autowired
-    public TransactionService(TransactionRepository transactionRepository, MemberRepository memberRepository, MemberService memberService, CategoryRepository categoryRepository) {
+    public TransactionService(TransactionRepository transactionRepository, MemberRepository memberRepository, CategoryRepository categoryRepository) {
         this.transactionRepository = transactionRepository;
         this.memberRepository = memberRepository;
-        this.memberService = memberService;
         this.categoryRepository = categoryRepository;
     }
 
@@ -37,13 +35,6 @@ public class TransactionService {
         return categoryRepository.findAll().stream()
                 .map(CategoryDto::new)
                 .toList();
-    }
-
-    public List<TransactionDto> getAllTransactions() {
-        List<Transaction> allTransactions = transactionRepository.findAll();
-        List<TransactionDto> transactionDtos = new ArrayList<>();
-        allTransactions.forEach(transaction -> transactionDtos.add(new TransactionDto(transaction)));
-        return transactionDtos;
     }
 
     public List<TransactionDto> getAllByUser(String email, LocalDate startDate) {
@@ -77,7 +68,7 @@ public class TransactionService {
         return transactionRepository.save(transaction).getId();
     }
 
-    public List<TransactionDto> getTransactionByGategory(Category category) {
+    public List<TransactionDto> getTransactionsByCategory(Category category) {
 
         List<Transaction> transactions = new ArrayList<>();
 
