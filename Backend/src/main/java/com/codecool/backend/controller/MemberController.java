@@ -4,6 +4,7 @@ import com.codecool.backend.controller.dto.*;
 import com.codecool.backend.model.user.Member;
 import com.codecool.backend.security.jwt.JwtUtils;
 import com.codecool.backend.service.MemberService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,6 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
+@Transactional
 public class MemberController {
 
     private final PasswordEncoder encoder;
@@ -115,15 +117,21 @@ public class MemberController {
         }
     }
 
-//    @GetMapping("/mypokemon")
-//    public MyPokemonDto getMyPokemon(){
-//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        return memberService.getMyPokemon(user.getUsername());
-//    }
+    @GetMapping("/mypokemon")
+    public MyPokemonDto getMyPokemon(){
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return memberService.getMyPokemon(user.getUsername());
+    }
 
     @GetMapping("/savings")
     public int getMySavings(){
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return memberService.getMySaving(user.getUsername());
+    }
+
+    @PostMapping("/choose")
+    public void choosePokemon(@RequestBody Long pokemonId){
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        memberService.choosePokemon(pokemonId, user.getUsername());
     }
 }

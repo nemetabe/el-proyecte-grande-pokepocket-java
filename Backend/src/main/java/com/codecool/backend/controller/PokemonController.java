@@ -1,8 +1,7 @@
 package com.codecool.backend.controller;
 
 
-import com.codecool.backend.controller.dto.PokemonChooseDto;
-import com.codecool.backend.model.pokemon.Pokemon;
+import com.codecool.backend.controller.dto.PokemonDto;
 import com.codecool.backend.service.PokemonService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +20,7 @@ public class PokemonController {
     }
 
     @GetMapping("/all")
-    public List<PokemonChooseDto> getAllBasePokemon() {
+    public List<PokemonDto> getAllBasePokemon() {
         return pokemonService.getAllBasePokemons();
     }
 

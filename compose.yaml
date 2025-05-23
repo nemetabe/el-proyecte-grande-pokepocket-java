@@ -1,4 +1,3 @@
-
 services:
   db:
     image: "postgres:latest"
@@ -25,6 +24,7 @@ services:
       DB_URL: jdbc:postgresql://db:5432/poke_pocket
       SECRET_KEY: ======================CodeCool=Spring===========================
       EXPIRATION: 6800000
+      SERVER_PORT: 8081
 
   frontend:
     build: ./Frontend/PokePocket

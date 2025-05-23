@@ -118,7 +118,11 @@ function Registration() {
       } else {
         const responseBody = await fetchData("user/login", "POST", formData);
         localStorage.setItem("pokePocketJwt", responseBody.jwt);
-        navigate("/main");
+        if(await fetchData("user/mypokemon", "GET", null, localStorage.getItem("pokePocketJwt"))){
+          navigate("/main");
+        } else {
+          navigate("/pokechoose");
+        }
       }
     }
 

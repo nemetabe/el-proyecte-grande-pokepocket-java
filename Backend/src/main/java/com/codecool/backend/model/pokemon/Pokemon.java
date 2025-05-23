@@ -19,8 +19,6 @@ public class Pokemon {
 
     private String name;
 
-    private int experience;
-
     private String image;
 
     private String gif;
@@ -30,8 +28,4 @@ public class Pokemon {
 
     @ManyToOne
     private PokemonEvolution evolution;
-
-    //fire - 2
-    //grass - 5
-    //poison - 8
 }

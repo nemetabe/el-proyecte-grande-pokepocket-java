@@ -2,6 +2,7 @@ package com.codecool.backend.model.user;
 
 import com.codecool.backend.controller.dto.MemberDto;
 import com.codecool.backend.controller.dto.MemberRegistrationDto;
+import com.codecool.backend.model.pokemon.Pokemon;
 import com.codecool.backend.model.transaction.Transaction;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -25,6 +26,9 @@ public class Member {
     @Column(unique = true)
     private String email;
     private String password;
+    @ManyToOne
+    private Pokemon myPokemon;
+    private int myPokemonExperience;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))

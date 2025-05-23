@@ -9,11 +9,15 @@ import MyPokemon from './pages/MyPokemon/MyPokemon.jsx';
 import MyPocket from './pages/MyPocket/MyPocket.jsx';
 import Layout from './pages/Layout.jsx';
 import ProfileEdit from "./pages/EditPage/ProfileEdit.jsx";
-
+import PokeChoose from "./pages/PokeChoose/PokeChoose.jsx";
 const router = createBrowserRouter([
     {
         path: "/",
         element: <Registration/>
+    },
+    {
+        path: "/pokechoose",
+        element: <PokeChoose/>
     },
     {
         path: "/main",

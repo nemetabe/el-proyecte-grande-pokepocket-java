@@ -1,5 +1,4 @@
-import badge from "daisyui/components/badge";
-import { useNavigate } from "react-router-dom";
+
 import badge1 from "./assets/badge1.png"
 import badge2 from "./assets/badge2.png"
 import badge3 from "./assets/badge3.png"
@@ -38,11 +37,21 @@ export async function fetchData(path, method = "GET", body = null, jwt = null, h
         window.location.href = "/";
     }
 
-    if (hasRequestBody) {
-        return response.json();
-    } else {
-        return response;
+    const contentType = response.headers.get("content-type");
+    const isJson = contentType && contentType.includes("application/json");
+
+    const text = await response.text();
+    const data = isJson ? JSON.parse(text) : text;
+
+    if (!response.ok) {
+        throw {
+            status: response.status,
+            message: typeof data === "string" ? data : data?.message || "Unknown error occurred",
+            data,
+        };
     }
+
+    return data;
 }
 
 
