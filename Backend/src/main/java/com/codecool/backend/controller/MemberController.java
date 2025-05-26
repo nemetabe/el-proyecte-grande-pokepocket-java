@@ -61,13 +61,10 @@ public class MemberController {
     }
 
     @GetMapping("/profile")
-//    @PreAuthorize("isAuthenticated()")
     public MemberProfileDto getProfile() {
-        // Get current authenticated user
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserEmail = authentication.getName();
 
-        // Get the member associated with the email
         Member currentMember = memberService.findMemberByEmail(currentUserEmail);
 
         return new MemberProfileDto(currentMember.getId(), currentMember.getName(), currentMember.getEmail(), currentMember.getTargetAmount());

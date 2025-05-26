@@ -30,11 +30,6 @@ public class TransactionController {
         return transactionService.getAllCategories();
     }
 
-//    @GetMapping("/all")
-//    public List<TransactionDto> getAll() throws Exception {
-//        return transactionService.getAllTransactions();
-//    }
-
     @GetMapping("/all")
     public List<TransactionDto> getAllByUser(@RequestParam(required = false) LocalDate date) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

@@ -3,7 +3,6 @@ package com.codecool.backend.service;
 import com.codecool.backend.controller.dto.PokemonDto;
 import com.codecool.backend.model.pokemon.Pokemon;
 import com.codecool.backend.repository.PokemonEvolutionRepository;
-import com.codecool.backend.repository.PokemonRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
