@@ -1,6 +1,7 @@
 package com.codecool.backend.controller;
 
 import com.codecool.backend.controller.dto.*;
+import com.codecool.backend.controller.exception.WrongPassword;
 import com.codecool.backend.model.user.Member;
 import com.codecool.backend.security.jwt.JwtUtils;
 import com.codecool.backend.service.MemberService;
@@ -38,7 +39,7 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody MemberCredentialsDto loginRequest) {
+    public JwtResponse login(@RequestBody MemberCredentialsDto loginRequest) {
 
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.email(), loginRequest.password()));
@@ -50,14 +51,12 @@ public class MemberController {
         List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
                 .toList();
         Member loggedMember = memberService.findMemberByEmail(userDetails.getUsername());
-        return ResponseEntity
-                .ok(new JwtResponse(jwt, loggedMember.getName(), roles));
+        return new JwtResponse(jwt, loggedMember.getName(), roles);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Void> createUser(@RequestBody MemberRegistrationDto signUpRequest) {
-
-            return memberService.register(signUpRequest, encoder);
+    public void createUser(@RequestBody MemberRegistrationDto signUpRequest) {
+            memberService.register(signUpRequest, encoder);
     }
 
     @GetMapping("/profile")
@@ -82,7 +81,7 @@ public class MemberController {
 
 
     @PutMapping("/profile/update")
-    public ResponseEntity<?> updateUser(@RequestBody UpdateProfileDto profileDto) {
+    public void updateUser(@RequestBody UpdateProfileDto profileDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserEmail = authentication.getName();
 
@@ -92,7 +91,7 @@ public class MemberController {
                 && profileDto.newPassword() != null && !profileDto.newPassword().isEmpty()) {
 
             if (!encoder.matches(profileDto.currentPassword(), currentMember.getPassword())) {
-                return ResponseEntity.badRequest().body("Wrong current password");
+                throw new WrongPassword();
             }
 
             currentMember.setPassword(encoder.encode(profileDto.newPassword()));
@@ -106,12 +105,7 @@ public class MemberController {
             currentMember.setTargetAmount(profileDto.newTargetAmount());
         }
 
-        boolean updated = memberService.updateMember(currentMember);
-        if (updated) {
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.badRequest().body("Failed to update user");
-        }
+        memberService.updateMember(currentMember);
     }
 
     @GetMapping("/mypokemon")

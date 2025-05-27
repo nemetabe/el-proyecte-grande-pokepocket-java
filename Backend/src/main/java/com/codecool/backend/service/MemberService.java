@@ -6,6 +6,7 @@ import com.codecool.backend.controller.dto.MyPokemonDto;
 import com.codecool.backend.controller.dto.PokemonDto;
 import com.codecool.backend.controller.exception.MemberNotFoundException;
 import com.codecool.backend.controller.exception.PokemonNotFoundException;
+import com.codecool.backend.controller.exception.UpdateFailedException;
 import com.codecool.backend.model.pokemon.Pokemon;
 import com.codecool.backend.model.user.Member;
 import com.codecool.backend.model.user.Role;
@@ -42,7 +43,7 @@ public class MemberService {
     }
 
 
-    public ResponseEntity<Void> register(MemberRegistrationDto signUpRequest, PasswordEncoder encoder) {
+    public void register(MemberRegistrationDto signUpRequest, PasswordEncoder encoder) {
         Member member = new Member();
         member.setName(signUpRequest.name());
         member.setPassword(encoder.encode(signUpRequest.password()));
@@ -50,7 +51,6 @@ public class MemberService {
         member.setRoles(Set.of(Role.ROLE_USER));
         member.setTargetAmount(new BigDecimal(0));
         memberRepository.save(member);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     public MemberDto getMember(int id) {
@@ -63,8 +63,12 @@ public class MemberService {
         return memberRepository.deleteMemberById(id);
     }
 
-    public boolean updateMember(Member member) {
-        return memberRepository.save(member) != null;
+    public void updateMember(Member member) {
+        try{
+         memberRepository.save(member);
+        } catch (Exception e){
+            throw new UpdateFailedException();
+        }
     }
 
     public Member findMemberByEmail(String email){

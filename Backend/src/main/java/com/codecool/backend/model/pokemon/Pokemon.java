@@ -23,7 +23,7 @@ public class Pokemon {
 
     private String gif;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<PokemonType> types;
 
     @ManyToOne

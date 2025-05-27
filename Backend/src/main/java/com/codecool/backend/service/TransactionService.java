@@ -12,6 +12,7 @@ import com.codecool.backend.model.transaction.Transaction;
 import com.codecool.backend.repository.CategoryRepository;
 import com.codecool.backend.repository.MemberRepository;
 import com.codecool.backend.repository.TransactionRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,6 +55,7 @@ public class TransactionService {
                 .toList();
     }
 
+    @Transactional
     public Long createTransaction(String email,NewTransactionDto transactionDto) {
         Member member = memberRepository.findMemberByEmail(email)
                 .orElseThrow(MemberNotFoundException::new);
