@@ -32,15 +32,18 @@ PokePocket is a full-stack web application that combines Pokémon with personal 
 ## Important Note
 Docker configuration is currently not working. Please follow the manual setup instructions below to run the application.
 
-## Prerequisites
-
-Before running the application, make sure you have the following installed:
-- Java Development Kit (JDK) 17 or later
-- Node.js 18 or later
-- PostgreSQL 15 or later
-- Maven
-
 ## Environment Setup
+
+### Environment Files
+The project uses environment variables for configuration. Example files are provided:
+- `.env.example` - Root configuration (database and ports)
+- `Backend/.env.example` - Backend specific configuration (JWT)
+- `Frontend/PokePocket/.env.example` - Frontend specific configuration (API URL)
+
+To set up your environment:
+1. Copy each `.env.example` file to a new `.env` file in the same directory
+2. Replace the placeholder values in each `.env` file with your actual configuration
+3. Never commit your `.env` files to version control
 
 ### Database Setup
 1. Install PostgreSQL
@@ -55,7 +58,7 @@ CREATE DATABASE poke_pocket;
 cd Backend
 ```
 
-2. Create a `.env` file in the Backend directory with the following content:
+2. Create a `.env` file based on the example and update the values:
 ```properties
 DB_USERNAME=your_postgres_username
 DB_PASSWORD=your_postgres_password

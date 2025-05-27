@@ -2,13 +2,15 @@ services:
   db:
     image: "postgres:latest"
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: poke_pocket
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "${DB_PORT}:5432"
     volumes:
       - ./data:/var/lib/postgresql/data
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER}" ]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -19,16 +21,24 @@ services:
       db:
         condition: service_healthy
     environment:
-      DB_USERNAME: postgres
-      DB_PASSWORD: postgres
-      DB_URL: jdbc:postgresql://db:5432/poke_pocket
-      SECRET_KEY: ======================CodeCool=Spring===========================
-      EXPIRATION: 6800000
-      SERVER_PORT: 8081
+      DB_USERNAME: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_URL: jdbc:postgresql://db:${DB_PORT}/${POSTGRES_DB}
+      SECRET_KEY: ${JWT_SECRET_KEY}
+      EXPIRATION: ${JWT_EXPIRATION}
+      SERVER_PORT: ${BACKEND_PORT}
+    ports:
+      - "${BACKEND_PORT}:8082"
+    env_file:
+      - ./Backend/.env
 
   frontend:
     build: ./Frontend/PokePocket
     depends_on:
-      [backend]
+      - backend
     ports:
-      [5173:80]
+      - "${FRONTEND_PORT}:80"
+    environment:
+      VITE_API_URL: http://localhost:${BACKEND_PORT}/api
+    env_file:
+      - ./Frontend/PokePocket/.env
