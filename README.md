@@ -41,9 +41,29 @@ The project uses environment variables for configuration. Example files are prov
 - `Frontend/PokePocket/.env.example` - Frontend specific configuration (API URL)
 
 To set up your environment:
-1. Copy each `.env.example` file to a new `.env` file in the same directory
+1. Copy each `.env.example` file to a new `.env` file in the same directory:
+```bash
+# In root directory
+cp .env.example .env
+
+# In Backend directory
+cd Backend
+cp .env.example .env
+
+# In Frontend directory
+cd ../Frontend/PokePocket
+cp .env.example .env
+```
+
 2. Replace the placeholder values in each `.env` file with your actual configuration
-3. Never commit your `.env` files to version control
+
+⚠️ **Security Note**: 
+- Never commit `.env` files to version control
+- All `.env` files are already added to `.gitignore`
+- If you accidentally committed sensitive data, make sure to:
+  1. Remove them from git history
+  2. Rotate any exposed secrets (API keys, passwords, etc.)
+  3. Generate new credentials
 
 ### Database Setup
 1. Install PostgreSQL
@@ -58,7 +78,7 @@ CREATE DATABASE poke_pocket;
 cd Backend
 ```
 
-2. Create a `.env` file based on the example and update the values:
+2. Your `.env` file should contain the following (replace with your values):
 ```properties
 DB_USERNAME=your_postgres_username
 DB_PASSWORD=your_postgres_password
