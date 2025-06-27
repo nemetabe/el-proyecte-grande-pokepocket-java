@@ -1,8 +1,8 @@
 package com.codecool.backend.security.service;
 
 
-import com.codecool.backend.model.Member;
-import com.codecool.backend.model.Role;
+import com.codecool.backend.model.user.Member;
+import com.codecool.backend.model.user.Role;
 import com.codecool.backend.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
